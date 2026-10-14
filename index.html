@@ -62,7 +62,7 @@ section{position:relative}
 @media (max-width:980px){.nav{display:none}.burger{display:flex}}
 .menu{position:fixed;inset:0;z-index:60;background:var(--noche);display:flex;flex-direction:column;padding:96px 24px 40px;gap:6px;opacity:0;pointer-events:none;transition:opacity .25s}
 .menu.open{opacity:1;pointer-events:auto}
-.menu a{font-family:var(--f-disp);font-size:42px;text-transform:uppercase;text-decoration:none;padding:6px 0;border-bottom:1px solid var(--linea)}
+.menu a{font-family:var(--f-disp);font-size:clamp(24px,7vw,30px);letter-spacing:.02em;text-transform:uppercase;text-decoration:none;padding:6px 0;border-bottom:1px solid var(--linea)}
 .menu .btn{margin-top:24px;font-family:var(--f-text);font-size:16px;border:0}
 .menu-close{position:absolute;top:16px;right:20px;width:46px;height:46px;border-radius:12px;border:1px solid var(--linea);display:flex;align-items:center;justify-content:center}
 
@@ -190,10 +190,10 @@ section{position:relative}
 .mlist{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
 .mcard{text-align:left;border-radius:16px;overflow:hidden;border:1px solid var(--linea);background:var(--noche);transition:border-color .2s}
 .mcard:hover{border-color:var(--oro)}
-.mcard img{aspect-ratio:3/4;width:100%;object-fit:cover;object-position:top}
+.mcard{display:flex;flex-direction:column}.mcard img{display:block;aspect-ratio:4/5;width:100%;height:auto;object-fit:cover;object-position:center}.mcard div{flex:1}
 .mcard div{padding:12px 14px 14px}
 .mcard b{font-family:var(--f-disp);font-size:22px;text-transform:uppercase;display:block;line-height:1}
-.mcard span{font-size:13.5px;color:var(--cal-3)}
+.mcard span{display:block;margin-top:6px;font-size:13.5px;line-height:1.35;color:var(--cal-3)}
 @media (max-width:1000px){.mlist{display:flex;overflow-x:auto;scroll-padding-inline:20px;scroll-snap-type:x mandatory;margin-inline:-20px;padding:0 20px 8px}.mcard{flex:none;width:44%;scroll-snap-align:start}}
 
 /* ---------- Vídeos ---------- */
@@ -361,7 +361,7 @@ footer .krea{font-size:12.5px;opacity:.7}
   <div class="wrap">
     <div>
       <h1 class="disp"><span><i>Entrena</i></span><span><i>distinto.</i></span><span class="l2"><i>Juega a otro</i></span><span class="l2"><i>nivel.</i></span></h1>
-      <p class="lead">Tecnificación, preparación física y entrenamiento de porteros en Sevilla. Grupos reducidos para que cada futbolista mejore su técnica, gane confianza y decida mejor en el campo.</p>
+      <p class="lead">Tecnificación, preparación física y entrenamiento de porteros en Sevilla. Grupos reducidos de chicos y chicas para que cada futbolista mejore su técnica, gane confianza y decida mejor en el campo.</p>
       <div class="hero-cta">
         <a class="btn btn-oro" href="#packs">Reservar plaza</a>
         <a class="btn btn-linea" href="#orienta">Qué programa me encaja</a>
@@ -391,7 +391,7 @@ footer .krea{font-size:12.5px;opacity:.7}
       <h2 class="disp">El talento se entrena.<br><span class="gold">La confianza también.</span></h2>
       <p class="lead">JP Fútbol es una academia de tecnificación orientada al desarrollo individual de cada futbolista. Cada sesión combina aprendizaje, exigencia y acompañamiento.</p>
       <ul class="pilares">
-        <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>Adaptado a la edad y al nivel</b><span>Cada grupo trabaja a su ritmo, con objetivos claros para cada jugador.</span></div></li>
+        <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>Adaptado a la edad y al nivel</b><span>Cada grupo trabaja a su ritmo, con objetivos claros para cada jugador y jugadora.</span></div></li>
         <li><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><div><b>Conectado con el juego real</b><span>Control, pase, golpeo y decisión dentro de situaciones de partido.</span></div></li>
         <li><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg><div><b>Seguimiento cercano</b><span>Grupos reducidos y un equipo técnico que conoce a cada futbolista.</span></div></li>
       </ul>
@@ -541,10 +541,10 @@ footer .krea{font-size:12.5px;opacity:.7}
 <section class="sec app" id="app" style="background:var(--grada);border-block:1px solid var(--linea)">
   <div class="wrap">
     <div class="rv">
-      <h2 class="disp">El área de familias y jugadores.</h2>
-      <p class="lead" style="margin-top:18px">La app de JP Fútbol pone todo el seguimiento en el móvil: las familias ven la evolución de su jugador y gestionan su pack, y los místers organizan cada sesión.</p>
+      <h2 class="disp">El área de familias, jugadores y jugadoras.</h2>
+      <p class="lead" style="margin-top:18px">La app de JP Fútbol pone todo el seguimiento en el móvil: las familias ven la evolución de su hijo o hija y gestionan su pack, y los místers organizan cada sesión.</p>
       <ul class="feat">
-        <li><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg><b>Evolución del jugador</b><span>Sesiones hechas, asistencia y progreso por áreas.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg><b>Evolución de cada jugador/a</b><span>Sesiones hechas, asistencia y progreso por áreas.</span></li>
         <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><b>Calendario y reservas</b><span>Próximas sesiones y cambios de día en un toque.</span></li>
         <li><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><b>Pagos de packs</b><span>Renueva y paga el pack desde el móvil.</span></li>
         <li><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><b>Tareas y vídeos</b><span>Ejercicios para casa y vídeos de cada sesión.</span></li>
@@ -573,7 +573,7 @@ footer .krea{font-size:12.5px;opacity:.7}
     <div class="sede">
       <div class="rv">
         <h2 class="disp">Entrenamos en Valdezorras.</h2>
-        <p class="lead" style="margin-top:18px">Un espacio para mejorar la técnica, la comprensión táctica y la preparación física, con entrenamiento específico de porteros.</p>
+        <p class="lead" style="margin-top:18px">Un espacio para mejorar la técnica, la comprensión táctica y la preparación física, con entrenamiento específico de porteros y porteras.</p>
         <dl class="datos">
           <div><dt>Días</dt><dd>Lunes a jueves</dd></div>
           <div><dt>Horario</dt><dd>20:00 a 21:30</dd></div>
@@ -593,7 +593,7 @@ footer .krea{font-size:12.5px;opacity:.7}
 
     <div class="faq">
       <details><summary>¿Desde qué edad se puede entrenar?<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>Trabajamos con jugadores y jugadoras de distintas edades, con grupos adaptados a la edad y al nivel. Escríbenos y te decimos qué grupo le encaja.</p></details>
-      <details><summary>¿Qué hay que traer a la sesión?<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>Ropa deportiva, botas para césped artificial y agua. Los porteros, también sus guantes.</p></details>
+      <details><summary>¿Qué hay que traer a la sesión?<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>Ropa deportiva, botas para césped artificial y agua. Porteros y porteras, también sus guantes.</p></details>
       <details><summary>¿Puedo probar antes de apuntarme?<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>Sí, pide una sesión en captación abierta y el equipo te propone día para conocer la metodología.</p></details>
       <details><summary>¿Cómo se paga el pack?<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>De momento lo gestionas directamente con el equipo al reservar. Muy pronto podrás pagarlo online desde el área de familias de la app.</p></details>
     </div>
@@ -647,7 +647,7 @@ footer .krea{font-size:12.5px;opacity:.7}
     <div class="field"><span>Días que prefieres</span><div class="days" id="fDays">
       <button type="button" class="opt" data-v="Lunes">Lunes</button><button type="button" class="opt" data-v="Martes">Martes</button><button type="button" class="opt" data-v="Miércoles">Miércoles</button><button type="button" class="opt" data-v="Jueves">Jueves</button></div></div>
     <div class="row2">
-      <div class="field"><label for="fName">Nombre del jugador</label><input id="fName" autocomplete="off"></div>
+      <div class="field"><label for="fName">Nombre del jugador o jugadora</label><input id="fName" autocomplete="off"></div>
       <div class="field"><label for="fAge">Edad</label><input id="fAge" inputmode="numeric" maxlength="2"></div>
     </div>
     <div class="row2">
@@ -756,11 +756,11 @@ $('#bkForm').onsubmit=e=>{
   e.preventDefault();
   const name=$('#fName').value.trim(), age=$('#fAge').value.trim(), tutor=$('#fTutor').value.trim();
   const days=$$('#fDays .opt[aria-pressed="true"]').map(b=>b.dataset.v);
-  if(!name){$('#bkErr').textContent='Escribe el nombre del jugador.';$('#fName').focus();return;}
+  if(!name){$('#bkErr').textContent='Escribe el nombre del jugador o jugadora.';$('#fName').focus();return;}
   if(!/^\d{1,2}$/.test(age)){$('#bkErr').textContent='Escribe la edad en números, por ejemplo 11.';$('#fAge').focus();return;}
   if(!days.length){$('#bkErr').textContent='Elige al menos un día que te venga bien.';return;}
   const per=PACKS.find(p=>p.id===fPack.value)?` (pago ${period==='m'?'mensual':'trimestral'})`:'';
-  const msg=`Hola JP Fútbol, quiero reservar plaza.\n\nPack: ${fPack.value}${per}\nJugador: ${name}, ${age} años\nPosición: ${$('#fPos').value}\nDías preferidos: ${days.join(', ')}${tutor?`\nContacto: ${tutor}`:''}`;
+  const msg=`Hola JP Fútbol, quiero reservar plaza.\n\nPack: ${fPack.value}${per}\nJugador/a: ${name}, ${age} años\nPosición: ${$('#fPos').value}\nDías preferidos: ${days.join(', ')}${tutor?`\nContacto: ${tutor}`:''}`;
   window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank','noopener');
 };
 
