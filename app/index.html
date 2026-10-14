@@ -188,6 +188,19 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
  .tw td:nth-child(5):empty{display:none}
 }
 .vthumb i svg{width:22px !important;height:22px !important;margin-left:2px}
+.av.ph{position:relative;padding:0;overflow:visible;background:linear-gradient(160deg,#2a2618,#14130f)}
+.av.ph .pic{width:100%;height:100%;border-radius:inherit;overflow:hidden;display:block}
+.av.ph .pic img,.av.ph .pic svg{width:100%;height:100%;object-fit:cover;display:block}
+.av.ph .pic svg{transform:scale(1.45) translateY(9%)}
+.av.ph{width:46px;height:46px}.av.ph.lg{width:64px;height:64px}
+.av.ph .ini{position:absolute;right:-5px;bottom:-5px;min-width:20px;height:20px;padding:0 4px;border-radius:7px;background:var(--oro);color:#130F05;font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--g2,#111)}
+.photo-slot{position:relative;width:118px;height:148px;border-radius:20px;flex:none;overflow:hidden;border:1.5px dashed rgba(226,183,70,.55);background:linear-gradient(160deg,#2a2618,#0f0e0b);cursor:pointer}
+.photo-slot img,.photo-slot svg{width:100%;height:100%;object-fit:cover;display:block}
+.photo-slot.has{border-style:solid;border-color:var(--oro)}
+.photo-slot .cam{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;justify-content:center;gap:5px;height:28px;border-radius:9px;background:rgba(5,5,5,.75);backdrop-filter:blur(4px);font-size:10.5px;font-weight:800;color:var(--oro2);white-space:nowrap}
+.photo-slot .cam svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.photo-slot .ini{position:absolute;top:8px;left:8px;padding:3px 7px;border-radius:8px;background:var(--oro);color:#130F05;font-size:11px;font-weight:800}
+@media (max-width:600px){.photo-slot{width:96px;height:120px}}
 </style>
 <style id="gateCss">html.locked,html.locked body{overflow:hidden!important}html.locked body>*:not(#gate){visibility:hidden!important}
 #gate{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 30%,#1a160c 0,#050505 70%);font-family:Manrope,system-ui,sans-serif;color:#F8F6EF}
@@ -268,6 +281,12 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 load();
 const P=id=>S.players.find(p=>p.id===id);
 const initials=n=>n.split(' ').map(x=>x[0]).slice(0,2).join('');
+const GIRLS=['Lucía','Marta','Carmen','Nerea','Sofía','Valeria','Paula','Lola','Alba','Irene','Laura','María'];
+const isGirl=p=>p.sex?p.sex==='f':GIRLS.includes(p.name.split(' ')[0]);
+function silhouette(p){const f=isGirl(p);return `<svg viewBox="0 0 100 125" aria-hidden="true"><defs><linearGradient id="sg${f?'f':'m'}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2B746" stop-opacity=".55"/><stop offset="1" stop-color="#E2B746" stop-opacity=".18"/></linearGradient></defs><rect width="100" height="125" fill="#15130e"/>${f?'<path d="M28 52c-6-24 6-38 22-38s28 14 22 38c-2 8-1 18 3 26-8-4-12-10-13-16-3 5-7 7-12 7s-9-2-12-7c-1 6-5 12-13 16 4-8 5-18 3-26z" fill="url(#sgf)"/>':'<path d="M31 40c0-15 9-24 19-24s19 9 19 24c0 4-1 8-2 11H33c-1-3-2-7-2-11z" fill="url(#sgm)"/>'}<circle cx="50" cy="46" r="17" fill="url(#sg${f?'f':'m'})"/><path d="M16 125c2-27 16-42 34-42s32 15 34 42z" fill="url(#sg${f?'f':'m'})"/><path d="M44 83l6 9 6-9" fill="none" stroke="#15130e" stroke-width="2"/></svg>`;}
+const av=(p,cls='')=>`<div class="av ph ${cls}" title="${p.name}"><span class="pic">${p.photo?`<img src="${p.photo}" alt="">`:silhouette(p)}</span><span class="ini">${initials(p.name)}</span></div>`;
+const photoSlot=p=>`<label class="photo-slot ${p.photo?'has':''}" title="${p.photo?'Cambiar foto':'Añadir foto'}">${p.photo?`<img src="${p.photo}" alt="Foto de ${p.name}">`:silhouette(p)}<span class="ini">${initials(p.name)}</span><span class="cam"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>${p.photo?'Cambiar foto':'Añadir foto'}</span><input type="file" accept="image/*" data-photo="${p.id}" hidden></label>`;
+
 const score=p=>Math.round(Object.values(p.areas).reduce((a,b)=>a+b,0)/4);
 const DAYS=['Lunes','Martes','Miércoles','Jueves'];
 function todayName(){const d=new Date().getDay();return DAYS[Math.min(Math.max(d-1,0),3)];}
@@ -357,7 +376,7 @@ function vHoy(){
    <div class="card kpi"><small>Pagos pendientes</small><b class="${pend?'gold':''}">${pend}</b><span>Ver packs y pagos</span></div>
   </div>
   <div class="grid g2">${groups.map(([k,g])=>{const pl=S.players.filter(p=>p.group===k);return `<section class="card"><h3><span>${g.name}</span><span class="pill gold">Míster ${g.mister}</span></h3>
-   <div class="list">${pl.map(p=>{const on=att(k).includes(p.id);return `<div class="item"><div class="av">${initials(p.name)}</div><div class="grow"><b>${p.name}</b><small>${p.age} años · ${p.pos}</small></div><button class="btn sm" data-open="${p.id}">Ficha</button><button class="check ${on?'on':''}" data-att="${key(k)}|${p.id}" aria-pressed="${on}" aria-label="Asistencia de ${p.name}">${I('check')}</button></div>`}).join('')}</div>
+   <div class="list">${pl.map(p=>{const on=att(k).includes(p.id);return `<div class="item">${av(p)}<div class="grow"><b>${p.name}</b><small>${p.age} años · ${p.pos}</small></div><button class="btn sm" data-open="${p.id}">Ficha</button><button class="check ${on?'on':''}" data-att="${key(k)}|${p.id}" aria-pressed="${on}" aria-label="Asistencia de ${p.name}">${I('check')}</button></div>`}).join('')}</div>
    <div style="margin-top:12px"><small class="muted">Plan de hoy</small><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">${EXS[g.prog].map(x=>`<span class="pill">${x}</span>`).join('')}</div></div></section>`}).join('')||'<div class="card empty">Hoy no hay sesiones.</div>'}</div>`;
 }
 /* ---------- Míster: Jugadores ---------- */
@@ -367,12 +386,12 @@ function vJugadores(){
   return `<div class="hd"><div><h1 class="disp">Jugadores</h1><p>${S.players.length} jugadores y jugadoras en ${Object.keys(GROUPS).length} grupos</p></div><button class="btn oro" data-act="newPlayer">${I('plus')}Nuevo jugador/a</button></div>
   <div class="tool"><input class="search" id="q" placeholder="Buscar jugador o jugadora" value="${fText}" aria-label="Buscar jugador">
    <button class="chip" data-g="all" aria-pressed="${fGroup==='all'}">Todos</button>${Object.entries(GROUPS).map(([k,g])=>`<button class="chip" data-g="${k}" aria-pressed="${fGroup===k}">${(g.short||g.name)}</button>`).join('')}</div>
-  <div class="card"><div class="list">${list.map(p=>`<div class="item" style="cursor:pointer" data-open="${p.id}"><div class="av">${initials(p.name)}</div><div class="grow"><b>${p.name}</b><small>${GROUPS[p.group].name} · ${p.age} años · ${p.pos}</small></div><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Al día':'Pendiente'}</span><b style="font-family:var(--fd);font-size:22px;width:38px;text-align:right">${score(p)}</b></div>`).join('')||'<p class="empty">No hay jugadores con ese filtro.</p>'}</div></div>`;
+  <div class="card"><div class="list">${list.map(p=>`<div class="item" style="cursor:pointer" data-open="${p.id}">${av(p)}<div class="grow"><b>${p.name}</b><small>${GROUPS[p.group].name} · ${p.age} años · ${p.pos}</small></div><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Al día':'Pendiente'}</span><b style="font-family:var(--fd);font-size:22px;width:38px;text-align:right">${score(p)}</b></div>`).join('')||'<p class="empty">No hay jugadores con ese filtro.</p>'}</div></div>`;
 }
 function vFicha(id){
   const p=P(id);if(!p)return '<p class="empty">Jugador no encontrado.</p>';
   return `<a href="#/jugadores" class="btn sm" style="margin-bottom:14px">${I('back',16)}Jugadores</a>
-  <div class="hero-card" style="margin-bottom:14px"><div class="av lg">${initials(p.name)}</div><div style="flex:1;min-width:180px"><h1 class="disp" style="font-size:34px">${p.name}</h1><p class="muted">${p.age} años · ${p.pos} · ${GROUPS[p.group].name}</p><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="pill gold">Pack ${p.pack}</span><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pago al día':'Pago pendiente'}</span></div></div><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div></div>
+  <div class="hero-card" style="margin-bottom:14px">${photoSlot(p)}<div style="flex:1;min-width:180px"><h1 class="disp" style="font-size:34px">${p.name}</h1><p class="muted">${p.age} años · ${p.pos} · ${GROUPS[p.group].name}</p><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="pill gold">Pack ${p.pack}</span><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pago al día':'Pago pendiente'}</span></div></div><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div></div>
   <div class="grid g2">
    <section class="card"><h3>Evaluación por áreas <button class="btn sm" data-act="eval" data-id="${p.id}">Evaluar</button></h3>${areasHTML(p)}</section>
    <section class="card"><h3>Evolución</h3>${lineChart(p.hist,MONTHS)}</section>
@@ -413,7 +432,7 @@ function vInicio(){
   const next=g.days.find(d=>DAYS.indexOf(d)>=DAYS.indexOf(todayName()))||g.days[0];
   const pend=p.tasks.filter(t=>!t.done).length;
   return `<div class="hd"><div><h1 class="disp">Hola, familia<br><span class="gold">de ${p.name.split(' ')[0]}</span></h1></div></div>
-  <div class="hero-card" style="margin-bottom:14px"><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div><div style="flex:1;min-width:200px"><b style="font-size:18px">${p.name}</b><p class="muted">${p.age} años · ${p.pos} · ${g.name}</p><p style="margin-top:6px;color:var(--oro2);font-weight:700">+${p.hist[5]-p.hist[0]} puntos desde mayo</p></div></div>
+  <div class="hero-card" style="margin-bottom:14px"><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div>${av(p,"lg")}<div style="flex:1;min-width:160px"><b style="font-size:18px">${p.name}</b><p class="muted">${p.age} años · ${p.pos} · ${g.name}</p><p style="margin-top:6px;color:var(--oro2);font-weight:700">+${p.hist[5]-p.hist[0]} puntos desde mayo</p></div></div>
   <div class="grid g3" style="margin-bottom:14px">
    <div class="card kpi"><small>Próxima sesión</small><b>${next}</b><span>20:00 · Míster ${g.mister}</span></div>
    <div class="card kpi"><small>Asistencia</small><b>${p.att}%</b><span>${p.sessions} sesiones esta temporada</span></div>
@@ -483,6 +502,8 @@ document.addEventListener('click',e=>{
 });
 
 render();
+
+document.addEventListener('change',e=>{const inp=e.target.closest('[data-photo]');if(!inp||!inp.files[0])return;const p=P(inp.dataset.photo);const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const W=360,H=450,c=document.createElement('canvas');c.width=W;c.height=H;const r=Math.max(W/im.width,H/im.height),w=im.width*r,h=im.height*r;c.getContext('2d').drawImage(im,(W-w)/2,(H-h)/2,w,h);p.photo=c.toDataURL('image/jpeg',.82);save();render();toast('Foto guardada');};im.src=fr.result;};fr.readAsDataURL(inp.files[0]);});
 </script>
 </body>
 </html>
