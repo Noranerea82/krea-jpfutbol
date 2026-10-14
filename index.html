@@ -99,7 +99,7 @@ section{position:relative}
 
 /* ---------- Franja ---------- */
 .band{border-block:1px solid var(--linea);background:var(--grada);overflow:hidden}
-.band-track{display:flex;gap:56px;width:max-content;padding:20px 0;animation:marq 38s linear infinite}
+.band-track{display:flex;gap:56px;width:max-content;padding:20px 0;animation:marq 66s linear infinite}
 .band-track span{font-family:var(--f-disp);font-size:24px;text-transform:uppercase;letter-spacing:.04em;color:var(--cal-2);display:flex;align-items:center;gap:56px;white-space:nowrap}
 .band-track span::after{content:"";width:9px;height:9px;transform:rotate(45deg);background:var(--oro)}
 @keyframes marq{to{transform:translateX(-50%)}}
@@ -335,7 +335,9 @@ section{position:relative}
 footer{border-top:1px solid var(--linea);padding:34px 0 calc(34px + var(--safe-b));color:var(--cal-3);font-size:14px}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
 footer img{width:40px;height:40px;border-radius:8px}
-footer .krea{font-size:12.5px;opacity:.7}
+footer .krea{font-size:12.5px;color:var(--cal-3)}
+footer .krea b{color:var(--oro);font-weight:700}
+@media (max-width:980px){footer{padding-bottom:calc(112px + var(--safe-b))}footer .wrap{flex-direction:column;text-align:center}footer .krea{display:block;width:100%;padding-top:14px;border-top:1px solid var(--linea)}}
 
 /* ---------- Barra móvil ---------- */
 .dock{position:fixed;left:12px;right:12px;bottom:calc(12px + var(--safe-b));z-index:40;display:none;gap:8px;padding:8px;border-radius:999px;background:rgba(14,14,12,.88);backdrop-filter:blur(14px);border:1px solid var(--linea);transform:translateY(140%);transition:transform .35s}
@@ -438,8 +440,8 @@ footer .krea{font-size:12.5px;opacity:.7}
 </section>
 
 <div class="band" aria-hidden="true"><div class="band-track">
-  <span>Tecnificación</span><span>Grupos reducidos</span><span>Preparación física</span><span>Porteros</span><span>Valdezorras · Sevilla</span>
-  <span>Tecnificación</span><span>Grupos reducidos</span><span>Preparación física</span><span>Porteros</span><span>Valdezorras · Sevilla</span>
+  <span>Tecnificación</span><span>Técnico-táctica</span><span>Trabajo individual</span><span>Grupos reducidos</span><span>Preparación física</span><span>Porteros y porteras</span><span>Toma de decisiones</span><span>Análisis de vídeo</span><span>Sesiones individuales</span><span>Jugadores y jugadoras</span><span>Valdezorras · Sevilla</span>
+  <span>Tecnificación</span><span>Técnico-táctica</span><span>Trabajo individual</span><span>Grupos reducidos</span><span>Preparación física</span><span>Porteros y porteras</span><span>Toma de decisiones</span><span>Análisis de vídeo</span><span>Sesiones individuales</span><span>Jugadores y jugadoras</span><span>Valdezorras · Sevilla</span>
 </div></div>
 
 <!-- Método -->
@@ -721,7 +723,7 @@ footer .krea{font-size:12.5px;opacity:.7}
 
 <section class="sec final" id="contacto">
   <div class="wrap">
-    <h2 class="disp rv">¿Preparado<br><span class="gold">para mejorar?</span></h2>
+    <h2 class="disp rv">¿Con ganas<br><span class="gold">de mejorar?</span></h2>
     <p class="lead rv">Escríbenos y te ayudamos a elegir grupo, programa y día.</p>
     <div class="contact rv">
       <a class="btn btn-oro" href="https://wa.me/34609712137?text=Hola%20JP%20F%C3%BAtbol%2C%20quiero%20informaci%C3%B3n%20para%20entrenar." target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg>Escribir por WhatsApp</a>
@@ -735,7 +737,7 @@ footer .krea{font-size:12.5px;opacity:.7}
 <footer>
   <div class="wrap">
     <div style="display:flex;align-items:center;gap:12px"><img src="assets/img/jp-logo.webp" alt=""><span>JP Fútbol · Academia de tecnificación · Sevilla</span></div>
-    <span class="krea">© 2026 KREA Digital Studio · Diseño y desarrollo</span>
+    <span class="krea">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo web</span>
   </div>
 </footer>
 
