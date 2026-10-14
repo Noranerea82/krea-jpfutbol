@@ -122,9 +122,19 @@ section{position:relative}
 
 /* ---------- Programas ---------- */
 .prog-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px;margin-bottom:40px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.tabs{position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
 .tab{min-height:46px;padding:0 20px;border-radius:999px;border:1px solid var(--linea);font-weight:700;font-size:15px;color:var(--cal-2);transition:all .2s}
 .tab[aria-selected="true"]{background:var(--cal);color:var(--noche);border-color:var(--cal)}
+.metodo-jp{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 34px;counter-reset:m}
+.metodo-jp li{position:relative;padding:18px 16px 18px;border:1px solid var(--linea);border-radius:16px;background:linear-gradient(160deg,rgba(226,183,70,.10),rgba(14,14,12,0) 60%)}
+.metodo-jp li:not(:last-child)::after{content:"";position:absolute;right:-8px;top:50%;width:6px;height:6px;border-right:2px solid var(--oro);border-top:2px solid var(--oro);transform:translateY(-50%) rotate(45deg);z-index:1}
+.metodo-jp b{display:block;font-family:var(--f-disp);color:var(--oro);font-size:14px;letter-spacing:.1em}
+.metodo-jp strong{display:block;font-family:var(--f-disp);font-size:24px;text-transform:uppercase;line-height:1.1;margin:4px 0 6px}
+.metodo-jp span{display:block;color:var(--cal-3);font-size:13.5px;line-height:1.4}
+.tabs-hint{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--oro-claro);margin-bottom:12px}
+@media (max-width:900px){.metodo-jp{grid-template-columns:repeat(2,minmax(0,1fr))}.metodo-jp li:nth-child(2)::after{display:none}
+.tabs{flex-wrap:nowrap;overflow-x:auto;margin-inline:-20px;padding:0 20px 6px;scrollbar-width:none;scroll-snap-type:x proximity}.tabs::-webkit-scrollbar{display:none}.tab{flex:none;scroll-snap-align:start}}
+@media (min-width:901px){.tabs-hint{display:none}}
 .panel{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:start}
 .panel[hidden]{display:none}
 .panel-cover{border-radius:20px;overflow:hidden;border:1px solid var(--linea);aspect-ratio:3/2;background:var(--grada)}
@@ -456,13 +466,24 @@ footer .krea{font-size:12.5px;opacity:.7}
 <section class="sec" id="programas" style="padding-top:0">
   <div class="wrap">
     <div class="prog-head rv">
-      <h2 class="disp">Cuatro formas de mejorar.<br>Una misma metodología.</h2>
-      <p class="lead" style="max-width:38ch">Elige el programa y mira cómo se trabaja en el campo.</p>
+      <h2 class="disp">Muchas formas de mejorar.<br><span class="gold">Un solo método.</span></h2>
+      <p class="lead" style="max-width:42ch">El Método JP une técnica, táctica, físico, mente y vídeo en un mismo plan para que cada jugador y jugadora crezca dentro y fuera del campo.</p>
     </div>
+    <ol class="metodo-jp rv" aria-label="Las cuatro fases del Método JP">
+      <li><b>01</b><strong>Percibir</strong><span>Mirar antes de recibir y leer el juego.</span></li>
+      <li><b>02</b><strong>Decidir</strong><span>Elegir la mejor opción en cada situación.</span></li>
+      <li><b>03</b><strong>Ejecutar</strong><span>Gesto técnico preciso, rápido y con las dos piernas.</span></li>
+      <li><b>04</b><strong>Competir</strong><span>Llevarlo al partido con confianza y carácter.</span></li>
+    </ol>
+    <p class="tabs-hint">8 modalidades · desliza para verlas</p>
     <div class="tabs" role="tablist" aria-label="Programas">
       <button class="tab" role="tab" aria-selected="true" aria-controls="p-tec" id="t-tec">Tecnificación</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-tac" id="t-tac">Técnico-táctica</button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="p-fis" id="t-fis">Preparación física</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p-por" id="t-por">Porteros</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-por" id="t-por">Porteros y porteras</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-dec" id="t-dec">Toma de decisiones</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-vid" id="t-vid">Análisis de vídeo</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-ind" id="t-ind">Sesiones individuales</button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="p-cap" id="t-cap">Captación abierta</button>
     </div>
 
@@ -477,6 +498,19 @@ footer .krea{font-size:12.5px;opacity:.7}
         <p>Trabajo técnico aplicado a situaciones reales de juego: control, dominio, percepción, decisión y golpeo. En grupos reducidos para corregir cada gesto.</p>
         <div class="chips"><span>Control y dominio</span><span>Percepción y decisión</span><span>Golpeo</span><span>Grupos reducidos</span></div>
         <div class="panel-actions"><button class="btn btn-oro" data-book="Tecnificación 2 días">Reservar tecnificación</button><button class="btn btn-linea" data-video="tecnificacion">Ver sesión real</button></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-tac" aria-labelledby="t-tac" hidden>
+      <div>
+        <div class="panel-cover"><img loading="lazy" src="assets/img/intro-grupos-reducidos-v2.webp" alt="Ejercicio técnico-táctico en grupo reducido"></div>
+        <div class="strip" data-gallery="tac"></div>
+      </div>
+      <div>
+        <h3 class="disp">Técnico-táctica</h3>
+        <p class="claim">Juntos se juega mejor.</p>
+        <p>Del trabajo individual al colectivo: situaciones de 1x1, 2x1, 3x2 y juegos reducidos donde cada jugador y jugadora aprende a combinar, ocupar espacios, presionar y defender en equipo.</p>
+        <div class="chips"><span>Individual</span><span>Colectiva</span><span>Juegos reducidos</span><span>Superioridades</span><span>Transiciones</span></div>
+        <div class="panel-actions"><button class="btn btn-oro" data-book="Tecnificación 2 días">Reservar técnico-táctica</button><button class="btn btn-linea" data-video="tecnificacion">Ver sesión real</button></div>
       </div>
     </div>
     <div class="panel" role="tabpanel" id="p-fis" aria-labelledby="t-fis" hidden>
@@ -498,11 +532,48 @@ footer .krea{font-size:12.5px;opacity:.7}
         <div class="strip" data-gallery="por"></div>
       </div>
       <div>
-        <h3 class="disp">Porteros</h3>
+        <h3 class="disp">Porteros y porteras</h3>
         <p class="claim">Cada acción cuenta.</p>
-        <p>Entrenamiento específico de porteros: posición base, colocación, velocidad de reacción, blocaje y toma de decisiones bajo palos.</p>
+        <p>Entrenamiento específico de portería: posición base, colocación, velocidad de reacción, blocaje y toma de decisiones bajo palos.</p>
         <div class="chips"><span>Posición base</span><span>Colocación</span><span>Reacción</span><span>Blocaje</span></div>
         <div class="panel-actions"><button class="btn btn-oro" data-book="Porteros">Reservar porteros</button><button class="btn btn-linea" data-video="porteros">Ver sesión real</button></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-dec" aria-labelledby="t-dec" hidden>
+      <div>
+        <div class="panel-cover"><img loading="lazy" src="assets/img/intro-tecnificacion-control-v3.webp" alt="Jugador mirando antes de controlar el balón"></div>
+        <div class="strip" data-gallery="dec"></div>
+      </div>
+      <div>
+        <h3 class="disp">Toma de decisiones</h3>
+        <p class="claim">Pensar rápido, jugar mejor.</p>
+        <p>Entrenamiento cognitivo aplicado al fútbol: tareas con estímulos de colores, números y señales que obligan a mirar, procesar y decidir antes de tocar el balón. Más atención, más velocidad mental y menos errores bajo presión.</p>
+        <div class="chips"><span>Percepción</span><span>Atención</span><span>Velocidad de reacción</span><span>Escaneo</span><span>Juego bajo presión</span></div>
+        <div class="panel-actions"><button class="btn btn-oro" data-book="Tecnificación 2 días">Reservar plaza</button><button class="btn btn-linea" data-video="captacion">Ver ambiente</button></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-vid" aria-labelledby="t-vid" hidden>
+      <div>
+        <div class="panel-cover"><img loading="lazy" src="assets/img/jp-misters-team-cover-v4.webp" alt="Equipo técnico de JP Fútbol"></div>
+      </div>
+      <div>
+        <h3 class="disp">Análisis de vídeo</h3>
+        <p class="claim">Verse para mejorar.</p>
+        <p>Grabamos acciones de entrenamiento y, si la familia lo desea, de partido. Los místers las revisan con cada jugador y jugadora para corregir gestos, entender decisiones y marcar objetivos. Los vídeos quedan en el área de familias de la app.</p>
+        <div class="chips"><span>Gesto técnico</span><span>Decisiones en partido</span><span>Objetivos individuales</span><span>Vídeos en la app</span></div>
+        <div class="panel-actions"><button class="btn btn-oro" data-book="Pack completo">Reservar plaza</button><button class="btn btn-linea" data-video="misters">Ver a los místers</button></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-ind" aria-labelledby="t-ind" hidden>
+      <div>
+        <div class="panel-cover"><img loading="lazy" src="assets/img/jp-tecnificacion-clean.webp" alt="Sesión individual de tecnificación"></div>
+      </div>
+      <div>
+        <h3 class="disp">Sesiones individuales</h3>
+        <p class="claim">Un plan solo para ti.</p>
+        <p>Sesiones 1 a 1 o en pareja con un míster para trabajar un aspecto concreto: la pierna menos hábil, el golpeo, la vuelta tras una lesión o la preparación de una prueba. Plan a medida y seguimiento cercano.</p>
+        <div class="chips"><span>1 a 1 o en pareja</span><span>Plan a medida</span><span>Vuelta tras lesión</span><span>Preparación de pruebas</span></div>
+        <div class="panel-actions"><button class="btn btn-oro" data-book="Sesión de prueba">Consultar sesión individual</button><button class="btn btn-linea" data-video="tecnificacion">Ver sesión real</button></div>
       </div>
     </div>
     <div class="panel" role="tabpanel" id="p-cap" aria-labelledby="t-cap" hidden>
@@ -745,7 +816,9 @@ $$('.rv').forEach(el=>io.observe(el));
 const G={
   tec:['tecnificacion-07-campo-uniforme','tecnificacion-01','tecnificacion-02','tecnificacion-03','tecnificacion-04','tecnificacion-05','tecnificacion-06','tecnificacion-08-tiro'],
   fis:['preparacion-01','preparacion-02','preparacion-03','preparacion-04','preparacion-05','preparacion-06','preparacion-07'],
-  por:['porteros-01','porteros-02-joven','porteros-03','porteros-04-joven']
+  por:['porteros-01','porteros-02-joven','porteros-03','porteros-04-joven'],
+  tac:['tecnificacion-02','tecnificacion-03','tecnificacion-05','tecnificacion-04'],
+  dec:['tecnificacion-01','tecnificacion-06','tecnificacion-07-campo-uniforme','tecnificacion-08-tiro']
 };
 let lbList=[],lbI=0;
 $$('[data-gallery]').forEach(st=>{
@@ -771,7 +844,7 @@ tabs.forEach((t,i)=>{
   t.onclick=()=>select(i);
   t.onkeydown=e=>{if(e.key==='ArrowRight'){select((i+1)%tabs.length);tabs[(i+1)%tabs.length].focus();}if(e.key==='ArrowLeft'){const j=(i-1+tabs.length)%tabs.length;select(j);tabs[j].focus();}};
 });
-function select(i){tabs.forEach((t,j)=>{t.setAttribute('aria-selected',j===i);t.tabIndex=j===i?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=j!==i;});}
+function select(i){{const tb=tabs[i].parentElement;tb.scrollTo({left:tabs[i].offsetLeft-(tb.clientWidth-tabs[i].offsetWidth)/2,behavior:'smooth'});}tabs.forEach((t,j)=>{t.setAttribute('aria-selected',j===i);t.tabIndex=j===i?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=j!==i;});}
 
 /* Vídeos */
 const VIDS=[['tecnificacion','Tecnificación','Una sesión real con balón'],['preparacion','Preparación física','Coordinación y trabajo físico'],['porteros','Porteros','Acciones específicas bajo palos'],['misters','Místers','El equipo técnico en el campo'],['captacion','Captación','Ven a entrenar con JP']];
