@@ -208,9 +208,9 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 .lib summary .chev{transition:transform .2s;color:var(--oro)}
 .lib[open] summary .chev{transform:rotate(180deg)}
 .lib .lbody{padding:0 12px 12px}
-.lib .areas{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
+.lib .areas{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 10px}
 .lib .areas::-webkit-scrollbar{display:none}
-.lib .areas .chip{flex:none;min-height:32px;font-size:12px}
+.lib .areas .chip{flex:none;min-height:34px;padding:0 12px;font-size:12.5px}
 .lib .lsearch{width:100%;min-height:42px;border-radius:11px;border:1px solid var(--linea);background:#0b0b09;padding:0 12px;font-size:15px;margin-bottom:8px}
 .lib .llist{max-height:300px;overflow:auto;display:grid;gap:6px;padding-right:2px}
 .lex{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:10px 12px;border-radius:12px;border:1px solid var(--linea);background:var(--g2,#121210);text-align:left;width:100%}
@@ -224,6 +224,7 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 .sel .it small{color:var(--c3);font-weight:600}
 .sel .it button{width:26px;height:26px;border-radius:8px;color:var(--c3);font-size:16px}
 .sel-sum{font-size:12.5px;color:var(--c3);margin:4px 0 0}
+.sheet .box.wide{width:min(760px,100%)}
 </style>
 <style id="gateCss">html.locked,html.locked body{overflow:hidden!important}html.locked body>*:not(#gate){visibility:hidden!important}
 #gate{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 30%,#1a160c 0,#050505 70%);font-family:Manrope,system-ui,sans-serif;color:#F8F6EF}
@@ -316,7 +317,7 @@ function todayName(){const d=new Date().getDay();return DAYS[Math.min(Math.max(d
 
 /* ---------- Utilidades UI ---------- */
 function toast(t){const el=$('#toast');el.innerHTML=I('check',18)+t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2200);}
-function sheet(html){$('#sheetBox').innerHTML=`<button class="x" data-close aria-label="Cerrar">${I('x')}</button>`+html;$('#sheet').classList.add('open');setTimeout(()=>$('#sheetBox [data-close]').focus(),40);}
+function sheet(html){$('#sheetBox').classList.remove('wide');$('#sheetBox').innerHTML=`<button class="x" data-close aria-label="Cerrar">${I('x')}</button>`+html;$('#sheet').classList.add('open');setTimeout(()=>$('#sheetBox [data-close]').focus(),40);}
 function closeSheet(){$('#sheet').classList.remove('open');$$('#sheetBox video').forEach(v=>v.pause());}
 $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet'||e.target.closest('[data-close]'))closeSheet();});
 addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();});
@@ -518,7 +519,7 @@ document.addEventListener('click',e=>{
     $('#tf').onsubmit=ev=>{ev.preventDefault();const v=$('#tt').value.trim();if(!v){$('#tfe').textContent='Escribe la tarea.';return;}p.tasks.unshift({t:v,done:false});save();closeSheet();render();toast('Tarea asignada');};}
   if(a==='note'){const p=P(id);sheet(`<h2 class="disp">Nota para la familia</h2><p class="muted" style="margin-bottom:16px">${p.name}</p><form id="nf"><div class="f"><label for="nt">Comentario</label><textarea id="nt" placeholder="Qué ha trabajado hoy y qué mejorar"></textarea></div><p id="nfe" class="muted" style="color:var(--bad);min-height:20px"></p><button class="btn oro full">Guardar nota</button></form>`);
     $('#nf').onsubmit=ev=>{ev.preventDefault();const v=$('#nt').value.trim();if(!v){$('#nfe').textContent='Escribe el comentario.';return;}p.notes.unshift({t:v,by:S.me,d:todayName()});save();closeSheet();render();toast('Nota guardada');};}
-  if(a==='newSession'){let sel=[],area='Todos',q='';
+  if(a==='newSession'){let sel=[],area='Todos',q='';setTimeout(()=>$('#sheetBox').classList.add('wide'));
     sheet(`<h2 class="disp">Planificar sesión</h2><p class="muted" style="margin-bottom:16px">Elige grupo y día, y añade ejercicios de la biblioteca con un toque.</p><form id="sf"><div class="row2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div class="f"><label for="sg">Grupo</label><select id="sg">${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name}</option>`).join('')}</select></div><div class="f"><label for="sd">Día</label><select id="sd">${DAYS.map(d=>`<option ${d===todayName()?'selected':''}>${d}</option>`).join('')}</select></div></div>
     <div class="f"><label>Ejercicios de la sesión</label><div class="sel" id="ssel"></div><p class="sel-sum" id="ssum"></p></div>
     <details class="lib" id="slib" open><summary><span>📚 Biblioteca de ejercicios <small id="scount"></small></span><span class="chev">▾</span></summary><div class="lbody"><div class="areas" id="sareas">${AREAS.map(x=>`<button type="button" class="chip" data-area="${x}" aria-pressed="${x==='Todos'}">${x}</button>`).join('')}</div><input class="lsearch" id="sq" placeholder="Buscar ejercicio" autocomplete="off"><div class="llist" id="slist"></div></div></details>
