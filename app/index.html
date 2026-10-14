@@ -193,6 +193,14 @@ svg.chart{width:100%;height:auto;display:block}
 .npk{display:flex;gap:12px;margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(226,183,70,.08);border:1px solid rgba(226,183,70,.35)}.npk>span{color:var(--oro);flex:none;margin-top:2px}.npk b{display:block;font-size:14.5px}.npk small{display:block;font-size:13px;color:var(--c2);margin:3px 0 6px;line-height:1.4}
 .pchg{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}.pchg>div{padding:14px;border-radius:14px;background:var(--noche);border:1px solid var(--linea)}.pchg .to{border-color:var(--oro);background:rgba(226,183,70,.08)}.pchg small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--oro)}.pchg b{display:block;font-family:var(--fd);font-size:26px;text-transform:uppercase;margin:4px 0}.pchg span{font-size:12.5px;color:var(--c2)}.pchg i{font-style:normal;color:var(--oro);font-size:22px}
 .dpill{font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;background:rgba(226,183,70,.12);color:var(--oro);margin-left:6px;vertical-align:2px}
+.frg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.frg select{width:100%}
+.tchips,.gchips,.dchips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}.tchips span{font-size:12.5px;font-weight:800;padding:6px 10px;border-radius:10px;background:rgba(226,183,70,.1);color:var(--oro2);border:1px solid rgba(226,183,70,.3)}.gchips .mv{color:var(--oro);margin-left:4px}
+.orow{display:grid;grid-template-columns:minmax(120px,180px) 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--linea)}.og small{display:block;font-size:12px;color:var(--c2);margin-top:2px}.ots{display:grid;gap:8px}
+.ot{display:grid;grid-template-columns:96px 1fr 44px;gap:8px;align-items:center;font-size:12.5px}.ot span{color:var(--c2);font-weight:700}.ot b{text-align:right}.obar{height:8px;border-radius:9px;background:var(--noche);overflow:hidden}.obar i{display:block;height:100%;background:var(--oro);border-radius:9px}.ot.full .obar i{background:#ff7a6b}.ot.full b{color:#ff7a6b}
+@media(max-width:600px){.orow{grid-template-columns:1fr}}
+.thd{display:flex;justify-content:space-between;align-items:center;margin:12px 0 2px;padding:7px 10px;border-radius:10px;background:rgba(226,183,70,.08);border:1px solid rgba(226,183,70,.25)}.thd b{font-size:13px;color:var(--oro2)}.thd span{font-size:12px;color:var(--c2)}
+.hday{padding:12px 0;border-top:1px solid var(--linea)}.hday:first-of-type{border-top:0}.hdn{margin-bottom:8px}.hdn b{font-size:15px}.hdn small{display:block;font-size:12px;color:var(--c2)}
+.tpick{display:flex;flex-wrap:wrap;gap:8px}.tpick .chip[aria-pressed=true]{background:var(--oro);color:#111;border-color:var(--oro)}.tpick .chip[aria-pressed=true] .sub{color:#111}.tpick .chip:disabled{opacity:.4}
 .aulist{display:flex;flex-direction:column;gap:6px}.aulist span{font-size:13.5px;font-weight:700}.aulist .y{color:#7fd6a4}.aulist .n{color:var(--c2);opacity:.75}
 .aus{display:flex;flex-direction:column;gap:10px}.pvc.au{margin:0;align-items:flex-start}.pvc.au .tg{margin-top:2px}.pvc.au b{display:block;color:var(--txt,#fff);font-size:14.5px}.pvc.au small{display:block;font-size:12.5px;color:var(--c2);margin-top:2px;line-height:1.4}
 .h3sub{display:block;font-family:var(--fb,inherit);font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--c2);margin-top:2px}
@@ -325,7 +333,7 @@ const I=(n,s=20)=>`<svg class="ico" style="width:${s}px;height:${s}px" viewBox="
 }[n]||'')}</svg>`;
 
 /* ---------- Datos de demostración ---------- */
-const MISTERS=['Perotti','Miguel','Fernando','Iván','Bulnes','Antonio'];
+const MISTERS=['Perotti','José','Miguel','Fernando','Iván','Bulnes','Antonio'];
 const GROUPS={
   preb:{sub:'Sub-8',name:'Prebenjamín · Sub-8',short:'Prebenjamín',age:'6-7 años',prog:'Tecnificación',days:['Lunes','Miércoles'],mister:'Antonio'},
   benj:{sub:'Sub-10',name:'Benjamín · Sub-10',short:'Benjamín',age:'8-9 años',prog:'Tecnificación',days:['Martes','Jueves'],mister:'Perotti'},
@@ -462,7 +470,7 @@ function vHoy(){
    <div class="card kpi"><small>Pagos pendientes</small><b class="${pend?'gold':''}">${pend}</b><span>Ver packs y pagos</span></div>
   </div>
   <div class="grid g2">${groups.map(([k,g])=>{const pl=playersOn(k,day);return `<section class="card"><h3><span>${g.name}</span><span class="pill gold">${msTxt(metaFor(k,day))}</span></h3><p class="muted" style="margin:-4px 0 10px;font-size:13px">${metaFor(k,day).s} a ${metaFor(k,day).e}</p>
-   <div class="list">${pl.map(p=>{const on=att(k).includes(p.id);return `<div class="item">${av(p)}<div class="grow"><b>${p.name} ${camBadge(p)}</b><small>${p.age} años · ${p.pos}</small></div><button class="btn sm" data-open="${p.id}">Ficha</button><button class="check ${on?'on':''}" data-att="${key(k)}|${p.id}" aria-pressed="${on}" aria-label="Asistencia de ${p.name}">${I('check')}</button></div>`}).join('')}</div>
+   ${turnos(k).map(tt=>{const pt=pl.filter(p=>turnoOf(p,day,k)===tt);return `<div class="thd"><b>${turnoLbl(k,tt)}</b><span>${pt.length}/${frOf(k).cap} plazas</span></div><div class="list">${pt.map(p=>{const on=att(k).includes(p.id);return `<div class="item">${av(p)}<div class="grow"><b>${p.name} ${camBadge(p)}</b><small>${p.age} años · ${p.pos}</small></div><button class="btn sm" data-open="${p.id}">Ficha</button><button class="check ${on?'on':''}" data-att="${key(k)}|${p.id}" aria-pressed="${on}" aria-label="Asistencia de ${p.name}">${I('check')}</button></div>`}).join('')||'<p class="muted" style="font-size:13px;padding:6px 0">Nadie en este turno.</p>'}</div>`}).join('')}
    <div style="margin-top:12px"><small class="muted">Plan de hoy</small><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">${(planFor(k,day)||EXS[g.prog]).map(x=>`<span class="pill">${x}</span>`).join('')}</div></div></section>`}).join('')||'<div class="card empty">Hoy no hay sesiones.</div>'}</div>`;
 }
 /* ---------- Míster: Jugadores ---------- */
@@ -498,7 +506,7 @@ function libFor(g,area,q){let L=allLib();if(area==='Del club')return ((S.customE
 function planFor(k,day){return (S.plans&&S.plans[k+'|'+day])||null;}
 const onDay=(k,d)=>GROUPS[k].days.includes(d)||!!(S.meta&&S.meta[k+'|'+d]);
 function allMisters(){return [...MISTERS,...((S.extraM)||[])];}
-function metaFor(k,day){const m=(S.meta&&S.meta[k+'|'+day])||{};return {ms:(m.ms&&m.ms.length)?m.ms:[GROUPS[k].mister],s:m.s||'20:00',e:m.e||'21:30'};}
+function metaFor(k,day){const m=(S.meta&&S.meta[k+'|'+day])||{};return {ms:(m.ms&&m.ms.length)?m.ms:[GROUPS[k].mister],s:m.s||frOf(k).s,e:m.e||frOf(k).e};}
 const msTxt=m=>(m.ms.length>1?'Místers ':'Míster ')+m.ms.join(' y ');
 const HOURS=(()=>{const a=[];for(let h=9;h<=22;h++)for(const q of ['00','15','30','45'])a.push(String(h).padStart(2,'0')+':'+q);return a;})();
 const tmin=t=>{const[h,m]=t.split(':').map(Number);return h*60+m;};
@@ -514,8 +522,8 @@ function posPlanHTML(p){const L=POSPLAN[p.pos]||POSPLAN['Por definir'];const bas
  return `<section class="card posplan"><h3>Plan por posición · ${p.pos}</h3><div class="phases">${['Percibir','Decidir','Ejecutar','Competir'].map((t,i)=>`<span class="${i<=ph?'on':''}">${t}</span>`).join('')}</div>${L.map(([t,d],i)=>{const v=Math.max(30,Math.min(96,base-8+((i*13+p.age*3)%22)));return `<div class="obj"><b>${t}</b><em>${v}</em><small>${d}</small><span class="bar"><i style="width:${v}%"></i></span></div>`}).join('')}</section>`;}
 /* ---------- Míster: Sesiones ---------- */
 function vSesiones(){
-  return `<div class="hd"><div><h1 class="disp">Sesiones de la semana</h1><p>Lunes a jueves · Toca una sesión para ver el plan</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
-  <div class="week">${DAYS.map(d=>`<div class="day"><h4>${d}${d===todayName()?'<span class="pill gold">Hoy</span>':''}</h4>${Object.entries(GROUPS).filter(([k])=>onDay(k,d)||playersOn(k,d).length).map(([k,g])=>`<button class="ses" data-group="${k}" data-day="${d}"><b>${g.name}</b><small>${metaFor(k,d).s}–${metaFor(k,d).e} · ${msTxt(metaFor(k,d))} · ${playersOn(k,d).length===1?'1 jugador/a':playersOn(k,d).length+' jugadores/as'}</small><br><span class="pill tag">${g.prog}</span>${g.days.includes(d)?'':` <span class="pill gold">${k==='fis'?'Pack Completo':'Sesión extra'}</span>`}</button>`).join('')}</div>`).join('')}</div>`;
+  return `<div class="hd"><div><h1 class="disp">Sesiones de la semana</h1><p>Lunes a jueves · Toca una sesión para ver el plan</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn" href="#/cuadrante">${I('cal')}Cuadrante y turnos</a><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div></div>
+  <div class="week">${DAYS.map(d=>`<div class="day"><h4>${d}${d===todayName()?'<span class="pill gold">Hoy</span>':''}</h4>${Object.entries(GROUPS).filter(([k])=>onDay(k,d)||playersOn(k,d).length).map(([k,g])=>`<button class="ses" data-group="${k}" data-day="${d}"><b>${g.name}</b><small>${metaFor(k,d).s}–${metaFor(k,d).e} · ${turnos(k).length>1?turnos(k).length+' turnos · ':''}${msTxt(metaFor(k,d))} · ${playersOn(k,d).length===1?'1 jugador/a':playersOn(k,d).length+' jugadores/as'}</small><br><span class="pill tag">${g.prog}</span>${g.days.includes(d)?'':` <span class="pill gold">${k==='fis'?'Pack Completo':'Sesión extra'}</span>`}</button>`).join('')}</div>`).join('')}</div>`;
 }
 /* ---------- Míster: Pagos ---------- */
 function vPagos(){
@@ -534,7 +542,7 @@ function vInicio(){
   return `<div class="hd"><div><h1 class="disp">Hola, familia<br><span class="gold">de ${p.name.split(' ')[0]}</span></h1></div></div>
   <div class="hero-card" style="margin-bottom:14px"><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div>${av(p,"lg")}<div style="flex:1;min-width:160px"><b style="font-size:18px">${p.name}</b><p class="muted">${p.age} años · ${p.pos} · ${g.name}</p><p style="margin-top:6px;color:var(--oro2);font-weight:700">+${p.hist[5]-p.hist[0]} puntos desde mayo</p></div></div>
   <div class="grid g3" style="margin-bottom:14px">
-   <div class="card kpi"><small>Próxima sesión</small><b>${next}</b><span>${metaFor(nx.k,next).s} · ${nx.k==='fis'?'Preparación física · ':''}${msTxt(metaFor(nx.k,next))}</span></div>
+   <div class="card kpi"><small>Próxima sesión</small><b>${next}</b><span>${turnoLbl(nx.k,turnoOf(p,next,nx.k))} · ${nx.k==='fis'?'Preparación física · ':''}${msTxt(metaFor(nx.k,next))}</span></div>
    <div class="card kpi"><small>Asistencia</small><b>${p.att}%</b><span>${p.sessions} sesiones esta temporada</span></div>
    <div class="card kpi"><small>Pack ${p.pack}</small><b class="${p.paid?'':'gold'}">${p.paid?'Al día':'Pendiente'}</b><span>${PACKS[p.pack]} € al mes</span></div>
   </div>
@@ -557,6 +565,7 @@ function vPack(){const p=P(S.kid);return `<div class="hd"><div><h1 class="disp">
    ${p.nextPack?`<div class="npk"><span>${I('reset',18)}</span><div><b>Cambio programado a ${p.nextPack.pack}</b><small>Empieza el ${fmtLong(p.nextPack.from)} · ${PACKS[p.nextPack.pack]} € al mes. Hasta entonces sigue el pack ${p.pack}.</small><button class="lnk" data-act="cancelPack">Cancelar el cambio</button></div></div>`:''}</section>
    <section class="card"><h3>Cambiar de pack</h3><p class="muted" style="font-size:13px;margin:-4px 0 10px">${I('lock',14)} Los cambios se aplican el día 1 del mes siguiente, nunca a mitad de mes.</p><div class="list">${Object.entries(PACKS).map(([n,v])=>`<div class="item"><div class="grow"><b>${n} <span class="dpill">${PACKINFO[n].d.replace(' a la semana','/sem')}</span></b><small>${v} € al mes · ${PACKINFO[n].x}</small></div>${n===p.pack?'<span class="pill gold">Actual</span>':p.nextPack&&p.nextPack.pack===n?`<span class="pill ok">Desde el ${fmtLong(p.nextPack.from).replace(/ de (\w{3})\w*/,' $1')}</span>`:`<button class="btn sm" data-act="changePack" data-pack="${n}">Elegir</button>`}</div>`).join('')}</div></section></div>
   ${(p.receipts&&p.receipts.length)?`<section class="card" style="margin-top:14px"><h3>Historial de pagos</h3><div class="list">${p.receipts.map((r,i)=>`<div class="item"><div class="grow"><b>${r.c}</b><small>${r.d} · ${r.m} · ${r.n}</small></div><b style="white-space:nowrap">${r.a} €</b><button class="btn sm" data-act="rcpt" data-i="${i}">Recibo</button></div>`).join('')}</div></section>`:''}
+  ${horarioHTML(p)}
   <p class="muted" style="margin-top:12px;font-size:13px">Precios de ejemplo pendientes de confirmar por JP Fútbol.</p>`;}
 
 /* ---------- Pago (demo) ---------- */
@@ -682,26 +691,57 @@ function sessionHistory(p,weeks=4){const g=GROUPS[p.group];const now=new Date();
       const key=dn+'-'+gk;const today=+d===+now;let st;
       if(today)st=(S.attendance[key]||[]).includes(p.id)?'si':'hoy';else st=(hnum(p.id+d.toDateString())%100)<p.att?'si':'no';
       const L=libFor(gk,'Todos','').filter(x=>gk==='por'||gk==='fis'||(x.a!=='Porteros'&&x.a!=='Físico'));const plan=(today&&planFor(gk,dn))||(()=>{const h=hnum(p.group+d.toDateString());return [0,1,2].map(j=>L[(h+j*7)%L.length]&&L[(h+j*7)%L.length].n).filter(Boolean);})();
-      items.push({d,dn,st,k:gk,m:metaFor(gk,dn),ex:plan});});
+      items.push({d,dn,st,k:gk,m:metaFor(gk,dn),t:turnoLbl(gk,turnoOf(p,dn,gk)),ex:plan});});
     if(items.length)out.push({ws,items:items.reverse()});}
   return out;}
 function historyHTML(p){const H=sessionHistory(p);const all=H.flatMap(w=>w.items).filter(x=>x.st!=='hoy');const si=all.filter(x=>x.st==='si').length;
   const we=d=>{const e=new Date(d);e.setDate(d.getDate()+3);return d.getMonth()===e.getMonth()?`${d.getDate()} al ${e.getDate()} de ${MESES[e.getMonth()]}`:`${d.getDate()} ${MESES[d.getMonth()].slice(0,3)} al ${e.getDate()} ${MESES[e.getMonth()].slice(0,3)}`;};
   return `<section class="card" style="margin-bottom:14px"><h3>Historial de sesiones <span class="pill gold">${si} de ${all.length} sesiones</span></h3>
-  ${H.map((w,i)=>`<div class="hweek"><h4>${i===0?'Esta semana':i===1?'Semana pasada':'Semana del '+we(w.ws)}<small>${i<2?we(w.ws):''}</small></h4>${w.items.map(x=>`<div class="hses ${x.st}"><div class="hd8"><b>${x.d.getDate()}</b><small>${DSHORT[x.d.getDay()]}</small></div><div class="grow"><div class="hrow"><b>${GROUPS[x.k].short||GROUPS[x.k].name}<small class="hname">${p.name}</small></b><span class="pill ${x.st==='si'?'ok':x.st==='no'?'warn':'gold'}">${x.st==='si'?'Asistió':x.st==='no'?'No asistió':'Hoy'}</span></div><small>${x.m.s}–${x.m.e} · ${msTxt(x.m)}</small>${x.st!=='no'?`<div class="hex">${x.ex.map(e=>`<span>${e}</span>`).join('')}</div>`:''}</div></div>`).join('')}</div>`).join('')}</section>`;}
+  ${H.map((w,i)=>`<div class="hweek"><h4>${i===0?'Esta semana':i===1?'Semana pasada':'Semana del '+we(w.ws)}<small>${i<2?we(w.ws):''}</small></h4>${w.items.map(x=>`<div class="hses ${x.st}"><div class="hd8"><b>${x.d.getDate()}</b><small>${DSHORT[x.d.getDay()]}</small></div><div class="grow"><div class="hrow"><b>${GROUPS[x.k].short||GROUPS[x.k].name}<small class="hname">${p.name}</small></b><span class="pill ${x.st==='si'?'ok':x.st==='no'?'warn':'gold'}">${x.st==='si'?'Asistió':x.st==='no'?'No asistió':'Hoy'}</span></div><small>${x.t} · ${msTxt(x.m)}</small>${x.st!=='no'?`<div class="hex">${x.ex.map(e=>`<span>${e}</span>`).join('')}</div>`:''}</div></div>`).join('')}</div>`).join('')}</section>`;}
+
+/* ---------- Cuadrante: franjas y turnos ---------- */
+const SOCIOS=['Perotti','José'];
+const hm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+function cuad(){if(!S.cuad)S.cuad={fr:{peq:{n:'Pequeños',s:'16:00',e:'18:00',dur:60,cap:10},may:{n:'Mayores',s:'18:00',e:'20:00',dur:60,cap:10}},g:{preb:'peq',benj:'peq',alev:'peq',por:'peq',infa:'may',cade:'may',juv:'may',fis:'may'}};return S.cuad;}
+const frOf=k=>cuad().fr[cuad().g[k]||'may'];
+function turnos(k){const f=frOf(k),a=[];for(let m=tmin(f.s);m+f.dur<=tmin(f.e);m+=f.dur)a.push(hm(m));return a.length?a:[f.s];}
+const turnoLbl=(k,t)=>t+'–'+hm(tmin(t)+frOf(k).dur);
+function turnoOf(p,day,k){const v=p.turnos&&p.turnos[k+'|'+day],T=turnos(k);if(v&&T.includes(v))return v;return T[hnum(p.id+day)%T.length];}
+const ocup=(k,day,t)=>playersOn(k,day).filter(p=>turnoOf(p,day,k)===t).length;
+let cDay=null;
+function rerender(){const y=scrollY;render();scrollTo(0,y);}
+function vCuadrante(){const C=cuad(),soc=SOCIOS.includes(S.me),dis=soc?'':'disabled';cDay=cDay||todayName();
+  const fr=Object.entries(C.fr);
+  return `<a href="#/sesiones" class="btn sm" style="margin-bottom:14px">${I('back',16)}Sesiones</a>
+  <div class="hd"><div><h1 class="disp">Cuadrante</h1><p>Franjas, turnos y plazas · lo gestionan los socios</p></div><span class="pill ${soc?'gold':''}">${soc?'Puedes editar · socio':'Solo lectura'}</span></div>
+  ${soc?'':`<p class="demo" style="margin:-6px 0 14px">${I('lock',14)} Solo Perotti y José pueden cambiar el cuadrante. Entra como uno de ellos para editarlo.</p>`}
+  <div class="grid g2">${fr.map(([fk,f])=>{const gs=Object.keys(GROUPS).filter(k=>(C.g[k]||'may')===fk);const T=turnos(gs[0]||'preb');const other=fr.find(([x])=>x!==fk)[1].n;
+    return `<section class="card fr"><h3><span>Franja ${f.n}<small class="h3sub">${f.s} a ${f.e} · ${T.length} turno${T.length>1?'s':''} de ${f.dur} min</small></span></h3>
+    <div class="frg"><div class="f"><label>Empieza</label><select data-cf="${fk}|s" ${dis}>${HOURS.map(h=>`<option ${h===f.s?'selected':''}>${h}</option>`).join('')}</select></div><div class="f"><label>Termina</label><select data-cf="${fk}|e" ${dis}>${HOURS.map(h=>`<option ${h===f.e?'selected':''}>${h}</option>`).join('')}</select></div>
+    <div class="f"><label>Cada turno</label><select data-cf="${fk}|dur" ${dis}>${[45,60,90,120].map(m=>`<option value="${m}" ${m===f.dur?'selected':''}>${m} min</option>`).join('')}</select></div><div class="f"><label>Plazas por turno</label><select data-cf="${fk}|cap" ${dis}>${[6,8,10,12,14,16,20].map(m=>`<option ${m===f.cap?'selected':''}>${m}</option>`).join('')}</select></div></div>
+    <small class="muted" style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">Turnos</small><div class="tchips">${T.map(t=>`<span>${t}–${hm(tmin(t)+f.dur)}</span>`).join('')}</div>
+    <small class="muted" style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">Grupos en esta franja</small><div class="gchips">${gs.map(k=>`<button class="chip" data-act="mvg" data-g2="${k}" ${dis} title="Pasar a franja ${other}">${GROUPS[k].short||GROUPS[k].name}${GROUPS[k].sub?` <em class="sub">${GROUPS[k].sub}</em>`:''}${soc?' <span class="mv">⇄</span>':''}</button>`).join('')||'<span class="muted">Ninguno</span>'}</div>
+    ${soc?`<p class="muted" style="font-size:12px;margin-top:8px">Toca un grupo para pasarlo a la franja ${other}.</p>`:''}</section>`}).join('')}</div>
+  <section class="card" style="margin-top:14px"><h3><span>Ocupación por turnos<small class="h3sub">Lo que han elegido las familias · plazas ocupadas / totales</small></span></h3>
+  <div class="dchips">${DAYS.map(d=>`<button class="chip" data-act="cday" data-d="${d}" aria-pressed="${d===cDay}">${d}</button>`).join('')}</div>
+  <div class="ocu">${Object.entries(GROUPS).filter(([k])=>onDay(k,cDay)||playersOn(k,cDay).length).map(([k,g])=>{const f=frOf(k);return `<div class="orow"><div class="og"><b>${g.short||g.name}${g.sub?` <em class="sub">${g.sub}</em>`:''}</b><small>Franja ${f.n} · ${msTxt(metaFor(k,cDay))}</small></div><div class="ots">${turnos(k).map(t=>{const n=ocup(k,cDay,t);const pc=Math.min(100,Math.round(n/f.cap*100));return `<div class="ot ${n>=f.cap?'full':''}"><span>${turnoLbl(k,t)}</span><div class="obar"><i style="width:${pc}%"></i></div><b>${n}/${f.cap}</b></div>`}).join('')}</div></div>`}).join('')}</div></section>`;}
+function horarioHTML(p){const PS=packSessions(p);return `<section class="card" style="margin-top:14px"><h3><span>Mi horario<small class="h3sub">Elige a qué hora va ${p.name.split(' ')[0]} cada día de su pack</small></span></h3>
+  ${PS.map(s=>{const f=frOf(s.k),cur=turnoOf(p,s.dn,s.k);return `<div class="hday"><div class="hdn"><b>${s.dn}</b><small>${s.k==='fis'?'Prep. física':(GROUPS[s.k].short||GROUPS[s.k].name)} · franja ${f.n.toLowerCase()}</small></div><div class="tpick">${turnos(s.k).map(t=>{const n=ocup(s.k,s.dn,t)-(cur===t?1:0);const left=f.cap-n;const on=cur===t;return `<button class="chip" data-act="pickT" data-k="${s.k}" data-d="${s.dn}" data-t="${t}" aria-pressed="${on}" ${!on&&left<=0?'disabled':''}>${on?'✓ ':''}${turnoLbl(s.k,t)}<em class="sub">${left<=0&&!on?'Completo':left+' plazas'}</em></button>`}).join('')}</div></div>`}).join('')}
+  <p class="muted" style="font-size:12.5px;margin-top:10px">El míster ve al momento quién viene en cada turno. Los turnos y las plazas los organiza el club.</p></section>`;}
 
 /* ---------- Router ---------- */
 function render(){
   if(!S.role){loginView();return;}
   const [r,id]=(location.hash.replace('#/','')||'').split('/');
   const def=S.role==='mister'?'hoy':'inicio';
-  const route=NAV[S.role].some(n=>n[0]===r)||r==='jugador'?r:def;
-  const V={hoy:vHoy,jugadores:vJugadores,jugador:()=>vFicha(id),sesiones:vSesiones,pagos:vPagos,inicio:vInicio,progreso:vProgreso,tareas:vTareas,pack:vPack};
-  shell(V[route](),route==='jugador'?'jugadores':route);
+  const route=NAV[S.role].some(n=>n[0]===r)||r==='jugador'||(r==='cuadrante'&&S.role==='mister')?r:def;
+  const V={hoy:vHoy,jugadores:vJugadores,jugador:()=>vFicha(id),sesiones:vSesiones,pagos:vPagos,inicio:vInicio,progreso:vProgreso,tareas:vTareas,pack:vPack,cuadrante:vCuadrante};
+  shell(V[route](),route==='jugador'?'jugadores':route==='cuadrante'?'sesiones':route);
   window.scrollTo(0,0);hydratePV();
   const q=$('#q');if(q){q.oninput=()=>{fText=q.value;const pos=q.selectionStart;render();const n=$('#q');n.focus();n.setSelectionRange(pos,pos);};}
 }
 addEventListener('hashchange',render);
+document.addEventListener('change',e=>{const el=e.target.closest('[data-cf]');if(!el||!SOCIOS.includes(S.me))return;const [fk,key]=el.dataset.cf.split('|');const f=cuad().fr[fk];const v=key==='dur'||key==='cap'?+el.value:el.value;const old=f[key];f[key]=v;if(tmin(f.e)-tmin(f.s)<f.dur){f[key]=old;toast('La franja tiene que durar al menos un turno');rerender();return;}save();rerender();toast('Cuadrante actualizado');});
 
 /* ---------- Acciones ---------- */
 document.addEventListener('click',e=>{
@@ -763,6 +803,9 @@ document.addEventListener('click',e=>{
     $('#pf').onsubmit=ev=>{ev.preventDefault();const n=$('#pn').value.trim(),ag=$('#pa').value.trim();if(!n){$('#pfe').textContent='Escribe el nombre.';return;}if(!/^\d{1,2}$/.test(ag)){$('#pfe').textContent='Escribe la edad en números.';return;}
       S.players.push({id:'j'+Date.now(),name:n,age:+ag,pos:'Por definir',group:$('#pg').value,pack:'Inicio',paid:false,att:100,sessions:0,areas:{'Técnica':50,'Físico':50,'Táctica':50,'Actitud':50},hist:[50,50,50,50,50,50],tasks:[],notes:[]});save();closeSheet();render();toast('Jugador creado');};}
   if(a==='pay'){payFlow(P(S.kid));}
+  if(a==='mvg'){if(!SOCIOS.includes(S.me))return;const C=cuad(),k=t.dataset.g2;C.g[k]=(C.g[k]||'may')==='peq'?'may':'peq';save();rerender();toast((GROUPS[k].short||GROUPS[k].name)+' pasa a la franja '+C.fr[C.g[k]].n);return;}
+  if(a==='cday'){cDay=t.dataset.d;rerender();return;}
+  if(a==='pickT'){const p=P(S.kid);p.turnos=p.turnos||{};p.turnos[t.dataset.k+'|'+t.dataset.d]=t.dataset.t;save();rerender();toast(`${p.name.split(' ')[0]} irá el ${t.dataset.d.toLowerCase()} de ${turnoLbl(t.dataset.k,t.dataset.t)}`);return;}
   if(a==='pvup'){pvUpload(P(t.dataset.id));return;}
   if(a==='pvplay'){pvPlay(P(t.dataset.id),t.dataset.v);return;}
   if(a==='auth'){authSheet(P(S.kid));return;}
