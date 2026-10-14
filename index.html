@@ -270,6 +270,35 @@ section{position:relative}
 @media (prefers-reduced-motion:reduce){.pin::before,.pin::after{animation:none}}
 @media (max-width:900px){.sede{grid-template-columns:minmax(0,1fr)}}
 
+.q > span em{display:block;font-style:normal;font-weight:500;color:var(--oro-claro);font-size:13px;margin-top:2px}
+.opts[data-q="pos"] .opt{position:relative;padding-right:34px}
+.opts[data-q="pos"] .opt::after{content:"";position:absolute;right:13px;top:50%;width:7px;height:7px;border-right:2px solid var(--oro);border-top:2px solid var(--oro);transform:translateY(-50%) rotate(45deg)}
+/* ---------- Ficha por posición ---------- */
+.pm{align-items:flex-end;padding:0}
+.pm .sheet{width:min(640px,100%);max-height:92vh;padding:0;border-radius:26px 26px 0 0;transform:translateY(40px);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.pm.open .sheet{transform:none}
+@media (min-width:700px){.pm{align-items:center;padding:16px}.pm .sheet{border-radius:26px}}
+.pm .x{background:rgba(5,5,5,.6);backdrop-filter:blur(6px);color:#fff}
+.pm-hero{position:relative;height:clamp(200px,42vw,260px);overflow:hidden}
+.pm-hero img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.pm-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,14,12,0) 35%,var(--grada) 100%)}
+.pm-head{position:absolute;left:22px;right:22px;bottom:14px;z-index:1}
+.pm-head small{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#050505;background:var(--oro);padding:5px 10px;border-radius:99px}
+.pm-head h3{font-family:var(--f-disp);font-size:clamp(30px,8vw,40px);text-transform:uppercase;line-height:1;margin-top:10px}
+.pm-body{padding:8px 22px 24px}
+.pm-body > p{color:var(--cal-2);font-size:15.5px;line-height:1.55}
+.pm-blk{margin-top:20px}
+.pm-blk h4{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--oro-claro);margin-bottom:10px}
+.pm-blk h4::before{content:"";width:18px;height:2px;background:var(--oro)}
+.pm-blk ul{list-style:none;display:grid;gap:8px}
+.pm-blk li{display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:15px;line-height:1.4;padding:11px 12px;border:1px solid var(--linea);border-radius:12px;background:var(--noche)}
+.pm-blk li::before{content:"";width:8px;height:8px;margin:6px 0 0 6px;border-radius:50%;background:var(--oro)}
+.pm-blk li b{font-weight:700;display:block}
+.pm-blk li span{display:block;color:var(--cal-3);font-size:13.5px}
+.pm-how{display:flex;flex-wrap:wrap;gap:8px}
+.pm-how span{font-size:13.5px;padding:8px 12px;border-radius:99px;border:1px solid rgba(226,183,70,.35);background:rgba(226,183,70,.08);color:var(--cal)}
+.pm-act{position:sticky;bottom:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 22px calc(14px + var(--safe-b));background:linear-gradient(180deg,rgba(14,14,12,0),var(--grada) 30%)}
+.pm-act .btn{width:100%;padding-inline:8px;font-size:14.5px;min-height:50px}
 /* ---------- Pasos y FAQ ---------- */
 .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:40px;counter-reset:s}
 .step{border-top:2px solid var(--oro);padding-top:20px}
@@ -501,7 +530,7 @@ footer .krea{font-size:12.5px;opacity:.7}
     <div class="quiz rv" id="quiz">
       <div class="q"><span>Edad de quien entrena</span><div class="opts" data-q="edad">
         <button class="opt" data-v="6-9">6 a 9 años</button><button class="opt" data-v="10-13">10 a 13</button><button class="opt" data-v="14-17">14 a 17</button><button class="opt" data-v="18+">18 o más</button></div></div>
-      <div class="q"><span>Posición habitual</span><div class="opts" data-q="pos">
+      <div class="q"><span>Posición habitual <em>Toca para ver qué trabajamos</em></span><div class="opts" data-q="pos">
         <button class="opt" data-v="Portería">Portería</button><button class="opt" data-v="Defensa">Defensa</button><button class="opt" data-v="Centrocampo">Centrocampo</button><button class="opt" data-v="Delantera">Delantera</button><button class="opt" data-v="Por definir">Por definir</button></div></div>
       <div class="q"><span>¿Qué quiere mejorar?</span><div class="opts" data-q="obj">
         <button class="opt" data-v="tec">Control, pase o golpeo</button><button class="opt" data-v="fis">Velocidad, fuerza o coordinación</button><button class="opt" data-v="por">Posición, reacción o blocaje</button><button class="opt" data-v="dud">Aún no lo tengo claro</button></div></div>
@@ -651,6 +680,15 @@ footer .krea{font-size:12.5px;opacity:.7}
   <img id="lbImg" alt="">
   <button class="nav-b next-b" id="lbNext" aria-label="Foto siguiente"><svg class="ico" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
 </div>
+<!-- Ficha por posición -->
+<div class="modal pm" id="pm" role="dialog" aria-modal="true" aria-labelledby="pmT">
+  <div class="sheet">
+    <button class="x" data-close aria-label="Cerrar"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="pm-hero"><img id="pmImg" alt=""><div class="pm-head"><small id="pmTag"></small><h3 id="pmT"></h3></div></div>
+    <div class="pm-body" id="pmBody"></div>
+    <div class="pm-act"><button class="btn btn-oro" id="pmBook" data-close>Reservar plaza</button><button class="btn btn-linea" id="pmNext" data-close>Seguir con el test</button></div>
+  </div>
+</div>
 <!-- Vídeo -->
 <div class="modal vm" id="vm" role="dialog" aria-modal="true" aria-label="Vídeo">
   <button class="x" data-close aria-label="Cerrar"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -787,6 +825,42 @@ $('#bkForm').onsubmit=e=>{
 /* Orientador */
 const ans={};
 $$('#quiz .opts').forEach(g=>g.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{g.querySelectorAll('.opt').forEach(x=>x.setAttribute('aria-pressed',x===b));ans[g.dataset.q]=b.dataset.v;recommend();}));
+
+/* ---------- Fichas por posición ---------- */
+const POS={
+ 'Portería':{tag:'Porteros y porteras',img:'porteros-02-joven',book:'Porteros',
+  intro:'El puesto más específico del campo. Trabajamos la técnica de manos y pies, la colocación y la toma de decisiones para que cada portero y portera gane seguridad bajo palos y fuera de ellos.',
+  tec:[['Posición base y desplazamientos','Apoyos activos, pasos laterales y cruzados para llegar equilibrado al balón.'],['Blocaje alto, medio y raso','Atrapar con seguridad y proteger el balón sin dar rechace.'],['Caídas y estiradas','Técnica de caída lateral y estirada para llegar al balón lejano sin hacerse daño.'],['Desvíos','Cuándo y cómo sacar el balón a córner o fuera de la zona de peligro.'],['Juego con el pie','Control, pase y despeje para participar en la salida del equipo.'],['Saques','Saque con mano, volea y media volea con precisión.']],
+  tac:[['Colocación','Situarse en la bisectriz del ángulo según la posición del balón.'],['Uno contra uno','Esperar, achicar el espacio y elegir el momento de intervenir.'],['Juego aéreo','Decidir si salir en centros: atrapar en el punto más alto o despejar de puños.'],['Espacio a la espalda','Anticiparse a balones largos detrás de la defensa.'],['Comunicación','Ordenar a la defensa y ayudar en barreras y balón parado.'],['Inicio del juego','Elegir rápido a quién y cómo sacar tras una parada.']],
+  how:['Circuitos de reacción','Series de tiros y centros','Uno contra uno','Juego reducido con jugadores de campo']},
+ 'Defensa':{tag:'Defensas',img:'tecnificacion-05',book:'Tecnificación 2 días',
+  intro:'Defender bien es leer el juego antes que el rival. Trabajamos el duelo individual, la colocación y la salida de balón para defensas centrales y laterales.',
+  tec:[['Perfil defensivo','Posición del cuerpo semiflexionada y de lado para no dejarse superar.'],['Entrada y robo','Elegir el momento de meter el pie y robar sin hacer falta.'],['Despeje','Despejes de cabeza y con el pie, lejos y hacia fuera.'],['Control bajo presión','Recibir con el rival encima y orientar hacia el espacio libre.'],['Pase largo y cambio de orientación','Desplazar el balón con precisión para saltar líneas.'],['Conducción y centro','Salir conduciendo y, en laterales, centrar con calidad.']],
+  tac:[['Marcaje','Vigilar al rival sin perder de vista el balón.'],['Anticipación e interceptación','Leer el pase y llegar antes que el atacante.'],['Temporizar el uno contra uno','Frenar al rival y esperar ayuda en lugar de lanzarse.'],['Coberturas y permutas','Ayudar al compañero o compañera superado y ocupar su sitio.'],['Línea defensiva','Subir, bajar y fijar el fuera de juego de forma coordinada.'],['Salida de balón','Ofrecer líneas de pase y empezar el ataque desde atrás.']],
+  how:['1x1 y 2x2 defensivos','Duelos aéreos','Juegos de salida de balón','Situaciones de partido']},
+ 'Centrocampo':{tag:'Centrocampistas',img:'tecnificacion-04',book:'Tecnificación 2 días',
+  intro:'El centro del campo une defensa y ataque. Trabajamos la recepción, el pase y la lectura del juego para que cada centrocampista decida rápido y bien.',
+  tec:[['Control orientado','Perfilarse y que el primer toque ya lleve el balón hacia donde se quiere jugar.'],['Pase con ambas piernas','Pase corto, tenso y largo con la pierna buena y con la menos hábil.'],['Conducción en poco espacio','Mover el balón con cambios de dirección y de ritmo.'],['Protección del balón','Usar el cuerpo para mantener la posesión bajo presión.'],['Tiro de media distancia','Golpeo desde fuera del área con precisión y potencia.'],['Recuperación tras pérdida','Reacción inmediata para recuperar el balón.']],
+  tac:[['Mirar antes de recibir','Escanear el campo para saber qué hacer antes de que llegue el balón.'],['Apoyos y líneas de pase','Moverse para ser siempre una opción de pase.'],['Cambio de orientación','Llevar el juego al lado débil del rival.'],['Pase entre líneas','Encontrar al compañero o compañera entre la defensa y el medio rival.'],['Presión y transición','Saber cuándo presionar y cómo pasar rápido de defender a atacar.'],['Equilibrio','Cubrir espacios cuando el equipo ataca.']],
+  how:['Rondos','Posesiones con comodines','Juegos de posición','Tiro tras conducción']},
+ 'Delantera':{tag:'Delanteros y delanteras',img:'tecnificacion-08-tiro',book:'Tecnificación 2 días',
+  intro:'Marcar es una habilidad que se entrena. Trabajamos la finalización, el desmarque y el uno contra uno para que cada delantero y delantera llegue al área con confianza.',
+  tec:[['Primer toque hacia portería','Controlar orientado para quedar en posición de tiro.'],['Regate y cambio de ritmo','Superar al rival en el uno contra uno.'],['Finalización','Tiro raso, colocado y potente con ambas piernas.'],['Remate de cabeza','Atacar el balón en centros y rematar con intención.'],['Paredes y centros','Combinar rápido y servir balones al área desde banda.'],['Juego de espaldas','Proteger el balón y descargar con un toque.']],
+  tac:[['Desmarques','De ruptura al espacio y de apoyo para recibir al pie.'],['Atacar el área','Llegar a tiempo al primer palo, segundo palo o punto de penalti.'],['Fijar y abrir huecos','Arrastrar defensores para liberar a los compañeros y compañeras.'],['Decisión ante portería','Elegir entre tirar, regatear o pasar.'],['Presión tras pérdida','Ser la primera defensa del equipo.'],['Movilidad','Cambiar de posición para no dar referencias.']],
+  how:['Circuitos de finalización','1x1 y 2x1 ofensivos','Situaciones con portero o portera','Centros y remates']},
+ 'Por definir':{tag:'Jugadores y jugadoras polivalentes',img:'tecnificacion-02',book:'Sesión de prueba',
+  intro:'Si aún no tiene una posición fija, mejor. Construimos una base técnica completa y probamos distintos puestos para descubrir dónde rinde y disfruta más.',
+  tec:[['Control y conducción','Dominar el balón con las dos piernas y en movimiento.'],['Pase y golpeo','Precisión en pase corto y largo y tiro a portería.'],['Regate','Superar al rival con cambios de dirección y de ritmo.'],['Juego aéreo','Controlar y golpear balones que vienen por alto.']],
+  tac:[['Orientación en el campo','Saber dónde está el balón, los compañeros y el rival.'],['Desmarque y apoyo','Moverse para recibir y ayudar al equipo.'],['Defensa individual','Perfil, marcaje y ayuda al compañero o compañera.'],['Transiciones','Reaccionar rápido al ganar o perder el balón.']],
+  how:['Rotación por puestos','Juegos reducidos','Valoración del míster','Sesión de prueba']}
+};
+function openPos(k){const d=POS[k];if(!d)return;
+  $('#pmImg').src=`assets/img/${d.img}.webp`;$('#pmTag').textContent=d.tag;$('#pmT').textContent=k==='Por definir'?'Por definir':k;
+  const li=a=>a.map(([b,t])=>`<li><div><b>${b}</b><span>${t}</span></div></li>`).join('');
+  $('#pmBody').innerHTML=`<p>${d.intro}</p><div class="pm-blk"><h4>Técnica individual</h4><ul>${li(d.tec)}</ul></div><div class="pm-blk"><h4>Táctica individual</h4><ul>${li(d.tac)}</ul></div><div class="pm-blk"><h4>Cómo lo entrenamos</h4><div class="pm-how">${d.how.map(h=>`<span>${h}</span>`).join('')}</div></div>`;
+  $('#pmBook').dataset.book=d.book;$('#pm .sheet').scrollTop=0;openM('#pm');}
+$$('.opts[data-q="pos"] .opt').forEach(b=>b.addEventListener('click',()=>openPos(b.dataset.v)));
+$('#pmNext').addEventListener('click',()=>setTimeout(()=>$('.opts[data-q="obj"]').scrollIntoView({behavior:'smooth',block:'center'}),260));
 function recommend(){
   if(!ans.edad||!ans.pos||!ans.obj)return;
   let t,x,pack;
