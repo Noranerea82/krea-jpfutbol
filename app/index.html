@@ -239,17 +239,19 @@ const I=(n,s=20)=>`<svg class="ico" style="width:${s}px;height:${s}px" viewBox="
 /* ---------- Datos de demostración ---------- */
 const MISTERS=['Perotti','Miguel','Fernando','Iván','Bulnes','Antonio'];
 const GROUPS={
-  tec10:{name:'Tecnificación Sub-10',prog:'Tecnificación',days:['Lunes','Miércoles'],mister:'Perotti'},
-  tec13:{name:'Tecnificación Sub-13',prog:'Tecnificación',days:['Martes','Jueves'],mister:'Miguel'},
-  tec16:{name:'Tecnificación Sub-16',prog:'Tecnificación',days:['Lunes','Miércoles'],mister:'Fernando'},
-  fis:{name:'Preparación física',prog:'Preparación física',days:['Martes','Jueves'],mister:'Bulnes'},
-  por:{name:'Porteros',prog:'Porteros',days:['Lunes','Miércoles'],mister:'Iván'}
+  preb:{name:'Prebenjamín · Sub-8',short:'Prebenjamín',age:'6-7 años',prog:'Tecnificación',days:['Lunes','Miércoles'],mister:'Antonio'},
+  benj:{name:'Benjamín · Sub-10',short:'Benjamín',age:'8-9 años',prog:'Tecnificación',days:['Martes','Jueves'],mister:'Perotti'},
+  alev:{name:'Alevín · Sub-12',short:'Alevín',age:'10-11 años',prog:'Tecnificación',days:['Lunes','Miércoles'],mister:'Miguel'},
+  infa:{name:'Infantil · Sub-14',short:'Infantil',age:'12-13 años',prog:'Técnico-táctica',days:['Martes','Jueves'],mister:'Fernando'},
+  cade:{name:'Cadete · Sub-16',short:'Cadete',age:'14-15 años',prog:'Técnico-táctica',days:['Lunes','Miércoles'],mister:'Fernando'},
+  fis:{name:'Preparación física',short:'Prep. física',age:'Todas las edades',prog:'Preparación física',days:['Martes','Jueves'],mister:'Bulnes'},
+  por:{name:'Porteros y porteras',short:'Porteros/as',age:'Todas las edades',prog:'Porteros',days:['Lunes','Miércoles'],mister:'Iván'}
 };
 const PACKS={'Inicio':40,'Progreso':70,'Completo':95,'Porteros':70};
 const VIDEOS=[{k:'tecnificacion',t:'Tecnificación: control y golpeo'},{k:'preparacion',t:'Preparación física: coordinación'},{k:'porteros',t:'Porteros: posición y blocaje'},{k:'captacion',t:'Ambiente de entrenamiento'}];
-const EXS={'Tecnificación':['Rondo 4x1 a dos toques','Conducción con cambios de ritmo','Control orientado y pase','Finalización tras pared'],'Preparación física':['Escalera de coordinación','Saltos de valla y estabilidad','Arrastres con paracaídas','Prevención: core y equilibrio'],'Porteros':['Posición base entre conos','Caídas laterales y blocaje','Reacción a balón cercano','Salidas por alto']};
+const EXS={'Técnico-táctica':['Rondo 4x2 con transición','2x1 y 3x2 hacia portería','Juego reducido 4x4 con comodines','Presión tras pérdida'],'Tecnificación':['Rondo 4x1 a dos toques','Conducción con cambios de ritmo','Control orientado y pase','Finalización tras pared'],'Preparación física':['Escalera de coordinación','Saltos de valla y estabilidad','Arrastres con paracaídas','Prevención: core y equilibrio'],'Porteros':['Posición base entre conos','Caídas laterales y blocaje','Reacción a balón cercano','Salidas por alto']};
 function seedPlayers(){
-  const N=[['Hugo Martín',11,'Centrocampo','tec13','Progreso'],['Lucía Romero',10,'Delantera','tec10','Inicio'],['Pablo Ortega',12,'Defensa','tec13','Completo'],['Alejandro Ruiz',15,'Delantera','tec16','Progreso'],['Marta Gil',9,'Centrocampo','tec10','Progreso'],['Daniel Vega',13,'Portería','por','Porteros'],['Sergio Navarro',14,'Defensa','fis','Completo'],['Carmen López',12,'Centrocampo','tec13','Progreso'],['Mario Castro',8,'Delantera','tec10','Inicio'],['Adrián Molina',16,'Centrocampo','tec16','Completo'],['Javier Peña',11,'Portería','por','Porteros'],['Nerea Prieto',14,'Defensa','fis','Progreso'],['Iker Delgado',10,'Por definir','tec10','Inicio'],['Rubén Santos',15,'Delantera','tec16','Progreso']];
+  const N=[['Hugo Martín',11,'Centrocampo','alev','Progreso'],['Lucía Romero',9,'Delantera','benj','Inicio'],['Pablo Ortega',12,'Defensa','infa','Completo'],['Alejandro Ruiz',15,'Delantera','cade','Progreso'],['Marta Gil',8,'Centrocampo','benj','Progreso'],['Daniel Vega',13,'Portería','por','Porteros'],['Sergio Navarro',14,'Defensa','fis','Completo'],['Carmen López',12,'Centrocampo','infa','Progreso'],['Mario Castro',7,'Delantera','preb','Inicio'],['Adrián Molina',15,'Centrocampo','cade','Completo'],['Javier Peña',11,'Portería','por','Porteros'],['Nerea Prieto',14,'Defensa','fis','Progreso'],['Iker Delgado',10,'Por definir','alev','Inicio'],['Rubén Santos',14,'Delantera','cade','Progreso'],['Sofía Ramos',6,'Por definir','preb','Inicio'],['Leo Fernández',7,'Centrocampo','preb','Inicio'],['Valeria Núñez',9,'Defensa','benj','Progreso'],['Álex Moreno',10,'Delantera','alev','Progreso']];
   return N.map((p,i)=>{
     const base=55+((i*7)%30);
     return {id:'j'+(i+1),name:p[0],age:p[1],pos:p[2],group:p[3],pack:p[4],paid:i%5!==3,att:82+((i*5)%18),sessions:12+((i*3)%15),
@@ -259,7 +261,7 @@ function seedPlayers(){
       notes:i===0?[{d:'Martes',by:'Miguel',t:'Muy buen perfilado al recibir. Seguir con la pierna izquierda.'}]:[]};
   });
 }
-const KEY='jpfutbol-app-demo-v1';
+const KEY='jpfutbol-app-demo-v2';
 let S;
 function load(){try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!S||!S.players){S={players:seedPlayers(),attendance:{},role:null,me:null,kid:'j1',done:{}};save();}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -349,9 +351,9 @@ function vHoy(){
   const pend=S.players.filter(p=>!p.paid).length;
   return `<div class="hd"><div><h1 class="disp">Hoy, ${day.toLowerCase()}</h1><p>20:00 a 21:30 · Centro Deportivo Valdezorras</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
   <div class="grid g4" style="margin-bottom:14px">
-   <div class="card kpi"><small>Grupos hoy</small><b>${groups.length}</b><span>${groups.map(([,g])=>g.name.replace('Tecnificación','Tec.')).join(' · ')}</span></div>
+   <div class="card kpi"><small>Grupos hoy</small><b>${groups.length}</b><span>${groups.map(([,g])=>(g.short||g.name)).join(' · ')}</span></div>
    <div class="card kpi"><small>Asistencia</small><b>${present}/${total}</b><span>Marca a los jugadores al llegar</span></div>
-   <div class="card kpi"><small>Jugadores activos</small><b>${S.players.length}</b><span>En 5 grupos</span></div>
+   <div class="card kpi"><small>Jugadores activos</small><b>${S.players.length}</b><span>En ${Object.keys(GROUPS).length} grupos</span></div>
    <div class="card kpi"><small>Pagos pendientes</small><b class="${pend?'gold':''}">${pend}</b><span>Ver packs y pagos</span></div>
   </div>
   <div class="grid g2">${groups.map(([k,g])=>{const pl=S.players.filter(p=>p.group===k);return `<section class="card"><h3><span>${g.name}</span><span class="pill gold">Míster ${g.mister}</span></h3>
@@ -362,9 +364,9 @@ function vHoy(){
 let fGroup='all',fText='';
 function vJugadores(){
   const list=S.players.filter(p=>(fGroup==='all'||p.group===fGroup)&&p.name.toLowerCase().includes(fText.toLowerCase()));
-  return `<div class="hd"><div><h1 class="disp">Jugadores</h1><p>${S.players.length} jugadores y jugadoras en 5 grupos</p></div><button class="btn oro" data-act="newPlayer">${I('plus')}Nuevo jugador/a</button></div>
+  return `<div class="hd"><div><h1 class="disp">Jugadores</h1><p>${S.players.length} jugadores y jugadoras en ${Object.keys(GROUPS).length} grupos</p></div><button class="btn oro" data-act="newPlayer">${I('plus')}Nuevo jugador/a</button></div>
   <div class="tool"><input class="search" id="q" placeholder="Buscar jugador o jugadora" value="${fText}" aria-label="Buscar jugador">
-   <button class="chip" data-g="all" aria-pressed="${fGroup==='all'}">Todos</button>${Object.entries(GROUPS).map(([k,g])=>`<button class="chip" data-g="${k}" aria-pressed="${fGroup===k}">${g.name.replace('Tecnificación','Tec.')}</button>`).join('')}</div>
+   <button class="chip" data-g="all" aria-pressed="${fGroup==='all'}">Todos</button>${Object.entries(GROUPS).map(([k,g])=>`<button class="chip" data-g="${k}" aria-pressed="${fGroup===k}">${(g.short||g.name)}</button>`).join('')}</div>
   <div class="card"><div class="list">${list.map(p=>`<div class="item" style="cursor:pointer" data-open="${p.id}"><div class="av">${initials(p.name)}</div><div class="grow"><b>${p.name}</b><small>${GROUPS[p.group].name} · ${p.age} años · ${p.pos}</small></div><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Al día':'Pendiente'}</span><b style="font-family:var(--fd);font-size:22px;width:38px;text-align:right">${score(p)}</b></div>`).join('')||'<p class="empty">No hay jugadores con ese filtro.</p>'}</div></div>`;
 }
 function vFicha(id){
@@ -394,7 +396,7 @@ function posPlanHTML(p){const L=POSPLAN[p.pos]||POSPLAN['Por definir'];const bas
 /* ---------- Míster: Sesiones ---------- */
 function vSesiones(){
   return `<div class="hd"><div><h1 class="disp">Sesiones de la semana</h1><p>Lunes a jueves · 20:00 a 21:30</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
-  <div class="week">${DAYS.map(d=>`<div class="day"><h4>${d}${d===todayName()?'<span class="pill gold">Hoy</span>':''}</h4>${Object.entries(GROUPS).filter(([,g])=>g.days.includes(d)).map(([k,g])=>`<button class="ses" data-group="${k}" data-day="${d}"><b>${g.name}</b><small>20:00 · Míster ${g.mister} · ${S.players.filter(p=>p.group===k).length} jugadores</small><br><span class="pill tag">${g.prog}</span></button>`).join('')}</div>`).join('')}</div>`;
+  <div class="week">${DAYS.map(d=>`<div class="day"><h4>${d}${d===todayName()?'<span class="pill gold">Hoy</span>':''}</h4>${Object.entries(GROUPS).filter(([,g])=>g.days.includes(d)).map(([k,g])=>`<button class="ses" data-group="${k}" data-day="${d}"><b>${g.name}</b><small>20:00 · Míster ${g.mister} · ${S.players.filter(p=>p.group===k).length} jugadores/as</small><br><span class="pill tag">${g.prog}</span></button>`).join('')}</div>`).join('')}</div>`;
 }
 /* ---------- Míster: Pagos ---------- */
 function vPagos(){
