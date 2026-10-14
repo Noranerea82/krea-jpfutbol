@@ -190,6 +190,8 @@ svg.chart{width:100%;height:auto;display:block}
 .kid{display:flex;align-items:center;gap:14px;margin-left:auto;text-align:right;flex-direction:row-reverse}.kid b{display:block;font-family:var(--fd);text-transform:uppercase;font-size:clamp(26px,6vw,34px);line-height:1;color:var(--oro2)}.kid small{display:block;font-size:12.5px;color:var(--c2);margin-top:5px}
 @media(max-width:600px){.hd:has(.kid){flex-direction:column;align-items:stretch}.kid{margin-left:0;text-align:left;flex-direction:row;padding:12px;border-radius:16px;background:var(--noche);border:1px solid var(--linea)}}
 .hname{font-family:var(--fb,inherit);font-weight:600;font-size:12px;color:var(--c2);margin-left:8px;text-transform:none}
+.npk{display:flex;gap:12px;margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(226,183,70,.08);border:1px solid rgba(226,183,70,.35)}.npk>span{color:var(--oro);flex:none;margin-top:2px}.npk b{display:block;font-size:14.5px}.npk small{display:block;font-size:13px;color:var(--c2);margin:3px 0 6px;line-height:1.4}
+.pchg{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}.pchg>div{padding:14px;border-radius:14px;background:var(--noche);border:1px solid var(--linea)}.pchg .to{border-color:var(--oro);background:rgba(226,183,70,.08)}.pchg small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--oro)}.pchg b{display:block;font-family:var(--fd);font-size:26px;text-transform:uppercase;margin:4px 0}.pchg span{font-size:12.5px;color:var(--c2)}.pchg i{font-style:normal;color:var(--oro);font-size:22px}
 .aulist{display:flex;flex-direction:column;gap:6px}.aulist span{font-size:13.5px;font-weight:700}.aulist .y{color:#7fd6a4}.aulist .n{color:var(--c2);opacity:.75}
 .aus{display:flex;flex-direction:column;gap:10px}.pvc.au{margin:0;align-items:flex-start}.pvc.au .tg{margin-top:2px}.pvc.au b{display:block;color:var(--txt,#fff);font-size:14.5px}.pvc.au small{display:block;font-size:12.5px;color:var(--c2);margin-top:2px;line-height:1.4}
 .h3sub{display:block;font-family:var(--fb,inherit);font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--c2);margin-top:2px}
@@ -311,6 +313,7 @@ const I=(n,s=20)=>`<svg class="ico" style="width:${s}px;height:${s}px" viewBox="
  cal:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
  card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
  chart:'<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
+ lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
  vidoff:'<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/><path d="M2 2l20 20"/>',
  video:'<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>',
  task:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
@@ -349,7 +352,10 @@ function seedPlayers(){
 }
 const KEY='jpfutbol-app-demo-v5';
 let S;
-function load(){try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!S||!S.players){S={players:seedPlayers(),attendance:{},role:null,me:null,kid:'j1',done:{}};save();}}
+function load(){try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!S||!S.players){S={players:seedPlayers(),attendance:{},role:null,me:null,kid:'j1',done:{}};save();}applyPackChanges();}
+function nextMonth1(){const d=new Date();return new Date(d.getFullYear(),d.getMonth()+1,1);}
+function fmtLong(d){d=new Date(d);return d.getDate()+' de '+['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][d.getMonth()];}
+function applyPackChanges(){let ch=false;S.players.forEach(p=>{if(p.nextPack&&new Date()>=new Date(p.nextPack.from)){p.pack=p.nextPack.pack;p.paid=false;delete p.nextPack;ch=true;}});if(ch)save();}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 load();
 const P=id=>S.players.find(p=>p.id===id);
@@ -510,7 +516,7 @@ function vPagos(){
   const total=paid.reduce((a,p)=>a+PACKS[p.pack],0);
   return `<div class="hd"><div><h1 class="disp">Packs y pagos</h1><p>Mes en curso</p></div></div>
   <div class="grid g3" style="margin-bottom:14px"><div class="card kpi"><small>Cobrado este mes</small><b>${total} €</b><span>${paid.length} packs al día</span></div><div class="card kpi"><small>Pendiente</small><b class="gold">${pend.reduce((a,p)=>a+PACKS[p.pack],0)} €</b><span>${pend.length} familias</span></div><div class="card kpi"><small>Pack más elegido</small><b>Progreso</b><span>2 días por semana</span></div></div>
-  <div class="card tw"><table><thead><tr><th>Jugador</th><th>Pack</th><th>Importe</th><th>Estado</th><th></th></tr></thead><tbody>${S.players.map(p=>`<tr><td><b>${p.name}</b><br><small class="muted">${GROUPS[p.group].name}</small></td><td>${p.pack}</td><td>${PACKS[p.pack]} €</td><td><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pagado':'Pendiente'}</span></td><td>${p.paid?'':`<button class="btn sm" data-act="remind" data-id="${p.id}">Recordar</button>`}</td></tr>`).join('')}</tbody></table></div>
+  <div class="card tw"><table><thead><tr><th>Jugador</th><th>Pack</th><th>Importe</th><th>Estado</th><th></th></tr></thead><tbody>${S.players.map(p=>`<tr><td><b>${p.name}</b><br><small class="muted">${GROUPS[p.group].name}</small></td><td>${p.pack}${p.nextPack?`<br><small class="pill gold" style="margin-top:4px;display:inline-block">→ ${p.nextPack.pack} el ${fmtLong(p.nextPack.from).replace(/ de (\w{3})\w*/,' $1')}</small>`:''}</td><td>${PACKS[p.pack]} €</td><td><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pagado':'Pendiente'}</span></td><td>${p.paid?'':`<button class="btn sm" data-act="remind" data-id="${p.id}">Recordar</button>`}</td></tr>`).join('')}</tbody></table></div>
   <p class="muted" style="margin-top:12px;font-size:13px">Precios de ejemplo. En la versión real, los pagos se cobran online y se actualizan solos.</p>`;
 }
 /* ---------- Familia ---------- */
@@ -540,8 +546,9 @@ function vTareas(){const p=P(S.kid);return `<div class="hd"><div><h1 class="disp
   ${pvHTML(p,'familia')}${historyHTML(p)}<section class="card"><h3><span>Vídeos del grupo<small class="h3sub">Sesiones de ${GROUPS[p.group].short||GROUPS[p.group].name} · los ven las familias del grupo</small></span></h3>${au(p).grp?'':`<p class="pvc">${p.name.split(' ')[0]} no aparece en los vídeos del grupo porque no está autorizado. <button class="lnk" data-act="auth">Cambiar</button></p>`}${videosHTML()}</section>`;}
 function vPack(){const p=P(S.kid);return `<div class="hd"><div><h1 class="disp">Mi pack</h1><p>Gestiona el pack y los pagos</p></div>${kidTag(p)}</div>
   <div class="grid g2"><section class="card"><h3>Pack actual <span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pagado':'Pendiente'}</span></h3><b class="disp" style="font-size:40px">${p.pack}</b><p class="muted" style="margin:6px 0 16px">${PACKS[p.pack]} € al mes · ${GROUPS[p.group].days.join(' y ')} a las 20:00</p>
-   ${p.paid?'<p class="muted">El próximo pago se renueva el día 1.</p>':`<button class="btn oro full" data-act="pay">${I('card')}Pagar ${PACKS[p.pack]} €</button>`}</section>
-   <section class="card"><h3>Cambiar de pack</h3><div class="list">${Object.entries(PACKS).map(([n,v])=>`<div class="item"><div class="grow"><b>${n}</b><small>${v} € al mes</small></div>${n===p.pack?'<span class="pill gold">Actual</span>':`<button class="btn sm" data-act="changePack" data-pack="${n}">Elegir</button>`}</div>`).join('')}</div></section></div>
+   ${p.paid?'<p class="muted">El próximo pago se renueva el día 1.</p>':`<button class="btn oro full" data-act="pay">${I('card')}Pagar ${PACKS[p.pack]} €</button>`}
+   ${p.nextPack?`<div class="npk"><span>${I('reset',18)}</span><div><b>Cambio programado a ${p.nextPack.pack}</b><small>Empieza el ${fmtLong(p.nextPack.from)} · ${PACKS[p.nextPack.pack]} € al mes. Hasta entonces sigue el pack ${p.pack}.</small><button class="lnk" data-act="cancelPack">Cancelar el cambio</button></div></div>`:''}</section>
+   <section class="card"><h3>Cambiar de pack</h3><p class="muted" style="font-size:13px;margin:-4px 0 10px">${I('lock',14)} Los cambios se aplican el día 1 del mes siguiente, nunca a mitad de mes.</p><div class="list">${Object.entries(PACKS).map(([n,v])=>`<div class="item"><div class="grow"><b>${n}</b><small>${v} € al mes</small></div>${n===p.pack?'<span class="pill gold">Actual</span>':p.nextPack&&p.nextPack.pack===n?`<span class="pill ok">Desde el ${fmtLong(p.nextPack.from).replace(/ de (\w{3})\w*/,' $1')}</span>`:`<button class="btn sm" data-act="changePack" data-pack="${n}">Elegir</button>`}</div>`).join('')}</div></section></div>
   ${(p.receipts&&p.receipts.length)?`<section class="card" style="margin-top:14px"><h3>Historial de pagos</h3><div class="list">${p.receipts.map((r,i)=>`<div class="item"><div class="grow"><b>${r.c}</b><small>${r.d} · ${r.m} · ${r.n}</small></div><b style="white-space:nowrap">${r.a} €</b><button class="btn sm" data-act="rcpt" data-i="${i}">Recibo</button></div>`).join('')}</div></section>`:''}
   <p class="muted" style="margin-top:12px;font-size:13px">Precios de ejemplo pendientes de confirmar por JP Fútbol.</p>`;}
 
@@ -753,7 +760,13 @@ document.addEventListener('click',e=>{
   if(a==='pvplay'){pvPlay(P(t.dataset.id),t.dataset.v);return;}
   if(a==='auth'){authSheet(P(S.kid));return;}
   if(a==='rcpt'){const p=P(S.kid);dlReceipt(p,p.receipts[+t.dataset.i]);}
-  if(a==='changePack'){const p=P(S.kid);p.pack=t.dataset.pack;p.paid=false;save();render();toast('Pack cambiado a '+t.dataset.pack);}
+  if(a==='changePack'){const p=P(S.kid),n=t.dataset.pack,from=nextMonth1();
+    sheet(`<h2 class="disp">Cambiar a ${n}</h2><p class="muted" style="margin-bottom:16px">${p.name}</p>
+    <div class="pchg"><div><small>Este mes</small><b>${p.pack}</b><span>${PACKS[p.pack]} € · sin cambios</span></div><i>→</i><div class="to"><small>Desde el ${fmtLong(from)}</small><b>${n}</b><span>${PACKS[n]} € al mes</span></div></div>
+    <p class="demo" style="margin-top:14px">${I('lock',14)} Para evitar confusiones con las sesiones y los pagos, el pack no se cambia a mitad de mes. El nuevo pack empieza el <b>${fmtLong(from)}</b> y ese mes se paga ya con el precio nuevo. Puedes cancelar el cambio antes de esa fecha.</p>
+    <button class="btn oro full" id="pkGo" style="margin-top:14px">Programar cambio para el ${fmtLong(from)}</button>`);
+    $('#pkGo').onclick=()=>{p.nextPack={pack:n,from:from.toISOString(),asked:new Date().toISOString()};save();closeSheet();render();toast('Cambio a '+n+' programado para el '+fmtLong(from));};return;}
+  if(a==='cancelPack'){const p=P(S.kid);delete p.nextPack;save();render();toast('Cambio de pack cancelado');return;}
 });
 
 render();
