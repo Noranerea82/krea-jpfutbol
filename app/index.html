@@ -164,6 +164,29 @@ svg.chart{width:100%;height:auto;display:block}
 .paybtns small{font-weight:600;color:var(--c3);font-size:12px}
 video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.seal img{background:#050505}
+.posplan .obj{display:grid;grid-template-columns:1fr 46px;gap:4px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--linea)}
+.posplan .obj:first-of-type{border-top:0}
+.posplan .obj b{font-size:14.5px}
+.posplan .obj small{grid-column:1/-1;color:var(--c3);font-size:12.5px;margin-top:-2px}
+.posplan .obj em{font-style:normal;text-align:right;font-weight:700;color:var(--oro)}
+.posplan .bar{grid-column:1/-1;height:6px;border-radius:9px;background:#2C2A24;overflow:hidden}
+.posplan .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--oro-h,#B8861F),var(--oro))}
+.phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:4px 0 14px}
+.phases span{text-align:center;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:8px 4px;border-radius:10px;border:1px solid var(--linea);color:var(--c3)}
+.phases span.on{border-color:var(--oro);color:var(--oro);background:rgba(226,183,70,.1)}
+.krea-sig{margin:26px 0 6px;padding-top:14px;border-top:1px solid var(--linea);text-align:center;font-size:12px;color:var(--c3)}
+.krea-sig b{color:var(--oro)}
+@media (max-width:600px){
+ .week{grid-template-columns:1fr !important;overflow:visible}
+ .tw{overflow:visible}.tw table,.tw tbody{display:block}.tw thead{display:none}
+ .tw tr{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:12px 0;border-bottom:1px solid var(--linea)}
+ .tw td{padding:0;border:0}
+ .tw td:nth-child(1){grid-column:1}.tw td:nth-child(4){grid-column:2;grid-row:1;align-self:center}
+ .tw td:nth-child(2),.tw td:nth-child(3){display:inline;color:var(--c3);font-size:13px}
+ .tw td:nth-child(5){grid-column:2;text-align:right}
+ .tw td:nth-child(5):empty{display:none}
+}
 </style>
 </head>
 <body>
@@ -172,7 +195,7 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="box" id="sheetBox"></div></div>
 
 <script>
-const WEB='https://jpfutbol-web.kreadigitalstudio.es/';
+const WEB=location.hostname==='jpfutbol-app.kreadigitalstudio.es'?'https://jpfutbol-web.kreadigitalstudio.es/':'../';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const I=(n,s=20)=>`<svg class="ico" style="width:${s}px;height:${s}px" viewBox="0 0 24 24">${({
  home:'<path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',
@@ -254,7 +277,7 @@ function loginView(){
      <svg class="r r1" viewBox="0 0 200 200"><circle cx="100" cy="100" r="97" fill="none" stroke="#F8F6EF" stroke-opacity=".35" stroke-width="1"/><circle cx="100" cy="100" r="88" fill="none" stroke="#E2B746" stroke-opacity=".55" stroke-width="1.2" stroke-dasharray="2 6"/></svg>
      <svg class="r r2" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="#F8F6EF" stroke-opacity=".25" stroke-width="1"/>${[0,120,240].map(a=>`<circle cx="${100+80*Math.cos(a*Math.PI/180)}" cy="${100+80*Math.sin(a*Math.PI/180)}" r="3.2" fill="#E2B746"/>`).join('')}</svg>
      <svg class="r r3" viewBox="0 0 200 200"><circle cx="100" cy="100" r="93" fill="none" stroke="#E2B746" stroke-width="3" stroke-linecap="round" stroke-dasharray="120 465"/></svg>
-     <img src="assets/logo-sq.webp" alt="">
+     <img src="assets/logo-round.webp" alt="">
     </div>
     <h1 class="disp">JP Fútbol<br><span class="gold">Academia</span></h1>
     <p>Sesiones, asistencia y evolución de cada jugador y jugadora, para místers y familias.</p>
@@ -265,6 +288,7 @@ function loginView(){
     <div id="lfFields"></div>
     <button class="btn oro full" type="submit" style="margin-top:6px">Entrar</button>
     <p class="demo"><b>Versión de demostración.</b> Pulsa «Entrar»: no hace falta contraseña. Cada míster y cada familia tendrán su propia clave en la versión real.</p>
+    <p class="krea-sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo web</p>
    </form></div></div>`;
   const fields=()=>{$('#lfFields').innerHTML=role==='mister'
     ?`<div class="f"><label for="lm">Míster</label><select id="lm">${MISTERS.map(m=>`<option>${m}</option>`).join('')}</select></div><div class="f"><label for="lp">Contraseña</label><input id="lp" type="password" placeholder="No hace falta en la demo" autocomplete="off"></div>`
@@ -283,9 +307,9 @@ function shell(content,route){
   $('#root').innerHTML=`<div class="shell">
    <aside class="side"><div class="who"><img src="assets/jp-logo.webp" alt=""><div>${who}</div></div>
     ${nav.map(([k,t,i])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i)}${t}</a>`).join('')}
-    <div class="end"><a href="${WEB}" target="_blank" rel="noopener">${I('globe')}Web de JP Fútbol</a><a href="#" data-act="reset">${I('reset')}Reiniciar demo</a><a href="#" data-act="logout">${I('out')}Salir</a></div></aside>
+    <div class="end"><a href="${WEB}">${I('globe')}Web de JP Fútbol</a><a href="#" data-act="reset">${I('reset')}Reiniciar demo</a><a href="#" data-act="logout">${I('out')}Salir</a></div></aside>
    <div><header class="topbar"><div style="display:flex;gap:10px;align-items:center"><img src="assets/jp-logo.webp" alt=""><span class="t">${S.role==='mister'?'Míster '+S.me:P(S.kid).name.split(' ')[0]}</span></div><button class="btn sm" data-act="logout" aria-label="Salir">${I('out',18)}</button></header>
-   <main class="main">${content}</main></div></div>
+   <main class="main">${content}<p class="krea-sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo web</p></main></div></div>
    <nav class="tabbar" aria-label="Secciones">${nav.map(([k,t,i,sh])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i,22)}${sh}</a>`).join('')}</nav>`;
 }
 
@@ -313,8 +337,8 @@ function vHoy(){
 let fGroup='all',fText='';
 function vJugadores(){
   const list=S.players.filter(p=>(fGroup==='all'||p.group===fGroup)&&p.name.toLowerCase().includes(fText.toLowerCase()));
-  return `<div class="hd"><div><h1 class="disp">Jugadores</h1><p>${S.players.length} jugadores en 5 grupos</p></div><button class="btn oro" data-act="newPlayer">${I('plus')}Nuevo jugador</button></div>
-  <div class="tool"><input class="search" id="q" placeholder="Buscar jugador" value="${fText}" aria-label="Buscar jugador">
+  return `<div class="hd"><div><h1 class="disp">Jugadores</h1><p>${S.players.length} jugadores y jugadoras en 5 grupos</p></div><button class="btn oro" data-act="newPlayer">${I('plus')}Nuevo jugador/a</button></div>
+  <div class="tool"><input class="search" id="q" placeholder="Buscar jugador o jugadora" value="${fText}" aria-label="Buscar jugador">
    <button class="chip" data-g="all" aria-pressed="${fGroup==='all'}">Todos</button>${Object.entries(GROUPS).map(([k,g])=>`<button class="chip" data-g="${k}" aria-pressed="${fGroup===k}">${g.name.replace('Tecnificación','Tec.')}</button>`).join('')}</div>
   <div class="card"><div class="list">${list.map(p=>`<div class="item" style="cursor:pointer" data-open="${p.id}"><div class="av">${initials(p.name)}</div><div class="grow"><b>${p.name}</b><small>${GROUPS[p.group].name} · ${p.age} años · ${p.pos}</small></div><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Al día':'Pendiente'}</span><b style="font-family:var(--fd);font-size:22px;width:38px;text-align:right">${score(p)}</b></div>`).join('')||'<p class="empty">No hay jugadores con ese filtro.</p>'}</div></div>`;
 }
@@ -325,11 +349,23 @@ function vFicha(id){
   <div class="grid g2">
    <section class="card"><h3>Evaluación por áreas <button class="btn sm" data-act="eval" data-id="${p.id}">Evaluar</button></h3>${areasHTML(p)}</section>
    <section class="card"><h3>Evolución</h3>${lineChart(p.hist,MONTHS)}</section>
+   ${posPlanHTML(p)}
    <section class="card"><h3>Tareas para casa <button class="btn sm" data-act="task" data-id="${p.id}">${I('plus',16)}Asignar</button></h3><div class="list">${p.tasks.map(t=>`<div class="item"><span class="check ${t.done?'on':''}" aria-hidden="true">${I('check')}</span><div class="grow"><b>${t.t}</b><small>${t.done?'Hecha':'Pendiente'}</small></div></div>`).join('')}</div></section>
    <section class="card"><h3>Notas del míster <button class="btn sm" data-act="note" data-id="${p.id}">${I('plus',16)}Nota</button></h3><div class="list">${p.notes.map(n=>`<div class="item"><div class="grow"><b>${n.t}</b><small>Míster ${n.by} · ${n.d}</small></div></div>`).join('')||'<p class="muted">Sin notas todavía.</p>'}</div></section>
   </div>
   <section class="card" style="margin-top:14px"><h3>Vídeos de sesión</h3>${videosHTML()}</section>`;
 }
+
+/* ---------- Plan por posición (Método JP) ---------- */
+const POSPLAN={
+ 'Portería':[['Posición base y desplazamientos','Llegar equilibrado al balón'],['Blocaje y caídas','Atrapar seguro, sin rechace'],['Uno contra uno','Achicar y elegir el momento'],['Juego con el pie','Participar en la salida']],
+ 'Defensa':[['Perfil defensivo','No dejarse superar en el 1x1'],['Anticipación','Leer el pase y llegar antes'],['Coberturas','Ayudar y ocupar espacios'],['Salida de balón','Pase y conducción desde atrás']],
+ 'Centrocampo':[['Control orientado','Primer toque hacia donde se juega'],['Mirar antes de recibir','Escanear y decidir rápido'],['Pase con ambas piernas','Corto, tenso y largo'],['Pase entre líneas','Encontrar al compañero o compañera']],
+ 'Delantera':[['Finalización','Tiro con ambas piernas'],['Desmarques','Ruptura y apoyo'],['Regate y cambio de ritmo','Ganar el 1x1'],['Decisión ante portería','Tirar, regatear o pasar']],
+ 'Por definir':[['Control y conducción','Dominar el balón con las dos piernas'],['Pase y golpeo','Precisión y potencia'],['Orientación en el campo','Saber dónde está todo'],['Transiciones','Reaccionar al ganar o perder el balón']]
+};
+function posPlanHTML(p){const L=POSPLAN[p.pos]||POSPLAN['Por definir'];const base=score(p);const ph=Math.min(3,Math.floor((base-40)/15));
+ return `<section class="card posplan"><h3>Plan por posición · ${p.pos}</h3><div class="phases">${['Percibir','Decidir','Ejecutar','Competir'].map((t,i)=>`<span class="${i<=ph?'on':''}">${t}</span>`).join('')}</div>${L.map(([t,d],i)=>{const v=Math.max(30,Math.min(96,base-8+((i*13+p.age*3)%22)));return `<div class="obj"><b>${t}</b><em>${v}</em><small>${d}</small><span class="bar"><i style="width:${v}%"></i></span></div>`}).join('')}</section>`;}
 /* ---------- Míster: Sesiones ---------- */
 function vSesiones(){
   return `<div class="hd"><div><h1 class="disp">Sesiones de la semana</h1><p>Lunes a jueves · 20:00 a 21:30</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
@@ -363,7 +399,7 @@ function vInicio(){
   </div>`;
 }
 function vProgreso(){const p=P(S.kid);return `<div class="hd"><div><h1 class="disp">Progreso de ${p.name.split(' ')[0]}</h1><p>Evaluación del equipo técnico</p></div></div>
-  <div class="grid g2"><section class="card"><h3>Nota global</h3>${lineChart(p.hist,MONTHS)}</section><section class="card"><h3>Por áreas</h3>${areasHTML(p)}</section></div>
+  <div class="grid g2"><section class="card"><h3>Nota global</h3>${lineChart(p.hist,MONTHS)}</section><section class="card"><h3>Por áreas</h3>${areasHTML(p)}</section>${posPlanHTML(p)}</div>
   <div class="grid g3" style="margin-top:14px"><div class="card kpi"><small>Sesiones</small><b>${p.sessions}</b><span>Esta temporada</span></div><div class="card kpi"><small>Asistencia</small><b>${p.att}%</b><span>Media del grupo 88%</span></div><div class="card kpi"><small>Punto fuerte</small><b>${Object.entries(p.areas).sort((a,b)=>b[1]-a[1])[0][0]}</b><span>Según la última evaluación</span></div></div>`;}
 function vTareas(){const p=P(S.kid);return `<div class="hd"><div><h1 class="disp">Tareas y vídeos</h1><p>Lo que el míster propone para casa</p></div></div>
   <section class="card" style="margin-bottom:14px"><h3>Tareas</h3><div class="list">${p.tasks.map((t,i)=>`<div class="item"><button class="check ${t.done?'on':''}" data-task="${i}" aria-pressed="${t.done}" aria-label="Marcar tarea: ${t.t}">${I('check')}</button><div class="grow"><b>${t.t}</b><small>${t.done?'Hecha':'Pendiente'}</small></div></div>`).join('')}</div></section>
@@ -410,7 +446,7 @@ document.addEventListener('click',e=>{
     $('#nf').onsubmit=ev=>{ev.preventDefault();const v=$('#nt').value.trim();if(!v){$('#nfe').textContent='Escribe el comentario.';return;}p.notes.unshift({t:v,by:S.me,d:todayName()});save();closeSheet();render();toast('Nota guardada');};}
   if(a==='newSession'){sheet(`<h2 class="disp">Planificar sesión</h2><p class="muted" style="margin-bottom:16px">Elige grupo, día y ejercicios.</p><form id="sf"><div class="f"><label for="sg">Grupo</label><select id="sg">${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name}</option>`).join('')}</select></div><div class="f"><label for="sd">Día</label><select id="sd">${DAYS.map(d=>`<option>${d}</option>`).join('')}</select></div><div class="f"><label for="se">Ejercicios</label><textarea id="se" placeholder="Uno por línea"></textarea></div><button class="btn oro full">Guardar sesión</button></form>`);
     $('#sf').onsubmit=ev=>{ev.preventDefault();closeSheet();toast('Sesión planificada');};}
-  if(a==='newPlayer'){sheet(`<h2 class="disp">Nuevo jugador</h2><p class="muted" style="margin-bottom:16px">Se crea con el pack Inicio; la familia recibirá su acceso.</p><form id="pf"><div class="f"><label for="pn">Nombre y apellidos</label><input id="pn"></div><div class="f"><label for="pa">Edad</label><input id="pa" inputmode="numeric" maxlength="2"></div><div class="f"><label for="pg">Grupo</label><select id="pg">${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name}</option>`).join('')}</select></div><p id="pfe" class="muted" style="color:var(--bad);min-height:20px"></p><button class="btn oro full">Crear jugador</button></form>`);
+  if(a==='newPlayer'){sheet(`<h2 class="disp">Nuevo jugador/a</h2><p class="muted" style="margin-bottom:16px">Se crea con el pack Inicio; la familia recibirá su acceso.</p><form id="pf"><div class="f"><label for="pn">Nombre y apellidos</label><input id="pn"></div><div class="f"><label for="pa">Edad</label><input id="pa" inputmode="numeric" maxlength="2"></div><div class="f"><label for="pg">Grupo</label><select id="pg">${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name}</option>`).join('')}</select></div><p id="pfe" class="muted" style="color:var(--bad);min-height:20px"></p><button class="btn oro full">Crear jugador</button></form>`);
     $('#pf').onsubmit=ev=>{ev.preventDefault();const n=$('#pn').value.trim(),ag=$('#pa').value.trim();if(!n){$('#pfe').textContent='Escribe el nombre.';return;}if(!/^\d{1,2}$/.test(ag)){$('#pfe').textContent='Escribe la edad en números.';return;}
       S.players.push({id:'j'+Date.now(),name:n,age:+ag,pos:'Por definir',group:$('#pg').value,pack:'Inicio',paid:false,att:100,sessions:0,areas:{'Técnica':50,'Físico':50,'Táctica':50,'Actitud':50},hist:[50,50,50,50,50,50],tasks:[],notes:[]});save();closeSheet();render();toast('Jugador creado');};}
   if(a==='pay'){const p=P(S.kid);let m='Tarjeta';sheet(`<h2 class="disp">Pagar pack ${p.pack}</h2><p class="muted">${PACKS[p.pack]} € · ${p.name}</p><div class="paybtns" role="group" aria-label="Forma de pago"><button aria-pressed="true" data-m="Tarjeta">Tarjeta<small>Visa, Mastercard</small></button><button aria-pressed="false" data-m="Bizum">Bizum<small>Desde tu móvil</small></button></div><button class="btn oro full" id="payGo">Pagar ${PACKS[p.pack]} €</button><p class="demo">Demostración: no se cobra nada. En la versión real se abre la pasarela de pago segura.</p>`);

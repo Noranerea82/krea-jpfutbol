@@ -672,7 +672,7 @@ footer .krea b{color:var(--oro);font-weight:700}
         <li><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><b>Tareas y vídeos</b><span>Ejercicios para casa y vídeos de cada sesión.</span></li>
       </ul>
       <div class="hero-cta" style="margin-top:0">
-        <a class="btn btn-oro" id="appLink" href="#" target="_blank" rel="noopener">Ver la app en acción</a>
+        <a class="btn btn-oro" id="appLink" href="app/index.html">Ver la app en acción</a>
       </div>
     </div>
     <div class="phone-wrap rv" aria-hidden="true">
@@ -794,7 +794,7 @@ footer .krea b{color:var(--oro);font-weight:700}
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const WA='34609712137';
-const APP_URL='https://jpfutbol-app.kreadigitalstudio.es/';
+const APP_URL=location.hostname==='jpfutbol-web.kreadigitalstudio.es'?'https://jpfutbol-app.kreadigitalstudio.es/':'app/index.html';
 $('#appLink').href=APP_URL;
 
 /* Cabecera, menú y barra móvil */
