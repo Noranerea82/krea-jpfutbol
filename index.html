@@ -386,8 +386,32 @@ footer .krea b{color:var(--oro);font-weight:700}
   .hero h1 span i{transform:none}.rv{opacity:1;transform:none}
 }
 </style>
+<style id="gateCss">html.locked,html.locked body{overflow:hidden!important}html.locked body>*:not(#gate){visibility:hidden!important}
+#gate{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 30%,#1a160c 0,#050505 70%);font-family:Manrope,system-ui,sans-serif;color:#F8F6EF}
+html.locked #gate{display:flex}
+#gate .gbox{width:min(380px,100%);text-align:center}
+#gate img{display:block;margin:0 auto 22px;width:96px;height:96px;object-fit:cover;background:#050505;border-radius:50%;box-shadow:0 0 0 2px rgba(226,183,70,.6),0 16px 40px rgba(0,0,0,.6);margin-bottom:22px}
+#gate small{display:block;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#E2B746}
+#gate h1{font-family:Oswald,'Arial Narrow',sans-serif;font-size:34px;text-transform:uppercase;line-height:1;margin:10px 0 10px}
+#gate p{color:#C9C4B6;font-size:14.5px;line-height:1.5;margin:0 0 22px}
+#gate form{display:flex;gap:8px}
+#gate input{flex:1;min-width:0;height:52px;border-radius:14px;border:1px solid #2A2822;background:#0E0E0C;color:#F8F6EF;font-size:17px;text-align:center;letter-spacing:.18em;text-transform:uppercase;outline:none}
+#gate input:focus{border-color:#E2B746}
+#gate button{height:52px;padding:0 20px;border:0;border-radius:14px;background:#E2B746;color:#130F05;font-weight:800;font-size:15px;cursor:pointer}
+#gate .err{color:#ff8a7a;font-size:13px;min-height:18px;margin-top:10px}
+#gate .sig{margin-top:34px;font-size:11.5px;color:#9A9588}#gate .sig b{color:#E2B746}
+</style>
+<script>(function(){try{if(localStorage.getItem('jp-acceso')!=='ok')document.documentElement.classList.add('locked')}catch(e){document.documentElement.classList.add('locked')}})();</script>
 </head>
 <body>
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gateT"><div class="gbox">
+<img src="assets/img/jp-logo.webp" alt="JP Fútbol"><small>Presentación privada</small><h1 id="gateT">JP Fútbol</h1>
+<p>Web y app en fase de presentación. Introduce el código de acceso que te ha facilitado KREA Digital Studio.</p>
+<form id="gateF"><input id="gateI" autocomplete="off" autocapitalize="characters" placeholder="Código" aria-label="Código de acceso"><button type="submit">Entrar</button></form>
+<div class="err" id="gateE" aria-live="polite"></div>
+<p class="sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo web</p></div></div>
+<script>(function(){var K=atob('SlAyMDI2');var f=document.getElementById('gateF');if(!f)return;f.addEventListener('submit',function(e){e.preventDefault();var v=document.getElementById('gateI').value.trim().toUpperCase();if(v===K){try{localStorage.setItem('jp-acceso','ok')}catch(x){}document.documentElement.classList.remove('locked');}else{document.getElementById('gateE').textContent='Código incorrecto. Pídelo a KREA Digital Studio.';}});})();</script>
+
 
 <header class="top" id="top">
   <div class="wrap">
