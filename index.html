@@ -84,6 +84,10 @@ section{position:relative}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
 .hero-facts{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:40px;padding-top:22px;border-top:1px solid rgba(248,246,239,.16);color:var(--cal-2);font-size:15px}
 .hero-facts b{color:var(--cal);font-weight:700}
+.hero-mods a:hover{border-color:var(--oro);background:rgba(226,183,70,.16)}
+.hero-mods{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.hero-mods a{display:block;text-decoration:none;transition:border-color .2s,background .2s;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:99px;border:1px solid rgba(226,183,70,.45);background:rgba(5,5,5,.45);backdrop-filter:blur(4px);color:var(--cal)}
+
 .reel{position:relative;aspect-ratio:9/16;border-radius:22px;overflow:hidden;border:1.5px solid rgba(226,183,70,.55);box-shadow:0 30px 80px -20px rgba(0,0,0,.9),0 0 0 8px rgba(5,5,5,.5)}
 .reel video{width:100%;height:100%;object-fit:cover}
 .reel-tag{position:absolute;left:14px;bottom:14px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;background:rgba(5,5,5,.6);backdrop-filter:blur(8px);padding:7px 12px;border-radius:999px}
@@ -430,8 +434,9 @@ footer .krea b{color:var(--oro);font-weight:700}
       <div class="hero-facts">
         <span><b>Lunes a jueves</b> de 20:00 a 21:30</span>
         <span><b>Centro Deportivo Valdezorras</b>, Sevilla</span>
-        <span><b>6 místers</b> y 8 modalidades</span>
+        <span><b>6 místers</b> y <b>8 modalidades</b> de entrenamiento</span>
       </div>
+      <ul class="hero-mods" aria-label="Modalidades de entrenamiento"><li><a href="#programas" data-goto="t-tec">Tecnificación</a></li><li><a href="#programas" data-goto="t-tac">Técnico-táctica</a></li><li><a href="#programas" data-goto="t-fis">Preparación física</a></li><li><a href="#programas" data-goto="t-por">Porteros y porteras</a></li><li><a href="#programas" data-goto="t-dec">Toma de decisiones</a></li><li><a href="#programas" data-goto="t-vid">Análisis de vídeo</a></li><li><a href="#programas" data-goto="t-ind">Sesiones individuales</a></li><li><a href="#programas" data-goto="t-cap">Captación abierta</a></li></ul>
     </div>
     <div class="reel" aria-hidden="true">
       <video id="reelVid" muted loop playsinline preload="none" poster="assets/img/poster-captacion.webp"><source data-src="assets/vid/hero-mobile.mp4" type="video/mp4"></video>
@@ -863,6 +868,8 @@ tabs.forEach((t,i)=>{
   t.onkeydown=e=>{if(e.key==='ArrowRight'){select((i+1)%tabs.length);tabs[(i+1)%tabs.length].focus();}if(e.key==='ArrowLeft'){const j=(i-1+tabs.length)%tabs.length;select(j);tabs[j].focus();}};
 });
 function select(i){{const tb=tabs[i].parentElement;tb.scrollTo({left:tabs[i].offsetLeft-(tb.clientWidth-tabs[i].offsetWidth)/2,behavior:'smooth'});}tabs.forEach((t,j)=>{t.setAttribute('aria-selected',j===i);t.tabIndex=j===i?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=j!==i;});}
+
+$$('[data-goto]').forEach(a=>a.addEventListener('click',()=>{const i=tabs.findIndex(t=>t.id===a.dataset.goto);if(i>-1)select(i);}));
 
 /* Vídeos */
 const VIDS=[['tecnificacion','Tecnificación','Una sesión real con balón'],['preparacion','Preparación física','Coordinación y trabajo físico'],['porteros','Porteros','Acciones específicas bajo palos'],['misters','Místers','El equipo técnico en el campo'],['captacion','Captación','Ven a entrenar con JP']];
