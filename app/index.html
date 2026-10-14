@@ -211,6 +211,10 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 .lib .areas{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 10px}
 .lib .areas::-webkit-scrollbar{display:none}
 .chip .sub{font-style:normal;font-size:11px;font-weight:800;color:var(--oro);margin-left:6px;letter-spacing:.02em}
+.mpick{display:flex;flex-wrap:wrap;gap:8px}
+.mpick .chip[aria-pressed=true]{background:var(--oro);color:#111;border-color:var(--oro)}
+.mpick .chip.add{border-style:dashed;color:var(--oro)}
+.madd[hidden]{display:none!important}.madd{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;margin-top:10px}.madd input{width:100%}
 .lib .areas .chip{flex:none;min-height:34px;padding:0 12px;font-size:12.5px}
 .lib .lsearch{width:100%;min-height:42px;border-radius:11px;border:1px solid var(--linea);background:#0b0b09;padding:0 12px;font-size:15px;margin-bottom:8px}
 .lib .llist{max-height:300px;overflow:auto;display:grid;gap:6px;padding-right:2px}
@@ -368,7 +372,7 @@ function loginView(){
     <p class="krea-sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo web</p>
    </form></div></div>`;
   const fields=()=>{$('#lfFields').innerHTML=role==='mister'
-    ?`<div class="f"><label for="lm">Míster</label><select id="lm">${MISTERS.map(m=>`<option>${m}</option>`).join('')}</select></div><div class="f"><label for="lp">Contraseña</label><input id="lp" type="password" placeholder="No hace falta en la demo" autocomplete="off"></div>`
+    ?`<div class="f"><label for="lm">Míster</label><select id="lm">${allMisters().map(m=>`<option>${m}</option>`).join('')}</select></div><div class="f"><label for="lp">Contraseña</label><input id="lp" type="password" placeholder="No hace falta en la demo" autocomplete="off"></div>`
     :`<div class="f"><label for="lk">Jugador</label><select id="lk">${S.players.slice(0,6).map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></div><div class="f"><label for="lp">Contraseña</label><input id="lp" type="password" placeholder="No hace falta en la demo" autocomplete="off"></div>`;};
   fields();
   $$('.seg button').forEach(b=>b.onclick=()=>{role=b.dataset.role;$$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));fields();});
@@ -393,20 +397,20 @@ function shell(content,route){
 /* ---------- Míster: Hoy ---------- */
 function vHoy(){
   const day=todayName();
-  const groups=Object.entries(GROUPS).filter(([k,g])=>g.days.includes(day));
+  const groups=Object.entries(GROUPS).filter(([k])=>onDay(k,day));
   const key=k=>day+'-'+k;
   const att=k=>S.attendance[key(k)]||[];
   const total=groups.reduce((a,[k])=>a+S.players.filter(p=>p.group===k).length,0);
   const present=groups.reduce((a,[k])=>a+att(k).length,0);
   const pend=S.players.filter(p=>!p.paid).length;
-  return `<div class="hd"><div><h1 class="disp">Hoy, ${day.toLowerCase()}</h1><p>20:00 a 21:30 · Centro Deportivo Valdezorras</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
+  return `<div class="hd"><div><h1 class="disp">Hoy, ${day.toLowerCase()}</h1><p>Centro Deportivo Valdezorras</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
   <div class="grid g4" style="margin-bottom:14px">
    <div class="card kpi"><small>Grupos hoy</small><b>${groups.length}</b><span>${groups.map(([,g])=>(g.short||g.name)).join(' · ')}</span></div>
    <div class="card kpi"><small>Asistencia</small><b>${present}/${total}</b><span>Marca a los jugadores al llegar</span></div>
    <div class="card kpi"><small>Jugadores activos</small><b>${S.players.length}</b><span>En ${Object.keys(GROUPS).length} grupos</span></div>
    <div class="card kpi"><small>Pagos pendientes</small><b class="${pend?'gold':''}">${pend}</b><span>Ver packs y pagos</span></div>
   </div>
-  <div class="grid g2">${groups.map(([k,g])=>{const pl=S.players.filter(p=>p.group===k);return `<section class="card"><h3><span>${g.name}</span><span class="pill gold">Míster ${g.mister}</span></h3>
+  <div class="grid g2">${groups.map(([k,g])=>{const pl=S.players.filter(p=>p.group===k);return `<section class="card"><h3><span>${g.name}</span><span class="pill gold">${msTxt(metaFor(k,day))}</span></h3><p class="muted" style="margin:-4px 0 10px;font-size:13px">${metaFor(k,day).s} a ${metaFor(k,day).e}</p>
    <div class="list">${pl.map(p=>{const on=att(k).includes(p.id);return `<div class="item">${av(p)}<div class="grow"><b>${p.name}</b><small>${p.age} años · ${p.pos}</small></div><button class="btn sm" data-open="${p.id}">Ficha</button><button class="check ${on?'on':''}" data-att="${key(k)}|${p.id}" aria-pressed="${on}" aria-label="Asistencia de ${p.name}">${I('check')}</button></div>`}).join('')}</div>
    <div style="margin-top:12px"><small class="muted">Plan de hoy</small><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">${(planFor(k,day)||EXS[g.prog]).map(x=>`<span class="pill">${x}</span>`).join('')}</div></div></section>`}).join('')||'<div class="card empty">Hoy no hay sesiones.</div>'}</div>`;
 }
@@ -439,6 +443,12 @@ const AREAS=['Todos','Del club','Calentamiento','Técnica','Técnico-táctica','
 const allLib=()=>[...((S&&S.customEx)||[]),...LIB];
 function libFor(g,area,q){let L=allLib();if(area==='Del club')return ((S.customEx)||[]).filter(x=>(x.g==='all'||x.g===g)).filter(x=>!q||(x.n+' '+x.d).toLowerCase().includes(q.toLowerCase()));const c=CATL[g];if(c)L=L.filter(x=>x.own?(x.g==='all'||x.g===g):x.c.includes(c));else L=L.filter(x=>!x.own||x.g==='all'||x.g===g);if(g==='fis'&&area==='Todos')L=L.filter(x=>x.a==='Físico'||x.a==='Calentamiento');if(g==='por'&&area==='Todos')L=L.filter(x=>x.a==='Porteros');if(area!=='Todos')L=L.filter(x=>x.a===area);if(q)L=L.filter(x=>(x.n+' '+x.d).toLowerCase().includes(q.toLowerCase()));return L;}
 function planFor(k,day){return (S.plans&&S.plans[k+'|'+day])||null;}
+const onDay=(k,d)=>GROUPS[k].days.includes(d)||!!(S.meta&&S.meta[k+'|'+d]);
+function allMisters(){return [...MISTERS,...((S.extraM)||[])];}
+function metaFor(k,day){const m=(S.meta&&S.meta[k+'|'+day])||{};return {ms:(m.ms&&m.ms.length)?m.ms:[GROUPS[k].mister],s:m.s||'20:00',e:m.e||'21:30'};}
+const msTxt=m=>(m.ms.length>1?'Místers ':'Míster ')+m.ms.join(' y ');
+const HOURS=(()=>{const a=[];for(let h=9;h<=22;h++)for(const q of ['00','15','30','45'])a.push(String(h).padStart(2,'0')+':'+q);return a;})();
+const tmin=t=>{const[h,m]=t.split(':').map(Number);return h*60+m;};
 /* ---------- Plan por posición (Método JP) ---------- */
 const POSPLAN={
  'Portería':[['Posición base y desplazamientos','Llegar equilibrado al balón'],['Blocaje y caídas','Atrapar seguro, sin rechace'],['Uno contra uno','Achicar y elegir el momento'],['Juego con el pie','Participar en la salida']],
@@ -451,8 +461,8 @@ function posPlanHTML(p){const L=POSPLAN[p.pos]||POSPLAN['Por definir'];const bas
  return `<section class="card posplan"><h3>Plan por posición · ${p.pos}</h3><div class="phases">${['Percibir','Decidir','Ejecutar','Competir'].map((t,i)=>`<span class="${i<=ph?'on':''}">${t}</span>`).join('')}</div>${L.map(([t,d],i)=>{const v=Math.max(30,Math.min(96,base-8+((i*13+p.age*3)%22)));return `<div class="obj"><b>${t}</b><em>${v}</em><small>${d}</small><span class="bar"><i style="width:${v}%"></i></span></div>`}).join('')}</section>`;}
 /* ---------- Míster: Sesiones ---------- */
 function vSesiones(){
-  return `<div class="hd"><div><h1 class="disp">Sesiones de la semana</h1><p>Lunes a jueves · 20:00 a 21:30</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
-  <div class="week">${DAYS.map(d=>`<div class="day"><h4>${d}${d===todayName()?'<span class="pill gold">Hoy</span>':''}</h4>${Object.entries(GROUPS).filter(([,g])=>g.days.includes(d)).map(([k,g])=>`<button class="ses" data-group="${k}" data-day="${d}"><b>${g.name}</b><small>20:00 · Míster ${g.mister} · ${S.players.filter(p=>p.group===k).length} jugadores/as</small><br><span class="pill tag">${g.prog}</span></button>`).join('')}</div>`).join('')}</div>`;
+  return `<div class="hd"><div><h1 class="disp">Sesiones de la semana</h1><p>Lunes a jueves · Toca una sesión para ver el plan</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
+  <div class="week">${DAYS.map(d=>`<div class="day"><h4>${d}${d===todayName()?'<span class="pill gold">Hoy</span>':''}</h4>${Object.entries(GROUPS).filter(([k])=>onDay(k,d)).map(([k,g])=>`<button class="ses" data-group="${k}" data-day="${d}"><b>${g.name}</b><small>${metaFor(k,d).s}–${metaFor(k,d).e} · ${msTxt(metaFor(k,d))} · ${S.players.filter(p=>p.group===k).length} jugadores/as</small><br><span class="pill tag">${g.prog}</span>${g.days.includes(d)?'':' <span class="pill gold">Sesión extra</span>'}</button>`).join('')}</div>`).join('')}</div>`;
 }
 /* ---------- Míster: Pagos ---------- */
 function vPagos(){
@@ -471,7 +481,7 @@ function vInicio(){
   return `<div class="hd"><div><h1 class="disp">Hola, familia<br><span class="gold">de ${p.name.split(' ')[0]}</span></h1></div></div>
   <div class="hero-card" style="margin-bottom:14px"><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div>${av(p,"lg")}<div style="flex:1;min-width:160px"><b style="font-size:18px">${p.name}</b><p class="muted">${p.age} años · ${p.pos} · ${g.name}</p><p style="margin-top:6px;color:var(--oro2);font-weight:700">+${p.hist[5]-p.hist[0]} puntos desde mayo</p></div></div>
   <div class="grid g3" style="margin-bottom:14px">
-   <div class="card kpi"><small>Próxima sesión</small><b>${next}</b><span>20:00 · Míster ${g.mister}</span></div>
+   <div class="card kpi"><small>Próxima sesión</small><b>${next}</b><span>${metaFor(p.group,next).s} · ${msTxt(metaFor(p.group,next))}</span></div>
    <div class="card kpi"><small>Asistencia</small><b>${p.att}%</b><span>${p.sessions} sesiones esta temporada</span></div>
    <div class="card kpi"><small>Pack ${p.pack}</small><b class="${p.paid?'':'gold'}">${p.paid?'Al día':'Pendiente'}</b><span>${PACKS[p.pack]} € al mes</span></div>
   </div>
@@ -514,7 +524,7 @@ document.addEventListener('click',e=>{
   if(t.dataset.g){fGroup=t.dataset.g;render();return;}
   if(t.dataset.task!==undefined){const p=P(S.kid);const k=p.tasks[+t.dataset.task];k.done=!k.done;save();render();if(k.done)toast('Tarea hecha');return;}
   if(t.dataset.vid){playVideo(t.dataset.vid,t.dataset.t);return;}
-  if(t.dataset.group){const g=GROUPS[t.dataset.group];const pl=S.players.filter(p=>p.group===t.dataset.group);sheet(`<h2 class="disp">${g.name}</h2><p class="muted" style="margin-bottom:14px">${t.dataset.day} · 20:00 a 21:30 · Míster ${g.mister}</p><h3 style="font-size:14px;margin-bottom:8px">Ejercicios</h3><div class="list" style="margin-bottom:16px">${(planFor(t.dataset.group,t.dataset.day)||EXS[g.prog]).map((x,i)=>{const e=allLib().find(l=>l.n===x);return `<div class="item"><span class="av" style="width:30px;height:30px;font-size:12px">${i+1}</span><div class="grow"><b>${x}</b><small>${e?e.m:[15,20,20,25][i]||15} min</small></div></div>`}).join('')}</div><h3 style="font-size:14px;margin-bottom:8px">Convocados (${pl.length})</h3><p class="muted">${pl.map(p=>p.name).join(', ')}</p>`);return;}
+  if(t.dataset.group){const g=GROUPS[t.dataset.group];const pl=S.players.filter(p=>p.group===t.dataset.group);sheet(`<h2 class="disp">${g.name}</h2><p class="muted" style="margin-bottom:14px">${t.dataset.day} · ${metaFor(t.dataset.group,t.dataset.day).s} a ${metaFor(t.dataset.group,t.dataset.day).e} · ${msTxt(metaFor(t.dataset.group,t.dataset.day))}</p><h3 style="font-size:14px;margin-bottom:8px">Ejercicios</h3><div class="list" style="margin-bottom:16px">${(planFor(t.dataset.group,t.dataset.day)||EXS[g.prog]).map((x,i)=>{const e=allLib().find(l=>l.n===x);return `<div class="item"><span class="av" style="width:30px;height:30px;font-size:12px">${i+1}</span><div class="grow"><b>${x}</b><small>${e?e.m:[15,20,20,25][i]||15} min</small></div></div>`}).join('')}</div><h3 style="font-size:14px;margin-bottom:8px">Convocados (${pl.length})</h3><p class="muted">${pl.map(p=>p.name).join(', ')}</p>`);return;}
   e.preventDefault();
   const a=t.dataset.act, id=t.dataset.id;
   if(a==='logout'){S.role=null;save();location.hash='';render();}
@@ -529,6 +539,8 @@ document.addEventListener('click',e=>{
     $('#nf').onsubmit=ev=>{ev.preventDefault();const v=$('#nt').value.trim();if(!v){$('#nfe').textContent='Escribe el comentario.';return;}p.notes.unshift({t:v,by:S.me,d:todayName()});save();closeSheet();render();toast('Nota guardada');};}
   if(a==='newSession'){let sel=[],area='Todos',q='';setTimeout(()=>$('#sheetBox').classList.add('wide'));
     sheet(`<h2 class="disp">Planificar sesión</h2><p class="muted" style="margin-bottom:16px">Elige grupo y día, y añade ejercicios de la biblioteca con un toque.</p><form id="sf"><div class="row2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div class="f"><label for="sg">Grupo</label><select id="sg">${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name}</option>`).join('')}</select></div><div class="f"><label for="sd">Día</label><select id="sd">${DAYS.map(d=>`<option ${d===todayName()?'selected':''}>${d}</option>`).join('')}</select></div></div>
+    <div class="row2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div class="f"><label for="sh1">Hora de inicio</label><select id="sh1">${HOURS.map(h=>`<option>${h}</option>`).join('')}</select></div><div class="f"><label for="sh2">Hora de fin</label><select id="sh2">${HOURS.map(h=>`<option>${h}</option>`).join('')}</select></div></div>
+    <div class="f"><label>Míster que entrena <small class="muted" style="font-weight:600;text-transform:none;letter-spacing:0">· puedes elegir uno o varios</small></label><div class="mpick" id="smp"></div><div class="madd" id="sma" hidden><input id="smn" placeholder="Nombre del nuevo míster" autocomplete="off"><button type="button" class="btn sm oro" id="sms">Añadir</button><button type="button" class="btn sm" id="smx">Cancelar</button></div><p class="muted" id="sme" style="color:var(--bad);min-height:16px;font-size:13px"></p></div>
     <div class="f"><label>Ejercicios de la sesión</label><div class="sel" id="ssel"></div><p class="sel-sum" id="ssum"></p></div>
     <details class="lib" id="slib" open><summary><span>📚 Biblioteca de ejercicios <small id="scount"></small></span><span class="chev">▾</span></summary><div class="lbody"><div class="areas" id="sareas">${AREAS.map(x=>`<button type="button" class="chip" data-area="${x}" aria-pressed="${x==='Todos'}">${x}</button>`).join('')}</div><input class="lsearch" id="sq" placeholder="Buscar ejercicio" autocomplete="off"><button type="button" class="newex-btn" id="nxb">＋ Crear ejercicio y guardarlo en la biblioteca</button><div class="newex" id="nx" hidden><div class="f"><label for="nxn">Nombre del ejercicio</label><input id="nxn" placeholder="Ej.: Rondo 4x2 con salida en conducción"></div><div style="display:grid;grid-template-columns:minmax(0,1fr) 84px;gap:10px"><div class="f"><label for="nxa">Área</label><select id="nxa">${AREAS.slice(2).map(x=>`<option>${x}</option>`).join('')}</select></div><div class="f"><label for="nxm">Minutos</label><input id="nxm" inputmode="numeric" maxlength="2" value="10"></div></div><div class="f"><label for="nxd">Explicación breve (opcional)</label><input id="nxd" placeholder="Qué se trabaja y cómo"></div><div class="f"><label for="nxc">Para qué grupos</label><select id="nxc"><option value="g">Solo este grupo</option><option value="all">Todos los grupos</option></select></div><p class="muted" id="nxe" style="color:var(--bad);min-height:18px;font-size:13px"></p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button type="button" class="btn" id="nxx">Cancelar</button><button type="button" class="btn oro" id="nxs">Guardar en biblioteca</button></div></div><div class="llist" id="slist"></div></div></details>
     <div class="f" style="margin-top:14px"><label for="se">Notas o ejercicios propios</label><textarea id="se" placeholder="Uno por línea (opcional)"></textarea></div><button class="btn oro full">Guardar sesión</button></form>`);
@@ -536,8 +548,15 @@ document.addEventListener('click',e=>{
       $('#slist').innerHTML=L.map(x=>{const on=sel.includes(x.n);return `<button type="button" class="lex ${on?'on':''}" data-ex="${x.n.replace(/"/g,'&quot;')}"><b><span class="tag">${x.own?'★ Del club · ':''}${x.a}</span>${x.n}</b><small>${x.d?x.d+' · ':''}${x.m} min${x.own?' · Creado por míster '+x.by:''}</small><span class="add">${on?'✓':'+'}</span></button>`}).join('')||(area==='Del club'?'<p class="muted" style="padding:10px">Aún no hay ejercicios del club para este grupo. Pulsa «Crear ejercicio» para añadir el primero.</p>':'<p class="muted" style="padding:10px">No hay ejercicios con ese filtro.</p>');
       drawSel();};
     const drawSel=()=>{$('#ssel').innerHTML=sel.map((n,i)=>{const x=allLib().find(e=>e.n===n);return `<div class="it"><i>${i+1}</i><span>${n}</span><small>${x?x.m+' min':''}</small><button type="button" data-rm="${i}" aria-label="Quitar">✕</button></div>`}).join('')||'<p class="muted" style="font-size:13px">Aún no hay ejercicios. Tócalos en la biblioteca para añadirlos.</p>';
-      const tot=sel.reduce((t,n)=>t+((allLib().find(e=>e.n===n)||{}).m||0),0);$('#ssum').textContent=sel.length?`${sel.length} ejercicios · ${tot} min de los 90 de la sesión`:'';};
-    const load=()=>{sel=[...(planFor($('#sg').value,$('#sd').value)||[])];draw();};
+      const tot=sel.reduce((t,n)=>t+((allLib().find(e=>e.n===n)||{}).m||0),0);const dur=Math.max(0,tmin($('#sh2').value)-tmin($('#sh1').value));$('#ssum').textContent=sel.length?`${sel.length} ejercicios · ${tot} min de los ${dur} de la sesión`:'';};
+    let ms=[];
+    const drawM=()=>{$('#smp').innerHTML=allMisters().map(m=>`<button type="button" class="chip" data-m="${m}" aria-pressed="${ms.includes(m)}">${ms.includes(m)?'✓ ':''}${m}</button>`).join('')+`<button type="button" class="chip add" id="smb">＋ Nuevo míster</button>`;};
+    const load=()=>{const k=$('#sg').value,d=$('#sd').value;sel=[...(planFor(k,d)||[])];const m=metaFor(k,d);ms=[...m.ms];$('#sh1').value=m.s;$('#sh2').value=m.e;drawM();draw();};
+    $('#smp').onclick=e=>{if(e.target.closest('#smb')){$('#sma').hidden=false;$('#smn').focus();return;}const b=e.target.closest('[data-m]');if(!b)return;const m=b.dataset.m;ms=ms.includes(m)?ms.filter(x=>x!==m):[...ms,m];$('#sme').textContent='';drawM();};
+    $('#smx').onclick=()=>{$('#sma').hidden=true;$('#smn').value='';};
+    const addM=()=>{const n=$('#smn').value.trim().replace(/^m[ií]ster\s+/i,'');if(!n){$('#sme').textContent='Escribe el nombre.';return;}const ex=allMisters().find(x=>x.toLowerCase()===n.toLowerCase());if(!ex){S.extraM=S.extraM||[];S.extraM.push(n);save();toast('Míster '+n+' añadido');}const nm=ex||n;if(!ms.includes(nm))ms.push(nm);$('#smn').value='';$('#sma').hidden=true;$('#sme').textContent='';drawM();};
+    $('#sms').onclick=addM;$('#smn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addM();}};
+    $('#sh1').onchange=$('#sh2').onchange=()=>drawSel();
     $('#sg').onchange=()=>{area='Todos';$$('#sareas .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.area==='Todos'));load();};$('#sd').onchange=load;
     $('#sareas').onclick=e=>{const b=e.target.closest('[data-area]');if(!b)return;area=b.dataset.area;$$('#sareas .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));draw();};
     $('#sq').oninput=e=>{q=e.target.value.trim();draw();};
@@ -552,7 +571,7 @@ document.addEventListener('click',e=>{
     $('#slist').onclick=e=>{const b=e.target.closest('[data-ex]');if(!b)return;const n=b.dataset.ex;const on=!sel.includes(n);sel=on?[...sel,n]:sel.filter(x=>x!==n);b.classList.toggle('on',on);b.querySelector('.add').textContent=on?'✓':'+';drawSel();};
     $('#ssel').onclick=e=>{const b=e.target.closest('[data-rm]');if(!b)return;sel.splice(+b.dataset.rm,1);draw();};
     load();
-    $('#sf').onsubmit=ev=>{ev.preventDefault();const extra=$('#se').value.split('\n').map(x=>x.trim()).filter(Boolean);const all=[...sel,...extra];if(!all.length){toast('Añade al menos un ejercicio');return;}S.plans=S.plans||{};S.plans[$('#sg').value+'|'+$('#sd').value]=all;save();closeSheet();render();toast('Sesión planificada');};}
+    $('#sf').onsubmit=ev=>{ev.preventDefault();const extra=$('#se').value.split('\n').map(x=>x.trim()).filter(Boolean);const all=[...sel,...extra];if(!all.length){toast('Añade al menos un ejercicio');return;}if(!ms.length){$('#sme').textContent='Elige al menos un míster.';$('#smp').scrollIntoView({block:'center',behavior:'smooth'});return;}if(tmin($('#sh2').value)<=tmin($('#sh1').value)){toast('La hora de fin debe ser posterior a la de inicio');return;}S.plans=S.plans||{};S.plans[$('#sg').value+'|'+$('#sd').value]=all;S.meta=S.meta||{};S.meta[$('#sg').value+'|'+$('#sd').value]={ms,s:$('#sh1').value,e:$('#sh2').value};save();closeSheet();render();toast('Sesión planificada');};}
   if(a==='newPlayer'){sheet(`<h2 class="disp">Nuevo jugador/a</h2><p class="muted" style="margin-bottom:16px">Se crea con el pack Inicio; la familia recibirá su acceso.</p><form id="pf"><div class="f"><label for="pn">Nombre y apellidos</label><input id="pn"></div><div class="f"><label for="pa">Edad</label><input id="pa" inputmode="numeric" maxlength="2"></div><div class="f"><label for="pg">Grupo</label><select id="pg">${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name}</option>`).join('')}</select></div><p id="pfe" class="muted" style="color:var(--bad);min-height:20px"></p><button class="btn oro full">Crear jugador</button></form>`);
     $('#pf').onsubmit=ev=>{ev.preventDefault();const n=$('#pn').value.trim(),ag=$('#pa').value.trim();if(!n){$('#pfe').textContent='Escribe el nombre.';return;}if(!/^\d{1,2}$/.test(ag)){$('#pfe').textContent='Escribe la edad en números.';return;}
       S.players.push({id:'j'+Date.now(),name:n,age:+ag,pos:'Por definir',group:$('#pg').value,pack:'Inicio',paid:false,att:100,sessions:0,areas:{'Técnica':50,'Físico':50,'Táctica':50,'Actitud':50},hist:[50,50,50,50,50,50],tasks:[],notes:[]});save();closeSheet();render();toast('Jugador creado');};}
