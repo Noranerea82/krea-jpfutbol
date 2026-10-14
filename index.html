@@ -254,7 +254,20 @@ section{position:relative}
 .datos dt{color:var(--cal-3);font-size:15px}
 .datos dd{font-weight:700}
 .map{border-radius:22px;overflow:hidden;border:1px solid var(--linea);min-height:380px;background:var(--grada)}
-.map iframe{width:100%;height:100%;min-height:380px;border:0;filter:grayscale(1) invert(.92) contrast(.9) sepia(.15)}
+.map{position:relative;display:block;text-decoration:none;color:var(--cal)}
+.map img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.9) brightness(.55);transition:transform .8s ease}
+.map:hover img{transform:scale(1.04)}
+.map::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,transparent 0,rgba(5,5,5,.35) 45%,rgba(5,5,5,.92) 100%)}
+.map-in{position:relative;z-index:1;min-height:380px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;padding:28px 22px 30px;gap:6px}
+.pin{position:absolute;top:34%;left:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:var(--oro);display:grid;place-items:center;box-shadow:0 10px 30px rgba(226,183,70,.45)}
+.pin svg{width:28px;height:28px;fill:none;stroke:#050505;stroke-width:2}
+.pin::before,.pin::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--oro);animation:pulse 2.4s ease-out infinite}
+.pin::after{animation-delay:1.2s}
+@keyframes pulse{from{transform:scale(1);opacity:.8}to{transform:scale(2.6);opacity:0}}
+.map-in b{font-family:var(--f-disp);font-size:clamp(24px,5vw,32px);text-transform:uppercase;line-height:1.05}
+.map-in small{color:var(--cal-2);font-size:14px}
+.map-in .btn{margin-top:14px}
+@media (prefers-reduced-motion:reduce){.pin::before,.pin::after{animation:none}}
 @media (max-width:900px){.sede{grid-template-columns:minmax(0,1fr)}}
 
 /* ---------- Pasos y FAQ ---------- */
@@ -299,7 +312,13 @@ footer .krea{font-size:12.5px;opacity:.7}
 .lb img{max-height:86vh;max-width:min(92vw,1100px);border-radius:14px;object-fit:contain}
 .lb .nav-b{position:absolute;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;background:rgba(248,246,239,.12);display:flex;align-items:center;justify-content:center}
 .lb .prev{left:14px}.lb .next-b{right:14px}
-.vm video{max-height:88vh;max-width:92vw;aspect-ratio:9/16;border-radius:16px;background:#000}
+.vm .vbox{position:relative;width:min(92vw,calc(88vh * 9 / 16));aspect-ratio:9/16;border-radius:16px;overflow:hidden;background:#000 center/cover no-repeat}
+.vm video{width:100%;height:100%;object-fit:cover;background:transparent;opacity:0;transition:opacity .35s}
+.vm.playing video{opacity:1}
+.vm .vload{position:absolute;inset:0;display:grid;place-items:center;background:rgba(5,5,5,.25);transition:opacity .3s}
+.vm.playing .vload{opacity:0;pointer-events:none}
+.vm .vload i{width:54px;height:54px;border-radius:50%;border:3px solid rgba(255,255,255,.2);border-top-color:var(--oro);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .sheet{position:relative;width:min(560px,100%);max-height:92vh;overflow:auto;background:var(--grada);border:1px solid var(--linea);border-radius:24px;padding:clamp(22px,4vw,34px)}
 .sheet h3{font-family:var(--f-disp);font-size:34px;text-transform:uppercase;line-height:1;margin-bottom:6px}
 .sheet > p{color:var(--cal-3);margin-bottom:22px;font-size:15.5px}
@@ -582,7 +601,7 @@ footer .krea{font-size:12.5px;opacity:.7}
         </dl>
         <a class="btn btn-linea" href="https://www.google.com/maps/search/?api=1&query=Centro+Deportivo+Valdezorras+Sevilla" target="_blank" rel="noopener">Cómo llegar</a>
       </div>
-      <div class="map rv"><iframe title="Mapa del Centro Deportivo Valdezorras" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Centro%20Deportivo%20Valdezorras%2C%20Sevilla&output=embed"></iframe></div>
+      <a class="map rv" href="https://www.google.com/maps/search/?api=1&query=Centro+Deportivo+Valdezorras+Sevilla" target="_blank" rel="noopener" aria-label="Abrir el Centro Deportivo Valdezorras en Google Maps"><img loading="lazy" src="assets/img/jp-field-gold.webp" alt=""><span class="pin"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span class="map-in"><b>Centro Deportivo Valdezorras</b><small>Sevilla · Lunes a jueves · 20:00 a 21:30</small><span class="btn btn-oro">Abrir en Google Maps</span></span></a>
     </div>
 
     <div class="steps">
@@ -635,7 +654,7 @@ footer .krea{font-size:12.5px;opacity:.7}
 <!-- Vídeo -->
 <div class="modal vm" id="vm" role="dialog" aria-modal="true" aria-label="Vídeo">
   <button class="x" data-close aria-label="Cerrar"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  <video id="vmVid" controls playsinline></video>
+  <div class="vbox" id="vmBox"><video id="vmVid" playsinline preload="auto"></video><span class="vload"><i></i></span></div>
 </div>
 <!-- Reserva -->
 <div class="modal" id="bk" role="dialog" aria-modal="true" aria-labelledby="bkT">
@@ -704,7 +723,7 @@ $('#lbNext').onclick=()=>{lbI=(lbI+1)%lbList.length;showLb();};
 /* Modales */
 let lastFocus=null;
 function openM(sel){lastFocus=document.activeElement;const m=$(sel);m.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>m.querySelector('[data-close]')?.focus(),50);}
-function closeM(m){m.classList.remove('open');document.body.style.overflow='';if(m.id==='vm'){const v=$('#vmVid');v.pause();v.removeAttribute('src');v.load();}lastFocus?.focus();}
+function closeM(m){m.classList.remove('open');document.body.style.overflow='';if(m.id==='vm'){const v=$('#vmVid');m.classList.remove('playing');v.pause();v.removeAttribute('src');v.load();}lastFocus?.focus();}
 $$('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m||e.target.closest('[data-close]'))closeM(m);});});
 addEventListener('keydown',e=>{const m=$('.modal.open');if(!m)return;if(e.key==='Escape')closeM(m);if(m.id==='lb'&&e.key==='ArrowRight')$('#lbNext').click();if(m.id==='lb'&&e.key==='ArrowLeft')$('#lbPrev').click();});
 
@@ -719,7 +738,8 @@ function select(i){tabs.forEach((t,j)=>{t.setAttribute('aria-selected',j===i);t.
 /* Vídeos */
 const VIDS=[['tecnificacion','Tecnificación','Una sesión real con balón'],['preparacion','Preparación física','Coordinación y trabajo físico'],['porteros','Porteros','Acciones específicas bajo palos'],['misters','Místers','El equipo técnico en el campo'],['captacion','Captación','Ven a entrenar con JP']];
 $('#vids').innerHTML=VIDS.map(([k,t,s])=>`<button class="vcard" data-video="${k}"><img loading="lazy" src="assets/img/poster-${k}.webp" alt=""><span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span><span class="vt"><b>${t}</b><span>${s}</span></span></button>`).join('');
-document.addEventListener('click',e=>{const b=e.target.closest('[data-video]');if(!b)return;const v=$('#vmVid');v.src=`assets/vid/${b.dataset.video}.mp4`;openM('#vm');v.play().catch(()=>{});});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-video]');if(!b)return;const k=b.dataset.video,m=$('#vm'),v=$('#vmVid');m.classList.remove('playing');v.removeAttribute('controls');$('#vmBox').style.backgroundImage=`url(assets/img/poster-${k}.webp)`;v.poster=`assets/img/poster-${k}.webp`;v.src=`assets/vid/${k}.mp4`;openM('#vm');v.play().catch(()=>{m.classList.add('playing');v.setAttribute('controls','');});});
+$('#vmVid').addEventListener('playing',()=>{$('#vm').classList.add('playing');$('#vmVid').setAttribute('controls','');});
 
 /* Místers */
 const M=[['perotti','Perotti','Entrena con confianza. Supera tus límites.'],['miguel','Miguel','Potencia tu talento.'],['fernando','Fernando','Lidera. Enseña. Transforma.'],['ivan','Iván','Entrenamos hoy, ganamos mañana.'],['bulnes','Bulnes','Entrenamiento. Esfuerzo. Resultado.'],['antonio','Antonio','Trabajo. Compromiso. Mejor equipo.']];
