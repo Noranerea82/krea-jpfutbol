@@ -158,6 +158,24 @@ svg.chart{width:100%;height:auto;display:block}
 .sheet .x{float:right;width:40px;height:40px;border-radius:12px;background:var(--g3);display:flex;align-items:center;justify-content:center}
 .toast{position:fixed;left:50%;bottom:calc(96px + var(--sb));transform:translate(-50%,20px);z-index:90;background:var(--cal);color:var(--noche);font-weight:700;padding:12px 18px;border-radius:999px;opacity:0;transition:all .25s;pointer-events:none;display:flex;gap:8px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+.pstep{display:flex;gap:6px;margin:0 40px 12px 0;flex-wrap:wrap}.pstep span{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--c3,#777);padding:5px 9px;border-radius:999px;border:1px solid var(--linea)}.pstep span.on{color:#111;background:var(--oro);border-color:var(--oro)}
+.psum{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 4px;padding:14px 16px;border-radius:14px;background:var(--noche);border:1px solid var(--linea)}.psum small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--oro)}.psum span{display:block;font-size:13px;color:var(--c2);margin-top:2px}.psum .amt{white-space:nowrap;font-family:var(--fd);font-size:34px;color:var(--oro2)}
+.pico{display:grid;place-items:center;height:26px;margin-bottom:4px;color:var(--oro)}.pico svg{width:24px;height:24px}.pico.bz{font:800 15px/1 var(--fb,inherit);color:#05C3C8;letter-spacing:-.02em}
+.psafe{text-align:center;font-size:12.5px;color:var(--c2);margin-top:12px}
+.pback,.ptest{display:block;margin:10px auto 0;font-size:13.5px;font-weight:700;color:var(--oro);background:none;border:0;padding:8px}.ptest{border:1px dashed rgba(226,183,70,.5);border-radius:10px;width:100%;padding:11px}
+.ccard{position:relative;aspect-ratio:1.586;max-width:340px;margin:12px auto 16px;border-radius:18px;padding:20px 22px;color:#F5EFDF;background:radial-gradient(120% 120% at 100% 0%,rgba(226,183,70,.55),transparent 55%),linear-gradient(135deg,#1c1a14,#050505 70%);border:1px solid rgba(226,183,70,.45);box-shadow:0 20px 40px rgba(0,0,0,.45);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.ccchip{width:42px;height:32px;border-radius:7px;background:linear-gradient(135deg,#E9CD7A,#9a7a1c)}.ccbrand{position:absolute;top:20px;right:22px;font-weight:900;font-style:italic;font-size:18px;letter-spacing:.02em}
+.ccnum{font-family:ui-monospace,Menlo,monospace;font-size:clamp(17px,5vw,21px);letter-spacing:.08em}.ccrow{display:flex;justify-content:space-between;gap:10px}.ccrow small{display:block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.65}.ccrow b{font-size:13px;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px;display:block}
+#cf input:not([type=checkbox]){width:100%;box-sizing:border-box}
+.pchk{display:flex;gap:10px;align-items:center;font-size:13.5px;color:var(--c2);margin:4px 0 2px}.pchk input{width:18px;height:18px;accent-color:var(--oro)}
+.bzin{display:flex;align-items:stretch;border:1px solid var(--linea);border-radius:12px;overflow:hidden;background:var(--noche)}.bzin span{display:grid;place-items:center;padding:0 12px;font-weight:800;color:var(--c2);border-right:1px solid var(--linea)}.bzin input{border:0!important;flex:1;min-width:0;background:transparent}
+.pwait{text-align:center;padding:6px 0}.pwait p{font-size:14.5px;line-height:1.5;color:var(--c2);margin:16px 0 14px}
+.phone{width:170px;height:220px;margin:8px auto 0;border-radius:28px;border:2px solid rgba(226,183,70,.5);background:linear-gradient(#141414,#070707);position:relative;padding:34px 10px}
+.pnot{background:#F5EFDF;color:#111;border-radius:14px;padding:10px;text-align:left;animation:pslide .6s .3s both cubic-bezier(.2,.8,.2,1)}.pnot b{font-size:12px;display:block}.pnot span{font-size:11.5px;display:block;margin:3px 0 8px;line-height:1.3}.pbtns{display:flex;gap:6px}.pbtns i{flex:1;font-style:normal;font-size:11px;font-weight:800;text-align:center;padding:6px;border-radius:8px;background:#e6e0cf}.pbtns i.ok{background:#1E9E5A;color:#fff;animation:ppulse 1.2s 1s infinite}
+@keyframes pslide{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}@keyframes ppulse{50%{box-shadow:0 0 0 5px rgba(30,158,90,.25)}}
+.pbar{height:6px;border-radius:9px;background:var(--noche);overflow:hidden;margin:0 auto 8px;max-width:280px}.pbar i{display:block;height:100%;width:0;background:var(--oro);transition:width 4s linear}
+.pok{text-align:center;padding:8px 0 4px}.pokc{width:74px;height:74px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:#1E9E5A;color:#fff;animation:ppop .5s cubic-bezier(.2,1.4,.4,1)}.pokc svg{width:36px;height:36px}@keyframes ppop{from{transform:scale(.3);opacity:0}}
+.rcpt{margin-top:16px;border:1px dashed rgba(226,183,70,.45);border-radius:14px;padding:6px 16px}.rcpt div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--linea);font-size:14px}.rcpt div:last-child{border:0}.rcpt span{color:var(--c2)}.rcpt b{text-align:right}.rcpt .tot b{font-family:var(--fd);font-size:24px;color:var(--oro2)}
 .paybtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
 .paybtns button{min-height:64px;border-radius:14px;border:1px solid var(--linea);background:var(--noche);font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .paybtns button[aria-pressed="true"]{border-color:var(--oro);background:rgba(226,183,70,.1)}
@@ -501,7 +519,73 @@ function vPack(){const p=P(S.kid);return `<div class="hd"><div><h1 class="disp">
   <div class="grid g2"><section class="card"><h3>Pack actual <span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pagado':'Pendiente'}</span></h3><b class="disp" style="font-size:40px">${p.pack}</b><p class="muted" style="margin:6px 0 16px">${PACKS[p.pack]} € al mes · ${GROUPS[p.group].days.join(' y ')} a las 20:00</p>
    ${p.paid?'<p class="muted">El próximo pago se renueva el día 1.</p>':`<button class="btn oro full" data-act="pay">${I('card')}Pagar ${PACKS[p.pack]} €</button>`}</section>
    <section class="card"><h3>Cambiar de pack</h3><div class="list">${Object.entries(PACKS).map(([n,v])=>`<div class="item"><div class="grow"><b>${n}</b><small>${v} € al mes</small></div>${n===p.pack?'<span class="pill gold">Actual</span>':`<button class="btn sm" data-act="changePack" data-pack="${n}">Elegir</button>`}</div>`).join('')}</div></section></div>
+  ${(p.receipts&&p.receipts.length)?`<section class="card" style="margin-top:14px"><h3>Historial de pagos</h3><div class="list">${p.receipts.map((r,i)=>`<div class="item"><div class="grow"><b>${r.c}</b><small>${r.d} · ${r.m} · ${r.n}</small></div><b style="white-space:nowrap">${r.a} €</b><button class="btn sm" data-act="rcpt" data-i="${i}">Recibo</button></div>`).join('')}</div></section>`:''}
   <p class="muted" style="margin-top:12px;font-size:13px">Precios de ejemplo pendientes de confirmar por JP Fútbol.</p>`;}
+
+/* ---------- Pago (demo) ---------- */
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+function mesActual(){const d=new Date();return MESES[d.getMonth()]+' '+d.getFullYear();}
+function payFlow(p){
+  const amt=PACKS[p.pack];let m='Tarjeta';
+  const head=(step,t)=>`<div class="pstep"><span class="${step>=1?'on':''}">1 · Pago</span><span class="${step>=2?'on':''}">2 · Datos</span><span class="${step>=3?'on':''}">3 · Confirmar</span></div><h2 class="disp">${t}</h2>`;
+  const sum=`<div class="psum"><div><small>Concepto</small><b>Pack ${p.pack} · ${mesActual()}</b><span>${p.name}</span></div><b class="amt">${amt} €</b></div>`;
+  const step1=()=>{sheet(`${head(1,'Pagar pack')}${sum}
+    <div class="paybtns" role="group" aria-label="Forma de pago"><button aria-pressed="${m==='Tarjeta'}" data-m="Tarjeta"><span class="pico">${I('card')}</span>Tarjeta<small>Visa · Mastercard</small></button><button aria-pressed="${m==='Bizum'}" data-m="Bizum"><span class="pico bz">bizum</span>Bizum<small>Desde tu móvil</small></button></div>
+    <button class="btn oro full" id="pNext">Continuar</button><p class="psafe">🔒 Pago seguro · Datos cifrados</p>`);
+    $$('.paybtns button').forEach(b=>b.onclick=()=>{m=b.dataset.m;$$('.paybtns button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
+    $('#pNext').onclick=()=>m==='Tarjeta'?card():bizum();};
+  const back=`<button type="button" class="pback" id="pBack">← Cambiar forma de pago</button>`;
+  const card=()=>{sheet(`${head(2,'Pago con tarjeta')}
+    <div class="ccard" id="cc"><div class="ccchip"></div><span class="ccbrand" id="ccb"></span><div class="ccnum" id="ccn">•••• •••• •••• ••••</div><div class="ccrow"><div><small>Titular</small><b id="cch">NOMBRE APELLIDOS</b></div><div><small>Caduca</small><b id="cce">MM/AA</b></div></div></div>
+    <form id="cf" autocomplete="off" novalidate><div class="f"><label for="ch">Titular de la tarjeta</label><input id="ch" placeholder="Como aparece en la tarjeta"></div>
+    <div class="f"><label for="cn">Número de tarjeta</label><input id="cn" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19"></div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px"><div class="f"><label for="ce">Caducidad</label><input id="ce" inputmode="numeric" placeholder="MM/AA" maxlength="5"></div><div class="f"><label for="cv">CVC</label><input id="cv" inputmode="numeric" placeholder="123" maxlength="4"></div></div>
+    <label class="pchk"><input type="checkbox" id="csv" checked> Usar esta tarjeta para los próximos meses</label>
+    <p id="cfe" class="muted" style="color:var(--bad);min-height:18px;font-size:13px"></p>
+    <button class="btn oro full">Pagar ${amt} €</button></form>
+    <button type="button" class="ptest" id="cTest">Rellenar con tarjeta de prueba</button>${back}
+    <p class="demo"><b>Demostración:</b> no se cobra nada ni se guarda ningún dato. Usa la tarjeta de prueba. En la versión real este paso lo hace la pasarela segura del banco (Redsys o Stripe).</p>`);
+    const brand=v=>/^4/.test(v)?'VISA':/^(5[1-5]|2[2-7])/.test(v)?'Mastercard':'';
+    const upd=()=>{const n=$('#cn').value.replace(/\D/g,'');$('#ccn').textContent=(n+'•'.repeat(Math.max(0,16-n.length))).replace(/(.{4})/g,'$1 ').trim();$('#ccb').textContent=brand(n);$('#cch').textContent=$('#ch').value.toUpperCase()||'NOMBRE APELLIDOS';$('#cce').textContent=$('#ce').value||'MM/AA';};
+    $('#cn').oninput=e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,16).replace(/(.{4})(?=.)/g,'$1 ');upd();};
+    $('#ce').oninput=e=>{let v=e.target.value.replace(/\D/g,'').slice(0,4);if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);e.target.value=v;upd();};
+    $('#cv').oninput=e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,4);$('#cc').classList.toggle('flip',false);};
+    $('#ch').oninput=upd;
+    $('#cTest').onclick=()=>{const y=String((new Date().getFullYear()+3)%100).padStart(2,'0');$('#ch').value=p.name.split(' ').slice(0,1)+' '+(p.name.split(' ')[1]||'');$('#cn').value='4242 4242 4242 4242';$('#ce').value='12/'+y;$('#cv').value='123';upd();$('#cfe').textContent='';};
+    $('#pBack').onclick=step1;
+    $('#cf').onsubmit=ev=>{ev.preventDefault();const n=$('#cn').value.replace(/\D/g,''),e=$('#ce').value,cv=$('#cv').value;let err='';
+      if(!$('#ch').value.trim())err='Escribe el titular de la tarjeta.';else if(n.length<15)err='El número de tarjeta no está completo.';else if(!/^(0[1-9]|1[0-2])\/\d\d$/.test(e))err='La caducidad debe ser MM/AA.';else if(cv.length<3)err='El CVC tiene 3 cifras (detrás de la tarjeta).';
+      if(err){$('#cfe').textContent=err;return;}
+      verify({type:'card',label:(brand(n)||'Tarjeta')+' ···· '+n.slice(-4)});};
+    upd();};
+  const bizum=()=>{sheet(`${head(2,'Pago con Bizum')}${sum}
+    <form id="bf" novalidate><div class="f"><label for="bp">Móvil asociado a Bizum</label><div class="bzin"><span>+34</span><input id="bp" inputmode="tel" placeholder="600 000 000" maxlength="11"></div></div>
+    <p id="bfe" class="muted" style="color:var(--bad);min-height:18px;font-size:13px"></p>
+    <button class="btn oro full">Enviar solicitud de ${amt} €</button></form>${back}
+    <p class="demo"><b>Demostración:</b> no se envía ninguna solicitud real. En la versión real llega un aviso a la app de tu banco para aceptar el pago.</p>`);
+    $('#bp').oninput=e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,9).replace(/^(\d{3})(\d{1,3})?(\d{1,3})?$/,(a,x,y,z)=>[x,y,z].filter(Boolean).join(' '));};
+    $('#pBack').onclick=step1;
+    $('#bf').onsubmit=ev=>{ev.preventDefault();const n=$('#bp').value.replace(/\D/g,'');if(!/^[67]\d{8}$/.test(n)){$('#bfe').textContent='Escribe un móvil español de 9 cifras (empieza por 6 o 7).';return;}
+      verify({type:'bizum',label:'Bizum ···· '+n.slice(-3),phone:n});};};
+  const verify=(pm)=>{const bz=pm.type==='bizum';
+    sheet(`${head(3,bz?'Acepta el Bizum':'Verificando el pago')}
+    <div class="pwait"><div class="phone"><div class="pnot"><b>${bz?'Bizum':'Tu banco'}</b><span>${bz?'JP Fútbol te solicita':'Confirmar compra en'} ${bz?amt+'&nbsp;€':'JP FÚTBOL · '+amt+'&nbsp;€'}</span><div class="pbtns"><i>Rechazar</i><i class="ok">${bz?'Aceptar':'Confirmar'}</i></div></div></div>
+    <p>${bz?`Hemos enviado la solicitud al <b>${pm.phone.replace(/(\d{3})(\d{3})(\d{3})/,'$1 $2 $3')}</b>. Abre la app de tu banco y acéptala.`:'Tu banco puede pedirte que confirmes la compra en su app (seguridad 3D Secure).'}</p>
+    <div class="pbar"><i id="pbar"></i></div><small class="muted" id="pst">Esperando confirmación…</small></div>
+    <button class="btn full" id="pOk" style="margin-top:14px">${bz?'Ya lo he aceptado':'Ya lo he confirmado'}</button>`);
+    let done=false;const fin=()=>{if(done)return;done=true;success(pm);};
+    requestAnimationFrame(()=>{$('#pbar').style.width='100%';});
+    const t=setTimeout(fin,4200);$('#pOk').onclick=()=>{clearTimeout(t);fin();};};
+  const success=(pm)=>{const d=new Date();const r={n:'JP-'+d.getFullYear()+'-'+String(Math.floor(Math.random()*90000)+10000),d:d.toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}),c:'Pack '+p.pack+' · '+mesActual(),m:pm.label,a:amt};
+    p.paid=true;p.receipts=p.receipts||[];p.receipts.unshift(r);save();render();
+    sheet(`<div class="pok"><div class="pokc">${I('check')}</div><h2 class="disp">Pago completado</h2><p class="muted">Gracias. ${p.name.split(' ')[0]} tiene el pack ${p.pack} activo este mes.</p></div>
+    <div class="rcpt"><div><span>Recibo</span><b>${r.n}</b></div><div><span>Fecha</span><b>${r.d}</b></div><div><span>Concepto</span><b>${r.c}</b></div><div><span>Forma de pago</span><b>${r.m}</b></div><div class="tot"><span>Total</span><b>${r.a} €</b></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px"><button class="btn" id="rDl">Descargar recibo</button><button class="btn oro" data-close>Hecho</button></div>`);
+    $('#rDl').onclick=()=>dlReceipt(p,r);};
+  step1();
+}
+function dlReceipt(p,r){const h=`<!doctype html><html lang="es"><meta charset="utf-8"><title>Recibo ${r.n}</title><body style="font-family:Arial,sans-serif;max-width:560px;margin:40px auto;color:#111"><h1 style="letter-spacing:.04em">JP FÚTBOL</h1><p style="color:#9a7a1c;font-weight:bold">Recibo de pago</p><table style="width:100%;border-collapse:collapse;margin-top:20px">${[['Nº de recibo',r.n],['Fecha',r.d],['Jugador/a',p.name],['Concepto',r.c],['Forma de pago',r.m],['Total',r.a+' €']].map(([a,b])=>`<tr><td style="padding:10px 0;border-bottom:1px solid #ddd;color:#666">${a}</td><td style="padding:10px 0;border-bottom:1px solid #ddd;text-align:right;font-weight:bold">${b}</td></tr>`).join('')}</table><p style="margin-top:30px;font-size:12px;color:#888">Documento de demostración · JP Fútbol · Centro Deportivo Valdezorras, Sevilla</p></body></html>`;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));a.download='Recibo-'+r.n+'.html';document.body.appendChild(a);a.click();a.remove();toast('Recibo descargado');}
 
 /* ---------- Router ---------- */
 function render(){
@@ -575,9 +659,8 @@ document.addEventListener('click',e=>{
   if(a==='newPlayer'){sheet(`<h2 class="disp">Nuevo jugador/a</h2><p class="muted" style="margin-bottom:16px">Se crea con el pack Inicio; la familia recibirá su acceso.</p><form id="pf"><div class="f"><label for="pn">Nombre y apellidos</label><input id="pn"></div><div class="f"><label for="pa">Edad</label><input id="pa" inputmode="numeric" maxlength="2"></div><div class="f"><label for="pg">Grupo</label><select id="pg">${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name}</option>`).join('')}</select></div><p id="pfe" class="muted" style="color:var(--bad);min-height:20px"></p><button class="btn oro full">Crear jugador</button></form>`);
     $('#pf').onsubmit=ev=>{ev.preventDefault();const n=$('#pn').value.trim(),ag=$('#pa').value.trim();if(!n){$('#pfe').textContent='Escribe el nombre.';return;}if(!/^\d{1,2}$/.test(ag)){$('#pfe').textContent='Escribe la edad en números.';return;}
       S.players.push({id:'j'+Date.now(),name:n,age:+ag,pos:'Por definir',group:$('#pg').value,pack:'Inicio',paid:false,att:100,sessions:0,areas:{'Técnica':50,'Físico':50,'Táctica':50,'Actitud':50},hist:[50,50,50,50,50,50],tasks:[],notes:[]});save();closeSheet();render();toast('Jugador creado');};}
-  if(a==='pay'){const p=P(S.kid);let m='Tarjeta';sheet(`<h2 class="disp">Pagar pack ${p.pack}</h2><p class="muted">${PACKS[p.pack]} € · ${p.name}</p><div class="paybtns" role="group" aria-label="Forma de pago"><button aria-pressed="true" data-m="Tarjeta">Tarjeta<small>Visa, Mastercard</small></button><button aria-pressed="false" data-m="Bizum">Bizum<small>Desde tu móvil</small></button></div><button class="btn oro full" id="payGo">Pagar ${PACKS[p.pack]} €</button><p class="demo">Demostración: no se cobra nada. En la versión real se abre la pasarela de pago segura.</p>`);
-    $$('.paybtns button').forEach(b=>b.onclick=()=>{m=b.dataset.m;$$('.paybtns button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
-    $('#payGo').onclick=()=>{p.paid=true;save();closeSheet();render();toast(`Pago con ${m} completado`);};}
+  if(a==='pay'){payFlow(P(S.kid));}
+  if(a==='rcpt'){const p=P(S.kid);dlReceipt(p,p.receipts[+t.dataset.i]);}
   if(a==='changePack'){const p=P(S.kid);p.pack=t.dataset.pack;p.paid=false;save();render();toast('Pack cambiado a '+t.dataset.pack);}
 });
 
