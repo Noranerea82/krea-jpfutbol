@@ -133,7 +133,7 @@ input,select,textarea{font:inherit;color:var(--cal)}
 .vthumb img{width:100%;height:100%;object-fit:cover}
 .vthumb::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.85),transparent 55%)}
 .vthumb span{position:absolute;left:10px;right:10px;bottom:10px;z-index:1;font-weight:700;font-size:13px}
-.vthumb i{position:absolute;top:10px;right:10px;z-index:1;width:34px;height:34px;border-radius:50%;background:var(--oro);color:#130F05;display:flex;align-items:center;justify-content:center}
+.vthumb i{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;width:52px;height:52px;box-shadow:0 0 0 6px rgba(226,183,70,.25),0 8px 22px rgba(0,0,0,.5);border-radius:50%;background:var(--oro);color:#130F05;display:flex;align-items:center;justify-content:center}
 .week{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .day h4{font-family:var(--fd);text-transform:uppercase;font-size:18px;margin-bottom:8px;display:flex;justify-content:space-between}
 .ses{border-radius:14px;padding:12px;background:var(--g2);border:1px solid var(--linea);margin-bottom:8px;text-align:left;width:100%}
@@ -187,6 +187,7 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
  .tw td:nth-child(5){grid-column:2;text-align:right}
  .tw td:nth-child(5):empty{display:none}
 }
+.vthumb i svg{width:22px !important;height:22px !important;margin-left:2px}
 </style>
 </head>
 <body>
