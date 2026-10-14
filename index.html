@@ -98,8 +98,9 @@ section{position:relative}
 }
 
 /* ---------- Franja ---------- */
-.band{border-block:1px solid var(--linea);background:var(--grada);overflow:hidden}
-.band-track{display:flex;gap:56px;width:max-content;padding:20px 0;animation:marq 66s linear infinite}
+.band{border-block:1px solid var(--linea);background:var(--grada);overflow:hidden;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.band.drag{cursor:grabbing}
+.band-track{display:flex;gap:56px;width:max-content;padding:20px 0;will-change:transform}
 .band-track span{font-family:var(--f-disp);font-size:24px;text-transform:uppercase;letter-spacing:.04em;color:var(--cal-2);display:flex;align-items:center;gap:56px;white-space:nowrap}
 .band-track span::after{content:"";width:9px;height:9px;transform:rotate(45deg);background:var(--oro)}
 @keyframes marq{to{transform:translateX(-50%)}}
@@ -421,7 +422,7 @@ footer .krea b{color:var(--oro);font-weight:700}
   <div class="wrap">
     <div>
       <h1 class="disp"><span><i>Entrena</i></span><span><i>distinto.</i></span><span class="l2"><i>Juega a otro</i></span><span class="l2"><i>nivel.</i></span></h1>
-      <p class="lead">Tecnificación, preparación física y entrenamiento de porteros en Sevilla. Grupos reducidos de chicos y chicas para que cada futbolista mejore su técnica, gane confianza y decida mejor en el campo.</p>
+      <p class="lead">Tecnificación, preparación física y entrenamiento de porteros en Sevilla. Grupos reducidos para que cada jugador y jugadora mejore su técnica, gane confianza y decida mejor en el campo.</p>
       <div class="hero-cta">
         <a class="btn btn-oro" href="#packs">Reservar plaza</a>
         <a class="btn btn-linea" href="#orienta">Qué programa me encaja</a>
@@ -439,7 +440,7 @@ footer .krea b{color:var(--oro);font-weight:700}
   </div>
 </section>
 
-<div class="band" aria-hidden="true"><div class="band-track">
+<div class="band" id="band" aria-hidden="true"><div class="band-track">
   <span>Tecnificación</span><span>Técnico-táctica</span><span>Trabajo individual</span><span>Grupos reducidos</span><span>Preparación física</span><span>Porteros y porteras</span><span>Toma de decisiones</span><span>Análisis de vídeo</span><span>Sesiones individuales</span><span>Jugadores y jugadoras</span><span>Valdezorras · Sevilla</span>
   <span>Tecnificación</span><span>Técnico-táctica</span><span>Trabajo individual</span><span>Grupos reducidos</span><span>Preparación física</span><span>Porteros y porteras</span><span>Toma de decisiones</span><span>Análisis de vídeo</span><span>Sesiones individuales</span><span>Jugadores y jugadoras</span><span>Valdezorras · Sevilla</span>
 </div></div>
@@ -449,11 +450,11 @@ footer .krea b{color:var(--oro);font-weight:700}
   <div class="wrap">
     <div class="rv">
       <h2 class="disp">El talento se entrena.<br><span class="gold">La confianza también.</span></h2>
-      <p class="lead">JP Fútbol es una academia de tecnificación orientada al desarrollo individual de cada futbolista. Cada sesión combina aprendizaje, exigencia y acompañamiento.</p>
+      <p class="lead">JP Fútbol es una academia de tecnificación orientada al desarrollo individual de cada jugador y jugadora. Cada sesión combina aprendizaje, exigencia y acompañamiento.</p>
       <ul class="pilares">
         <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>Adaptado a la edad y al nivel</b><span>Cada grupo trabaja a su ritmo, con objetivos claros para cada jugador y jugadora.</span></div></li>
         <li><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><div><b>Conectado con el juego real</b><span>Control, pase, golpeo y decisión dentro de situaciones de partido.</span></div></li>
-        <li><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg><div><b>Seguimiento cercano</b><span>Grupos reducidos y un equipo técnico que conoce a cada futbolista.</span></div></li>
+        <li><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg><div><b>Seguimiento cercano</b><span>Grupos reducidos y un equipo técnico que conoce a cada jugador y jugadora.</span></div></li>
       </ul>
     </div>
     <div class="collage rv">
@@ -585,7 +586,7 @@ footer .krea b{color:var(--oro);font-weight:700}
       <div>
         <h3 class="disp">Captación abierta</h3>
         <p class="claim">Tu siguiente nivel empieza aquí.</p>
-        <p>La puerta de entrada para conocer la metodología, el equipo y el plan de trabajo de cada futbolista. Ven a entrenar con nosotros y valoramos juntos por dónde empezar.</p>
+        <p>La puerta de entrada para conocer la metodología, el equipo y el plan de trabajo de cada jugador y jugadora. Ven a entrenar con nosotros y valoramos juntos por dónde empezar.</p>
         <div class="chips"><span>Para jugadores y jugadoras</span><span>Todas las posiciones</span><span>Lunes a jueves</span></div>
         <div class="panel-actions"><button class="btn btn-oro" data-book="Sesión de prueba">Pedir sesión de prueba</button><button class="btn btn-linea" data-video="captacion">Ver ambiente</button></div>
       </div>
@@ -640,7 +641,7 @@ footer .krea b{color:var(--oro);font-weight:700}
   <div class="wrap">
     <div class="rv">
       <h2 class="disp">Forman, acompañan y exigen.</h2>
-      <p class="lead" style="margin-top:16px">Un equipo técnico con una metodología común y una atención cercana a la evolución de cada futbolista.</p>
+      <p class="lead" style="margin-top:16px">Un equipo técnico con una metodología común y una atención cercana a la evolución de cada jugador y jugadora.</p>
     </div>
     <div class="team-cover rv"><img loading="lazy" src="assets/img/jp-misters-team-cover-v4.webp" alt="Los seis místers de JP Fútbol"></div>
     <div class="mlist" id="mlist"></div>
@@ -807,6 +808,21 @@ $$('#menu a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
 
 /* Vídeos de portada: solo se cargan donde se ven */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Banda: avance automático + arrastre con el dedo ---------- */
+(()=>{const band=$('#band'),tr=band.querySelector('.band-track');let x=0,half=0,v=0,drag=false,lastX=0,lastT=0,idle=0;const AUTO=-62;
+ const measure=()=>{half=(tr.scrollWidth+parseFloat(getComputedStyle(tr).columnGap||0))/2;};measure();addEventListener('resize',measure);
+ const wrap=()=>{if(!half)return;while(x<=-half)x+=half;while(x>0)x-=half;};
+ let prev=performance.now();
+ function loop(t){const dt=Math.min(.05,(t-prev)/1000);prev=t;
+  if(!drag){if(Math.abs(v)>5){x+=v*dt;v*=Math.pow(.05,dt);}else{v=0;if(t>idle&&!reduce)x+=AUTO*dt;}}
+  wrap();tr.style.transform=`translate3d(${x}px,0,0)`;requestAnimationFrame(loop);}
+ requestAnimationFrame(loop);
+ band.addEventListener('pointerdown',e=>{drag=true;v=0;lastX=e.clientX;lastT=performance.now();band.classList.add('drag');band.setPointerCapture(e.pointerId);});
+ band.addEventListener('pointermove',e=>{if(!drag)return;const now=performance.now(),dx=e.clientX-lastX;x+=dx;const dt=(now-lastT)/1000;if(dt>0)v=dx/dt;lastX=e.clientX;lastT=now;});
+ const end=()=>{if(!drag)return;drag=false;band.classList.remove('drag');if(performance.now()-lastT>80)v=0;v=Math.max(-3000,Math.min(3000,v));idle=performance.now()+900;};
+ band.addEventListener('pointerup',end);band.addEventListener('pointercancel',end);
+})();
 function startVid(v){if(!v||reduce)return;const s=v.querySelector('source');if(s&&!s.src){s.src=s.dataset.src;v.load();}v.play().catch(()=>{});}
 if(matchMedia('(max-width:980px)').matches) startVid($('#heroVid')); else startVid($('#reelVid'));
 
