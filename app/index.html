@@ -322,7 +322,7 @@ html.locked #gate{display:flex}
 <p>Web y app en fase de presentación. Introduce el código de acceso que te ha facilitado KREA Digital Studio.</p>
 <form id="gateF"><input id="gateI" autocomplete="off" autocapitalize="characters" placeholder="Código" aria-label="Código de acceso"><button type="submit">Entrar</button></form>
 <div class="err" id="gateE" aria-live="polite"></div>
-<p class="sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo web</p></div></div>
+<p class="sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo</p></div></div>
 <script>(function(){var K=atob('SlAyMDI2');var f=document.getElementById('gateF');if(!f)return;f.addEventListener('submit',function(e){e.preventDefault();var v=document.getElementById('gateI').value.trim().toUpperCase();if(v===K){try{localStorage.setItem('jp-acceso','ok')}catch(x){}document.documentElement.classList.remove('locked');}else{document.getElementById('gateE').textContent='Código incorrecto. Pídelo a KREA Digital Studio.';}});})();</script>
 
 <div id="root"></div>
@@ -446,7 +446,7 @@ function loginView(){
     <div id="lfFields"></div>
     <button class="btn oro full" type="submit" style="margin-top:6px">Entrar</button>
     <p class="demo"><b>Versión de demostración.</b> Pulsa «Entrar»: no hace falta contraseña. Cada míster y cada familia tendrán su propia clave en la versión real.</p>
-    <p class="krea-sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo web</p>
+    <p class="krea-sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo</p>
    </form></div></div>`;
   const fields=()=>{$('#lfFields').innerHTML=role==='mister'
     ?`<div class="f"><label for="lm">Míster</label><select id="lm">${allMisters().map(m=>`<option>${m}</option>`).join('')}</select></div><div class="f"><label for="lp">Contraseña</label><input id="lp" type="password" placeholder="No hace falta en la demo" autocomplete="off"></div>`
@@ -467,7 +467,7 @@ function shell(content,route){
     ${nav.map(([k,t,i])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i)}${t}</a>`).join('')}
     <div class="end"><a href="#" data-act="theme" class="thm">${THM}<span>Modo claro / oscuro</span></a>${isStandalone()?'':`<a href="#" data-act="install">${I('dl')}Instalar la app</a>`}<a href="${WEB}">${I('globe')}Web de JP Fútbol</a><a href="#" data-act="reset">${I('reset')}Reiniciar demo</a><a href="#" data-act="logout">${I('out')}Salir</a></div></aside>
    <div><header class="topbar"><div style="display:flex;gap:10px;align-items:center"><img src="assets/jp-logo.webp" alt=""><span class="t">${S.role==='mister'?'Míster '+S.me:P(S.kid).name.split(' ')[0]}</span></div><div style="display:flex;gap:8px"><button class="btn sm thm" data-act="theme" aria-label="Modo claro u oscuro">${THM}</button>${isStandalone()?'':`<button class="btn sm" data-act="install" aria-label="Instalar la app">${I('dl',18)}</button>`}<button class="btn sm bell" data-act="avisos" aria-label="Avisos">${I('bell',18)}${unread()?`<i>${unread()}</i>`:''}</button><button class="btn sm" data-act="logout" aria-label="Salir">${I('out',18)}</button></div></header>
-   <main class="main">${content}<p class="krea-sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo web</p></main></div></div>
+   <main class="main">${content}<p class="krea-sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo</p></main></div></div>
    <nav class="tabbar" aria-label="Secciones">${nav.map(([k,t,i,sh])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i,22)}${sh}</a>`).join('')}</nav>`;
 }
 
