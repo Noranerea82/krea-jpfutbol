@@ -201,6 +201,13 @@ svg.chart{width:100%;height:auto;display:block}
 .thd{display:flex;justify-content:space-between;align-items:center;margin:12px 0 2px;padding:7px 10px;border-radius:10px;background:rgba(226,183,70,.08);border:1px solid rgba(226,183,70,.25)}.thd b{font-size:13px;color:var(--oro2)}.thd span{font-size:12px;color:var(--c2)}
 .hday{padding:12px 0;border-top:1px solid var(--linea)}.hday:first-of-type{border-top:0}.hdn{margin-bottom:8px}.hdn b{font-size:15px}.hdn small{display:block;font-size:12px;color:var(--c2)}
 .tpick{display:flex;flex-wrap:wrap;gap:8px}.tpick .chip[aria-pressed=true]{background:var(--oro);color:#111;border-color:var(--oro)}.tpick .chip[aria-pressed=true] .sub{color:#111}.tpick .chip:disabled{opacity:.4}
+.bell{position:relative}.bell i{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#e5484d;color:#fff;font:800 11px/18px var(--fb,inherit);font-style:normal;text-align:center}
+.side-bell{display:flex;align-items:center;gap:10px;width:100%;margin:-6px 0 12px;padding:10px 12px;border-radius:12px;border:1px solid var(--linea);background:var(--noche);font-weight:700;color:var(--c2)}.side-bell i{position:static;margin-left:auto}
+.avban{display:flex;gap:12px;align-items:center;width:100%;text-align:left;margin-bottom:14px;padding:14px 16px;border-radius:16px;border:1px solid var(--linea);background:var(--noche);font-size:22px}.avban.new{border-color:var(--oro);background:rgba(226,183,70,.08)}.avban span{flex:1;min-width:0;font-size:13.5px;color:var(--c2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.avban b{display:block;font-size:14px;color:var(--oro2)}.avban em{font-style:normal;font-size:13px;font-weight:800;color:var(--oro)}
+.avl{display:flex;flex-direction:column;gap:10px}.avi{display:flex;gap:12px;padding:14px;border-radius:14px;background:var(--noche);border:1px solid var(--linea)}.avi.susp{border-color:rgba(229,72,77,.45)}.avi.hora{border-color:rgba(226,183,70,.4)}.ave{font-size:22px;line-height:1}.avh{display:flex;justify-content:space-between;gap:8px}.avh small{color:var(--c2);font-size:12px}.avi p{font-size:14px;line-height:1.45;margin:4px 0 6px}
+.av4{grid-template-columns:repeat(4,1fr)!important;margin:0!important}.av4 button{font-size:20px;min-height:72px}.av4 button small{font-size:11px;line-height:1.2;text-align:center}
+@media(max-width:600px){.av4{grid-template-columns:repeat(2,1fr)!important}}
+.inst{padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:15px;line-height:1.45}.instprev{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:18px;font-size:12px;font-weight:700}.instprev img{width:64px;height:64px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.5)}
 .aulist{display:flex;flex-direction:column;gap:6px}.aulist span{font-size:13.5px;font-weight:700}.aulist .y{color:#7fd6a4}.aulist .n{color:var(--c2);opacity:.75}
 .aus{display:flex;flex-direction:column;gap:10px}.pvc.au{margin:0;align-items:flex-start}.pvc.au .tg{margin-top:2px}.pvc.au b{display:block;color:var(--txt,#fff);font-size:14.5px}.pvc.au small{display:block;font-size:12.5px;color:var(--c2);margin-top:2px;line-height:1.4}
 .h3sub{display:block;font-family:var(--fb,inherit);font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--c2);margin-top:2px}
@@ -322,6 +329,8 @@ const I=(n,s=20)=>`<svg class="ico" style="width:${s}px;height:${s}px" viewBox="
  cal:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
  card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
  chart:'<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
+ bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+ dl:'<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>',
  lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
  vidoff:'<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/><path d="M2 2l20 20"/>',
  video:'<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>',
@@ -445,10 +454,10 @@ function shell(content,route){
   const nav=NAV[S.role];
   const who=S.role==='mister'?`<b>Míster ${S.me}</b><span>JP Fútbol · Equipo técnico</span>`:`<b>${P(S.kid).name}</b><span>Área familias</span>`;
   $('#root').innerHTML=`<div class="shell">
-   <aside class="side"><div class="who"><img src="assets/jp-logo.webp" alt=""><div>${who}</div></div>
+   <aside class="side"><div class="who"><img src="assets/jp-logo.webp" alt=""><div>${who}</div></div><button class="bell side-bell" data-act="avisos">${I('bell',18)}<span>Avisos</span>${unread()?`<i>${unread()}</i>`:''}</button>
     ${nav.map(([k,t,i])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i)}${t}</a>`).join('')}
-    <div class="end"><a href="${WEB}">${I('globe')}Web de JP Fútbol</a><a href="#" data-act="reset">${I('reset')}Reiniciar demo</a><a href="#" data-act="logout">${I('out')}Salir</a></div></aside>
-   <div><header class="topbar"><div style="display:flex;gap:10px;align-items:center"><img src="assets/jp-logo.webp" alt=""><span class="t">${S.role==='mister'?'Míster '+S.me:P(S.kid).name.split(' ')[0]}</span></div><button class="btn sm" data-act="logout" aria-label="Salir">${I('out',18)}</button></header>
+    <div class="end">${isStandalone()?'':`<a href="#" data-act="install">${I('dl')}Instalar la app</a>`}<a href="${WEB}">${I('globe')}Web de JP Fútbol</a><a href="#" data-act="reset">${I('reset')}Reiniciar demo</a><a href="#" data-act="logout">${I('out')}Salir</a></div></aside>
+   <div><header class="topbar"><div style="display:flex;gap:10px;align-items:center"><img src="assets/jp-logo.webp" alt=""><span class="t">${S.role==='mister'?'Míster '+S.me:P(S.kid).name.split(' ')[0]}</span></div><div style="display:flex;gap:8px">${isStandalone()?'':`<button class="btn sm" data-act="install" aria-label="Instalar la app">${I('dl',18)}</button>`}<button class="btn sm bell" data-act="avisos" aria-label="Avisos">${I('bell',18)}${unread()?`<i>${unread()}</i>`:''}</button><button class="btn sm" data-act="logout" aria-label="Salir">${I('out',18)}</button></div></header>
    <main class="main">${content}<p class="krea-sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo web</p></main></div></div>
    <nav class="tabbar" aria-label="Secciones">${nav.map(([k,t,i,sh])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i,22)}${sh}</a>`).join('')}</nav>`;
 }
@@ -462,7 +471,7 @@ function vHoy(){
   const total=groups.reduce((a,[k])=>a+playersOn(k,day).length,0);
   const present=groups.reduce((a,[k])=>a+att(k).length,0);
   const pend=S.players.filter(p=>!p.paid).length;
-  return `<div class="hd"><div><h1 class="disp">Hoy, ${day.toLowerCase()}</h1><p>Centro Deportivo Valdezorras · C/ Vereda de Poco Aceite</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
+  return `<div class="hd"><div><h1 class="disp">Hoy, ${day.toLowerCase()}</h1><p>Centro Deportivo Valdezorras · C/ Vereda de Poco Aceite</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="newAviso">${I('bell')}Enviar aviso</button><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div></div>
   <div class="grid g4" style="margin-bottom:14px">
    <div class="card kpi"><small>Grupos hoy</small><b>${groups.length}</b><span>${groups.map(([,g])=>(g.short||g.name)).join(' · ')}</span></div>
    <div class="card kpi"><small>Asistencia</small><b>${present}/${total}</b><span>Marca a los jugadores al llegar</span></div>
@@ -540,6 +549,7 @@ function vInicio(){
   const PS=packSessions(p);const nx=PS.find(x=>DAYS.indexOf(x.dn)>=DAYS.indexOf(todayName()))||PS[0];const next=nx.dn;
   const pend=p.tasks.filter(t=>!t.done).length;
   return `<div class="hd"><div><h1 class="disp">Hola, familia<br><span class="gold">de ${p.name.split(' ')[0]}</span></h1></div></div>
+  ${avFor(p).length?`<button class="avban ${unread()?'new':''}" data-act="avisos">${(AVT[avFor(p)[0].ty]||AVT.info)[1]}<span><b>${unread()?'Nuevo aviso del club':'Último aviso del club'}</b>${avFor(p)[0].txt}</span><em>Ver</em></button>`:''}
   <div class="hero-card" style="margin-bottom:14px"><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div>${av(p,"lg")}<div style="flex:1;min-width:160px"><b style="font-size:18px">${p.name}</b><p class="muted">${p.age} años · ${p.pos} · ${g.name}</p><p style="margin-top:6px;color:var(--oro2);font-weight:700">+${p.hist[5]-p.hist[0]} puntos desde mayo</p></div></div>
   <div class="grid g3" style="margin-bottom:14px">
    <div class="card kpi"><small>Próxima sesión</small><b>${next}</b><span>${turnoLbl(nx.k,turnoOf(p,next,nx.k))} · ${nx.k==='fis'?'Preparación física · ':''}${msTxt(metaFor(nx.k,next))}</span></div>
@@ -547,7 +557,7 @@ function vInicio(){
    <div class="card kpi"><small>Pack ${p.pack}</small><b class="${p.paid?'':'gold'}">${p.paid?'Al día':'Pendiente'}</b><span>${PACKS[p.pack]} € al mes</span></div>
   </div>
   <div class="grid g2">
-   <section class="card"><h3>Tareas para casa <span class="pill ${pend?'warn':'ok'}">${pend?pend+' pendientes':'Todo hecho'}</span></h3><div class="list">${p.tasks.map((t,i)=>`<div class="item"><button class="check ${t.done?'on':''}" data-task="${i}" aria-pressed="${t.done}" aria-label="Marcar tarea: ${t.t}">${I('check')}</button><div class="grow"><b>${t.t}</b></div></div>`).join('')}</div></section>
+   <section class="card"><h3>Tareas para casa <span class="pill ${pend?'warn':'ok'}">${pend?pend+(pend===1?' pendiente':' pendientes'):'Todo hecho'}</span></h3><div class="list">${p.tasks.map((t,i)=>`<div class="item"><button class="check ${t.done?'on':''}" data-task="${i}" aria-pressed="${t.done}" aria-label="Marcar tarea: ${t.t}">${I('check')}</button><div class="grow"><b>${t.t}</b></div></div>`).join('')}</div></section>
    <section class="card"><h3>Lo último del míster</h3>${p.notes.length?p.notes.map(n=>`<p style="font-size:15px">«${n.t}»</p><small class="muted">Míster ${n.by} · ${n.d}</small>`).join(''):'<p class="muted">Aquí verás los comentarios del míster después de cada sesión.</p>'}
     <div style="margin-top:14px"><button class="btn sm" data-vid="tecnificacion" data-t="Vídeo de la última sesión">${I('play',14)}Vídeo de la última sesión</button></div></section>
    <section class="card"><h3>Autorizaciones de imagen <button class="btn sm" data-act="auth">Cambiar</button></h3>${authSummary(p)}<p class="muted" style="font-size:12.5px;margin-top:10px">${p.authDate?'Actualizado el '+fmtD(p.authDate):'Firmadas en la inscripción'}</p></section>
@@ -729,6 +739,36 @@ function horarioHTML(p){const PS=packSessions(p);return `<section class="card" s
   ${PS.map(s=>{const f=frOf(s.k),cur=turnoOf(p,s.dn,s.k);return `<div class="hday"><div class="hdn"><b>${s.dn}</b><small>${s.k==='fis'?'Prep. física':(GROUPS[s.k].short||GROUPS[s.k].name)} · franja ${f.n.toLowerCase()}</small></div><div class="tpick">${turnos(s.k).map(t=>{const n=ocup(s.k,s.dn,t)-(cur===t?1:0);const left=f.cap-n;const on=cur===t;return `<button class="chip" data-act="pickT" data-k="${s.k}" data-d="${s.dn}" data-t="${t}" aria-pressed="${on}" ${!on&&left<=0?'disabled':''}>${on?'✓ ':''}${turnoLbl(s.k,t)}<em class="sub">${left<=0&&!on?'Completo':left+' plazas'}</em></button>`}).join('')}</div></div>`}).join('')}
   <p class="muted" style="font-size:12.5px;margin-top:10px">${PS.some(x=>turnos(x.k).length>1)?'El míster ve al momento quién viene en cada turno. ':''}Los horarios y las plazas los organiza el club.</p></section>`;}
 
+/* ---------- Avisos del club ---------- */
+const AVT={info:['Información','📣'],hora:['Cambio de horario','🕘'],susp:['Sesión suspendida','⛔'],pago:['Recordatorio','💳']};
+function avisos(){if(!S.avisos){const d=n=>new Date(Date.now()-864e5*n).toISOString();S.avisos=[{id:'a1',ty:'info',to:'all',by:'Perotti',d:d(1),txt:'Bienvenidos a la app de JP Fútbol. Aquí recibiréis los avisos del club, los vídeos y el progreso de cada jugador y jugadora.'},{id:'a2',ty:'hora',to:'alev',by:'Miguel',d:d(3),txt:'El miércoles el grupo Alevín entrena en el campo 2. Mismo horario.'}];}return S.avisos;}
+const avFor=p=>avisos().filter(a=>a.to==='all'||a.to===p.group);
+function unread(){if(S.role!=='familia')return 0;const p=P(S.kid);const r=(S.readAv&&S.readAv[p.id])||[];return avFor(p).filter(a=>!r.includes(a.id)).length;}
+function avItem(a){const [t,e]=AVT[a.ty]||AVT.info;return `<div class="avi ${a.ty}"><span class="ave">${e}</span><div class="grow"><div class="avh"><b>${t}</b><small>${fmtD(a.d)}</small></div><p>${a.txt}</p><small class="muted">Míster ${a.by} · ${a.to==='all'?'Todas las familias':(GROUPS[a.to]?GROUPS[a.to].name:'')}</small></div></div>`;}
+function avSheet(){if(S.role==='mister'){const L=avisos();sheet(`<h2 class="disp">Avisos enviados</h2><p class="muted" style="margin-bottom:14px">Lo que han recibido las familias en su app</p><button class="btn oro full" data-act="newAviso" style="margin-bottom:14px">${I('plus')}Enviar aviso nuevo</button><div class="avl">${L.map(avItem).join('')}</div>`);return;}
+  const p=P(S.kid);const L=avFor(p);S.readAv=S.readAv||{};S.readAv[p.id]=L.map(a=>a.id);save();rerender();
+  sheet(`<h2 class="disp">Avisos del club</h2><p class="muted" style="margin-bottom:14px">Para la familia de ${p.name.split(' ')[0]}</p><div class="avl">${L.map(avItem).join('')||'<p class="muted">No hay avisos.</p>'}</div>`);}
+function newAviso(){let ty='info';const tpl={info:'',hora:'Esta semana el entrenamiento del {g} cambia a las ',susp:'Hoy se suspende la sesión del {g} por ',pago:'Recordad que el pago del pack de este mes vence el día 5. Podéis pagar desde la app con tarjeta o Bizum.'};
+  sheet(`<h2 class="disp">Enviar aviso</h2><p class="muted" style="margin-bottom:16px">Llega al momento a la app de las familias</p><form id="avf">
+  <div class="f"><label>Tipo</label><div class="paybtns av4" role="group">${Object.entries(AVT).map(([k,[t,e]])=>`<button type="button" data-ty="${k}" aria-pressed="${k==='info'}">${e}<small>${t}</small></button>`).join('')}</div></div>
+  <div class="f"><label for="avto">Para</label><select id="avto"><option value="all">Todas las familias (${S.players.length})</option>${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name} (${S.players.filter(p=>p.group===k).length})</option>`).join('')}</select></div>
+  <div class="f"><label for="avtx">Mensaje</label><textarea id="avtx" rows="4" placeholder="Escribe el aviso"></textarea></div><p id="ave" class="muted" style="color:var(--bad);min-height:18px;font-size:13px"></p>
+  <button class="btn oro full">Enviar aviso</button></form>`);
+  const fill=()=>{const g=$('#avto').value;const gn=g==='all'?'grupo':(GROUPS[g].short||GROUPS[g].name);const t=tpl[ty];if(t&&(!$('#avtx').value||$('#avtx').dataset.auto==='1')){$('#avtx').value=t.replace('{g}',gn);$('#avtx').dataset.auto='1';}};
+  $$('.av4 button').forEach(b=>b.onclick=()=>{ty=b.dataset.ty;$$('.av4 button').forEach(x=>x.setAttribute('aria-pressed',x===b));if(!tpl[ty]&&$('#avtx').dataset.auto==='1'){$('#avtx').value='';}fill();$('#avtx').focus();});
+  $('#avto').onchange=fill;$('#avtx').oninput=e=>e.target.dataset.auto='0';
+  $('#avf').onsubmit=ev=>{ev.preventDefault();const txt=$('#avtx').value.trim();if(!txt){$('#ave').textContent='Escribe el mensaje.';return;}const to=$('#avto').value;avisos().unshift({id:'a'+Date.now(),ty,to,by:S.me,d:new Date().toISOString(),txt});save();closeSheet();render();const n=to==='all'?S.players.length:S.players.filter(p=>p.group===to).length;toast(`Aviso enviado a ${n} familias`);};}
+/* ---------- Instalar como app ---------- */
+let deferredInstall=null;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;});
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+const isStandalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+function installApp(){if(deferredInstall){deferredInstall.prompt();deferredInstall.userChoice.then(()=>{deferredInstall=null;});return;}
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  sheet(`<h2 class="disp">Instalar la app</h2><p class="muted" style="margin-bottom:16px">Tendrás JP Fútbol en la pantalla de inicio del móvil, como cualquier otra app.</p>
+  <ol class="inst">${ios?`<li>Abre esta página en <b>Safari</b>.</li><li>Toca el botón <b>Compartir</b> (el cuadrado con la flecha hacia arriba).</li><li>Elige <b>«Añadir a pantalla de inicio»</b> y pulsa <b>Añadir</b>.</li>`:`<li>Abre esta página en <b>Chrome</b>.</li><li>Toca el menú <b>⋮</b> de arriba a la derecha.</li><li>Elige <b>«Instalar aplicación»</b> o <b>«Añadir a pantalla de inicio»</b>.</li>`}</ol>
+  <div class="instprev"><img src="assets/icon-192.png" alt=""><span>JP Fútbol</span></div>`);}
+
 /* ---------- Router ---------- */
 function render(){
   if(!S.role){loginView();return;}
@@ -803,6 +843,9 @@ document.addEventListener('click',e=>{
     $('#pf').onsubmit=ev=>{ev.preventDefault();const n=$('#pn').value.trim(),ag=$('#pa').value.trim();if(!n){$('#pfe').textContent='Escribe el nombre.';return;}if(!/^\d{1,2}$/.test(ag)){$('#pfe').textContent='Escribe la edad en números.';return;}
       S.players.push({id:'j'+Date.now(),name:n,age:+ag,pos:'Por definir',group:$('#pg').value,pack:'Inicio',paid:false,att:100,sessions:0,areas:{'Técnica':50,'Físico':50,'Táctica':50,'Actitud':50},hist:[50,50,50,50,50,50],tasks:[],notes:[]});save();closeSheet();render();toast('Jugador creado');};}
   if(a==='pay'){payFlow(P(S.kid));}
+  if(a==='avisos'){avSheet();return;}
+  if(a==='newAviso'){newAviso();return;}
+  if(a==='install'){e.preventDefault();installApp();return;}
   if(a==='mvg'){if(!SOCIOS.includes(S.me))return;const C=cuad(),k=t.dataset.g2;C.g[k]=(C.g[k]||'may')==='peq'?'may':'peq';save();rerender();toast((GROUPS[k].short||GROUPS[k].name)+' pasa a la franja '+C.fr[C.g[k]].n);return;}
   if(a==='cday'){cDay=t.dataset.d;rerender();return;}
   if(a==='pickT'){const p=P(S.kid);p.turnos=p.turnos||{};p.turnos[t.dataset.k+'|'+t.dataset.d]=t.dataset.t;save();rerender();toast(`${p.name.split(' ')[0]} irá el ${t.dataset.d.toLowerCase()} de ${turnoLbl(t.dataset.k,t.dataset.t)}`);return;}
