@@ -462,7 +462,7 @@ function vHoy(){
   const total=groups.reduce((a,[k])=>a+playersOn(k,day).length,0);
   const present=groups.reduce((a,[k])=>a+att(k).length,0);
   const pend=S.players.filter(p=>!p.paid).length;
-  return `<div class="hd"><div><h1 class="disp">Hoy, ${day.toLowerCase()}</h1><p>Centro Deportivo Valdezorras</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
+  return `<div class="hd"><div><h1 class="disp">Hoy, ${day.toLowerCase()}</h1><p>Centro Deportivo Valdezorras · C/ Vereda de Poco Aceite</p></div><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
   <div class="grid g4" style="margin-bottom:14px">
    <div class="card kpi"><small>Grupos hoy</small><b>${groups.length}</b><span>${groups.map(([,g])=>(g.short||g.name)).join(' · ')}</span></div>
    <div class="card kpi"><small>Asistencia</small><b>${present}/${total}</b><span>Marca a los jugadores al llegar</span></div>
@@ -713,7 +713,7 @@ function rerender(){const y=scrollY;render();scrollTo(0,y);}
 function vCuadrante(){const C=cuad(),soc=SOCIOS.includes(S.me),dis=soc?'':'disabled';cDay=cDay||todayName();
   const fr=Object.entries(C.fr);
   return `<a href="#/sesiones" class="btn sm" style="margin-bottom:14px">${I('back',16)}Sesiones</a>
-  <div class="hd"><div><h1 class="disp">Cuadrante</h1><p>Franjas, turnos y plazas · lo gestionan los socios</p></div><span class="pill ${soc?'gold':''}">${soc?'Puedes editar · socio':'Solo lectura'}</span></div>
+  <div class="hd"><div><h1 class="disp">Cuadrante</h1><p>Franjas, turnos y plazas · lo gestionan los socios</p><p style="font-size:13px;margin-top:4px">Horario actual del club: lunes a jueves de 20:00 a 21:30, campo entero</p></div><span class="pill ${soc?'gold':''}">${soc?'Puedes editar · socio':'Solo lectura'}</span></div>
   ${soc?'':`<p class="demo" style="margin:-6px 0 14px">${I('lock',14)} Solo Perotti y José pueden cambiar el cuadrante. Entra como uno de ellos para editarlo.</p>`}
   <div class="grid g2">${fr.map(([fk,f])=>{const gs=Object.keys(GROUPS).filter(k=>(C.g[k]||'may')===fk);const T=turnos(gs[0]||'preb');const other=fr.find(([x])=>x!==fk)[1].n;
     return `<section class="card fr"><h3><span>Franja ${f.n}<small class="h3sub">${f.s} a ${f.e} · ${T.length} turno${T.length>1?'s':''} de ${f.dur} min</small></span></h3>
