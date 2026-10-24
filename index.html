@@ -1086,7 +1086,7 @@ function recommend(){
     [/portero|portera|porter[ií]a/i,'Tenemos entrenamiento específico de <b>porteros y porteras</b> para todas las edades: posición base, colocación, reacción, blocaje y decisiones bajo palos. Pack Porteros: 2 sesiones semanales (70 €/mes orientativo).'],
     [/f[ií]sic|fuerza|velocidad|coordinaci|lesi[oó]n|prevenci/i,'La <b>preparación física</b> trabaja fuerza, coordinación, velocidad y prevención de lesiones, adaptada a cada edad. Va incluida en el pack Completo. Si hay una lesión, consulta primero con un profesional sanitario y cuéntaselo al equipo.'],
     [/individual|1 ?a ?1|personal|particular/i,'Hay <b>sesiones individuales</b> 1 a 1 o en pareja con un míster (pierna menos hábil, golpeo, vuelta tras lesión, preparación de pruebas). El precio se consulta con el equipo.'],
-    [/m[ií]ster|entrenador|equipo t[eé]cnico|perotti|jos[eé]/i,'El equipo técnico lo forman <b>Perotti y José</b> (socios), Miguel, Fernando, <b>Iván</b> (porteros y porteras), <b>Bulnes</b> (preparación física) y Antonio.'],
+    [/m[ií]ster|entrenador|equipo t[eé]cnico|perotti|miguel|jos[eé]/i,'El equipo técnico lo forman <b>Perotti y Miguel</b> (socios y propietarios), José, Fernando, <b>Iván</b> (porteros y porteras), <b>Bulnes</b> (preparación física) y Antonio.'],
     [/reserv|apunt|inscri|plaza|matr[ií]cul/i,'Puedes reservar en un minuto con el botón <b>«Reservar plaza»</b>: rellenas los datos y se envían por WhatsApp. El equipo te confirma grupo y horario.'],
     [/hola|buenas|buenos/i,'¡Hola! 😊 Soy el asistente de JP Fútbol. Pregúntame por horarios, packs, programas o cómo apuntarte.'],
     [/gracias/i,'¡A ti! Si quieres, te paso con el equipo por WhatsApp. ⚽']
@@ -1096,7 +1096,7 @@ function recommend(){
   function otra(){say('¿Qué más quieres saber?',menu)}
   function cierre(q){choices([{l:'Reservar plaza',book:'Tecnificación 2 días'},{l:'Hablar por WhatsApp',href:wa('Hola JP Fútbol 👋 Vengo de vuestra web. Mi pregunta: '+q)},{l:'Otra pregunta',go:otra}])}
   function responder(q,rapida){
-    if(/equipo|persona|humano|whats|hablar con/i.test(q)){say('Te paso con el equipo de JP Fútbol por <b>WhatsApp</b> (609 712 137). Perotti o José te responderán en cuanto puedan.',function(){choices([{l:'Abrir WhatsApp',href:wa('Hola JP Fútbol 👋 Vengo de vuestra web y quería información.')},{l:'Otra pregunta',go:otra}])});return}
+    if(/equipo|persona|humano|whats|hablar con/i.test(q)){say('Te paso con el equipo de JP Fútbol por <b>WhatsApp</b> (609 712 137). Perotti o Miguel te responderán en cuanto puedan.',function(){choices([{l:'Abrir WhatsApp',href:wa('Hola JP Fútbol 👋 Vengo de vuestra web y quería información.')},{l:'Otra pregunta',go:otra}])});return}
     var r=local(q);
     if(rapida||!ia){say(r||NOSE,function(){cierre(q)});return}
     hist.push({role:'user',content:q});var t=typing();
