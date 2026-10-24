@@ -427,6 +427,36 @@ html[data-theme=light] .sc{box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 26px -18p
 .sw:disabled{opacity:.4;cursor:not-allowed}
 .setc .lnk{justify-self:start;margin:2px 0 12px}
 .ntsteps{margin:8px 0 0;padding-left:20px;display:grid;gap:6px;font-size:13.5px;color:var(--c2);line-height:1.45}.ntsteps li::marker{color:var(--oro2);font-weight:800}
+/* Portada de inicio */
+.portada{position:relative;overflow:hidden;isolation:isolate;display:flex;align-items:flex-end;min-height:250px;margin:0 0 14px;border-radius:24px;background:#050505;box-shadow:0 18px 40px rgba(0,0,0,.18)}
+.portada>img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:70% 42%}
+.portada::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(5,5,5,.94) 0%,rgba(5,5,5,.72) 40%,rgba(5,5,5,.08) 78%),linear-gradient(0deg,rgba(5,5,5,.8) 0%,transparent 55%)}
+.po-in{max-width:600px;padding:22px 24px 22px;color:#F8F6EF}
+.po-k{display:flex;align-items:center;gap:10px;margin-bottom:12px}.po-k img{width:36px;height:36px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px rgba(226,183,70,.65)}
+.po-k small{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#E2B746}
+.portada h1.disp{margin:0;font-size:clamp(32px,5.4vw,52px);line-height:.95;color:#FFFFFF;text-transform:uppercase}.portada h1 span{color:#E2B746}
+.portada p{margin:10px 0 0;color:#D6D1C4;font-size:14px;line-height:1.45}.portada p b{color:#F5CB64}.po-day{color:#FFFFFF;font-weight:700}
+.po-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.portada .btn:not(.oro){background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.24);color:#FFFFFF;backdrop-filter:blur(6px)}
+@media (max-width:600px){.portada{min-height:0;border-radius:20px;margin-top:-4px}.portada>img{height:auto;bottom:auto;aspect-ratio:16/10;object-position:72% 45%}.portada::before{background:linear-gradient(180deg,rgba(5,5,5,0) 0,rgba(5,5,5,.15) 90px,rgba(5,5,5,.9) 175px,#050505 210px)}.po-in{padding:128px 18px 18px}.portada h1.disp{font-size:31px}.po-act{flex-wrap:nowrap}.po-act .btn{flex:1 1 0;min-width:0;padding:0 10px;font-size:14px}}
+/* Datos rápidos en una línea */
+.kstrip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.kst{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:16px;background:var(--g1);border:1px solid var(--linea);text-decoration:none;color:var(--cal)}
+a.kst:hover{border-color:var(--oro)}.kst b{font-family:var(--fd);font-size:26px;line-height:1}.kst b.gold{color:var(--oro2)}.kst small{color:var(--c3);font-size:12px;font-weight:600;line-height:1.25}
+@media (max-width:600px){.kstrip{gap:6px}.kst{padding:10px 8px;text-align:center;border-radius:14px}.kst b{font-size:22px}.kst small{font-size:10.5px}}
+/* Sugerencias y grupos plegables */
+details.sug>summary,details.grp>summary{list-style:none;display:flex;align-items:center;gap:12px;cursor:pointer}
+details.sug>summary::-webkit-details-marker,details.grp>summary::-webkit-details-marker{display:none}
+details.sug .sgt{flex:1;min-width:0}.sgt b{display:flex;align-items:center;gap:8px;font-size:16px}.sgt small{display:block;margin-top:3px;color:var(--c3);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+details.sug .s-o,details.sug[open] .s-c{display:none}details.sug[open] .s-o{display:block}
+details.sug[open]>summary{margin-bottom:8px}
+details.sug .chev,details.grp .chev{flex:none;color:var(--oro2);font-size:18px;transition:transform .2s}details[open]>summary .chev{transform:rotate(180deg)}
+.sech{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 10px;margin:18px 0 10px;font-size:18px}.sech small{font-size:12.5px;font-weight:600;color:var(--c3)}
+.grps{align-items:start}
+.grp .gi{flex:1;min-width:0}.grp .gi b{display:block;font-size:15.5px}.grp .gi small{display:block;color:var(--c3);font-size:12.5px;margin-top:2px}
+.gbar{display:block;height:5px;border-radius:9px;background:var(--g3);margin-top:8px;overflow:hidden}.gbar i{display:block;height:100%;background:var(--oro);border-radius:9px}
+.grp .gn{text-align:right;flex:none}.grp .gn b{display:block;font-family:var(--fd);font-size:22px;line-height:1}.grp .gn small{color:var(--c3);font-size:11px}
+details.grp[open]>summary{padding-bottom:12px;margin-bottom:4px;border-bottom:1px solid var(--linea)}
 </style>
 <style id="gateCss">html.locked,html.locked body{overflow:hidden!important}html.locked body>*:not(#gate){visibility:hidden!important}
 #gate{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 30%,#1a160c 0,#050505 70%);font-family:Manrope,system-ui,sans-serif;color:#F8F6EF}
@@ -547,6 +577,10 @@ const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'
 const isTrainDay=()=>{const d=new Date().getDay();return d>=1&&d<=4;};
 /* Día de entrenamiento de referencia: hoy si se entrena (lunes a jueves); si no, el próximo lunes */
 function todayName(){const d=new Date().getDay();return d>=1&&d<=4?DAYS[d-1]:'Lunes';}
+/* Fecha del próximo día de la semana indicado (hoy incluido) */
+function dateOf(dn){const x=new Date(),w=DAYS.indexOf(dn)+1;while(x.getDay()!==w)x.setDate(x.getDate()+1);return x;}
+/* Portada con la foto de JP Fútbol en la primera pantalla de cada perfil */
+function portada(k,t,s,acts){return `<section class="portada"><img src="assets/portada.webp" alt="" fetchpriority="high"><div class="po-in"><div class="po-k"><img src="assets/logo-round.webp" alt="JP Fútbol"><small>${k}</small></div><h1 class="disp">${t}</h1><p>${s}</p>${acts?`<div class="po-act">${acts}</div>`:''}</div></section>`;}
 function nextTrainDate(){const x=new Date();while(x.getDay()<1||x.getDay()>4)x.setDate(x.getDate()+1);return x;}
 
 /* ---------- Utilidades UI ---------- */
@@ -619,6 +653,7 @@ function shell(content,route){
 }
 
 /* ---------- Míster: Hoy ---------- */
+const GOPEN=new Set();
 function vHoy(){
   const day=todayName();
   const groups=Object.entries(GROUPS).filter(([k])=>onDay(k,day)||playersOn(k,day).length);
@@ -628,17 +663,18 @@ function vHoy(){
   const present=groups.reduce((a,[k])=>a+att(k).length,0);
   const pend=S.players.filter(p=>!p.paid).length;
   const tr=isTrainDay(),now=new Date(),nd=nextTrainDate();
-  return `<div class="hd"><div><h1 class="disp">Hoy, ${DIAS[now.getDay()].toLowerCase()}</h1><p>${tr?`${fmtLong(now)} · Día de entrenamiento`:`${fmtLong(now)} · Hoy no hay entrenamiento. Debajo tienes la próxima sesión: <b style="color:var(--oro2)">${day.toLowerCase()} ${fmtLong(nd)}</b>`}</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="newAviso">${I('bell')}Enviar aviso</button><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div></div>
-  <div class="grid g4" style="margin-bottom:14px">
-   <div class="card kpi"><small>${tr?"Grupos hoy":"Grupos el "+day.toLowerCase()}</small><b>${groups.length}</b><span>${groups.map(([,g])=>(g.short||g.name)).join(' · ')}</span></div>
-   <div class="card kpi"><small>Asistencia</small><b>${present}/${total}</b><span>Marca a los jugadores al llegar</span></div>
-   <div class="card kpi"><small>Jugadores activos</small><b>${S.players.length}</b><span>En ${Object.keys(GROUPS).length} grupos</span></div>
-   <div class="card kpi"><small>Pagos pendientes</small><b class="${pend?'gold':''}">${pend}</b><span>Ver packs y pagos</span></div>
+  return `${portada('JP Fútbol · Equipo técnico','Entrena distinto.<br><span>Juega a otro nivel.</span>',`<span class="po-day">${DIAS[now.getDay()]}, ${fmtLong(now)}</span> · ${tr?'Día de entrenamiento':`Sin entrenamiento · Próxima sesión: <b>${day.toLowerCase()} ${fmtLong(nd)}</b>`}`,`<button class="btn" data-act="newAviso">${I('bell')}Enviar aviso</button><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button>`)}
+  <div class="kstrip">
+   <a href="#/sesiones" class="kst"><b>${groups.length}</b><small>${tr?'Grupos hoy':'Grupos el '+day.toLowerCase()}</small></a>
+   <div class="kst"><b>${present}/${total}</b><small>Asistencia</small></div>
+   <a href="#/jugadores" class="kst"><b>${S.players.length}</b><small>Jugadores activos</small></a>
+   <a href="#/pagos" class="kst"><b class="${pend?'gold':''}">${pend}</b><small>Pagos pendientes</small></a>
   </div>
   ${sugHTML(day)}
-  <div class="grid g2">${groups.map(([k,g])=>{const pl=playersOn(k,day);return `<section class="card"><h3><span>${g.name}</span><span class="pill gold">${msTxt(metaFor(k,day))}</span></h3><p class="muted" style="margin:-4px 0 10px;font-size:13px">${metaFor(k,day).s} a ${metaFor(k,day).e}</p>
+  <h2 class="sech">${tr?'Grupos de hoy':'Grupos del '+day.toLowerCase()}<small>Toca un grupo para pasar lista</small></h2>
+  <div class="grid g2 grps">${groups.map(([k,g])=>{const pl=playersOn(k,day),m=metaFor(k,day),n=att(k).length;return `<details class="card grp" ${GOPEN.has(k)?'open':''} ontoggle="GOPEN[this.open?'add':'delete']('${k}')"><summary><span class="gi"><b>${g.name}</b><small>${m.s} a ${m.e} · ${msTxt(m)}</small><span class="gbar"><i style="width:${pl.length?Math.round(n/pl.length*100):0}%"></i></span></span><span class="gn"><b>${n}/${pl.length}</b><small>presentes</small></span><span class="chev" aria-hidden="true">▾</span></summary>
    ${turnos(k).map(tt=>{const pt=pl.filter(p=>turnoOf(p,day,k)===tt);return `<div class="thd"><b>${turnoLbl(k,tt)}</b><span>${pt.length}/${frOf(k).cap} plazas</span></div><div class="list">${pt.map(p=>{const on=att(k).includes(p.id);return `<div class="item ${ciLevel(ciOf(p,day))==='away'?'away':''}">${av(p)}<div class="grow"><b>${p.name} ${camBadge(p)}</b><small>${p.age} años · ${p.pos}</small>${ciTag(p,day)}</div><button class="btn sm" data-open="${p.id}">Ficha</button><button class="check ${on?'on':''}" data-att="${key(k)}|${p.id}" aria-pressed="${on}" aria-label="Asistencia de ${p.name}">${I('check')}</button></div>`}).join('')||'<p class="muted" style="font-size:13px;padding:6px 0">Nadie en este turno.</p>'}</div>`}).join('')}
-   <div style="margin-top:12px"><small class="muted">${tr?"Plan de hoy":"Plan del "+day.toLowerCase()}</small><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">${(planFor(k,day)||EXS[g.prog]).map(x=>`<span class="pill">${x}</span>`).join('')}</div></div></section>`}).join('')||'<div class="card empty">Hoy no hay sesiones.</div>'}</div>`;
+   <div style="margin-top:12px"><small class="muted">${tr?"Plan de hoy":"Plan del "+day.toLowerCase()}</small><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">${(planFor(k,day)||EXS[g.prog]).map(x=>`<span class="pill">${x}</span>`).join('')}</div></div></details>`}).join('')||'<div class="card empty">No hay sesiones ese día.</div>'}</div>`;
 }
 /* ---------- Míster: Jugadores ---------- */
 let fGroup='all',fText='';
@@ -708,7 +744,7 @@ function vInicio(){
   const p=P(S.kid), g=GROUPS[p.group];
   const PS=packSessions(p);const nx=PS.find(x=>DAYS.indexOf(x.dn)>=DAYS.indexOf(todayName()))||PS[0];const next=nx.dn;
   const pend=p.tasks.filter(t=>!t.done).length;
-  return `<div class="hd"><div><h1 class="disp">Hola, familia<br><span class="gold">de ${p.name.split(' ')[0]}</span></h1></div></div>
+  return `${portada(`JP Fútbol · Familia de ${p.name.split(' ')[0]}`,'Entrena distinto.<br><span>Juega a otro nivel.</span>',`Próxima sesión: <b>${isTrainDay()&&next===todayName()?'hoy':next.toLowerCase()+' '+fmtLong(dateOf(next))}</b> · ${turnoLbl(nx.k,turnoOf(p,next,nx.k))}`)}
   ${avFor(p).length?`<button class="avban ${unread()?'new':''}" data-act="avisos">${(AVT[avFor(p)[0].ty]||AVT.info)[1]}<span><b>${unread()?'Nuevo aviso del club':'Último aviso del club'}</b>${avFor(p)[0].txt}</span><em>Ver</em></button>`:''}
   ${ciCard(p)}
   <div class="hero-card" style="margin-bottom:14px"><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div>${av(p,"lg")}<div style="flex:1;min-width:160px"><b style="font-size:18px">${p.name}</b><p class="muted">${p.age} años · ${p.pos} · ${g.name}</p><p style="margin-top:6px;color:var(--oro2);font-weight:700">+${p.hist[5]-p.hist[0]} puntos desde mayo</p></div></div>
@@ -1189,6 +1225,7 @@ function vPruebas(){const L=S.players.filter(p=>pGroup==='all'||p.group===pGroup
     return `<div class="item">${av(p)}<div class="grow" style="cursor:pointer" data-open="${p.id}"><b>${p.name}</b><small>${ld?'Medido el '+fmtD(ld):'Sin medir'} · ${R.length} pruebas para su edad</small></div>${m.length?`<span class="pill ${up>=m.length/2?'ok':'warn'}">Mejora en ${up} de ${m.length}</span>`:''}<button class="btn sm" data-act="measure" data-id="${p.id}">Medir</button></div>`}).join('')||'<p class="empty">No hay jugadores en este grupo.</p>'}</div></div>`;}
 
 /* ---------- Sugerencias del día (Hoy) ---------- */
+let SUGO=false;
 function sugHTML(day){const off=(S.sugOff&&S.sugOff[day])||[],L=[],seen=new Set(),pl=[];
   Object.keys(GROUPS).forEach(k=>playersOn(k,day).forEach(p=>{if(!seen.has(p.id)){seen.add(p.id);pl.push(p);}}));
   pl.forEach(p=>{const c=ciOf(p,day),lv=ciLevel(c);
@@ -1202,7 +1239,7 @@ function sugHTML(day){const off=(S.sugOff&&S.sugOff[day])||[],L=[],seen=new Set(
   const noA=S.players.filter(p=>!au(p).ind);if(noA.length)L.push({k:'auth',ty:'',ic:'🎥',t:`Falta la autorización de vídeo de ${noA.length===1?nm(noA[0]):noA.length+' jugadores'}`,s:noA.length===1?'Sin ella no se le pueden grabar vídeos individuales.':noA.map(nm).join(', '),b:'<button class="btn sm" data-act="remind">Recordar</button>'});
   const old=S.players.filter(p=>!lastTest(p)||Date.now()-lastTest(p)>60*864e5);if(old.length)L.push({k:'tst',ty:'',ic:'⏱️',t:`Toca medir a ${old.length===1?nm(old[0]):old.length+' jugadores'}`,s:'Hace más de 2 meses de sus últimas pruebas físicas, o aún no las tiene.',b:'<button class="btn sm" data-act="go" data-to="pruebas">Pruebas</button>'});
   const V=L.filter(x=>!off.includes(x.k));if(!V.length)return '';
-  return `<section class="card sug" style="margin-bottom:14px"><h3><span>Sugerencias del día<small class="h3sub">Lo importante antes de empezar</small></span><span class="pill gold">${V.length}</span></h3><div>${V.map(x=>`<div class="sgi ${x.ty}"><span class="ic">${x.ic}</span><div class="grow"><b>${x.t}</b><small>${x.s}</small></div>${x.b}<button class="sx" data-act="sugX" data-k="${x.k}" aria-label="Ocultar sugerencia">${I('x',16)}</button></div>`).join('')}</div></section>`;}
+  return `<details class="card sug" style="margin-bottom:14px" ${SUGO?'open':''} ontoggle="SUGO=this.open"><summary><span class="sgt"><b>Sugerencias del día <span class="pill gold">${V.length}</span></b><small class="s-c">${V[0].ic} ${V[0].t}${V.length>1?` · y ${V.length-1} más`:''}</small><small class="s-o">Lo importante antes de empezar</small></span><span class="chev" aria-hidden="true">▾</span></summary><div>${V.map(x=>`<div class="sgi ${x.ty}"><span class="ic">${x.ic}</span><div class="grow"><b>${x.t}</b><small>${x.s}</small></div>${x.b}<button class="sx" data-act="sugX" data-k="${x.k}" aria-label="Ocultar sugerencia">${I('x',16)}</button></div>`).join('')}</div></details>`;}
 
 /* ---------- Informe para la familia ---------- */
 function reportText(p){const g=GROUPS[p.group],ar=Object.entries(p.areas).sort((a,b)=>b[1]-a[1]),R=testRows(p).filter(r=>r.a),done=p.tasks.filter(t=>t.done).length,nt=p.notes[0],dif=p.hist[5]-p.hist[0];
