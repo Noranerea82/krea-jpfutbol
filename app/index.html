@@ -414,6 +414,18 @@ html[data-theme=light] .sc{box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 26px -18p
 .cvl .item{cursor:pointer}.cvl .item small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:min(52vw,320px)}
 .cvl .item em{font-style:normal;min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:#e5484d;color:#fff;font-size:11px;font-weight:800;line-height:20px;text-align:center}
 .avtpl{display:flex;flex-wrap:wrap;gap:6px}.avtpl .chip{min-height:34px;font-size:12.5px;padding:0 12px}
+.avset{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;margin-bottom:14px;border-radius:14px;border:1px solid var(--linea);background:var(--noche);color:var(--cal);font:inherit;font-weight:700;font-size:14px;text-align:left;cursor:pointer}
+.avset .ico{color:var(--oro2)}.avset em{font-style:normal;margin-left:auto;color:var(--oro2);font-weight:800;font-size:13px;white-space:nowrap}
+#ajs .seth{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--c3);margin:20px 0 8px}
+.setc{display:grid;padding:2px 14px;border-radius:16px;background:var(--noche);border:1px solid var(--linea)}
+.setr{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:13px 0;border-top:1px solid var(--linea);background:none;color:var(--cal);font:inherit;text-align:left}
+.setc>.setr:first-child{border-top:0}.setr b{display:block;font-size:15px}.setr small{display:block;margin-top:2px;color:var(--c3);font-size:12.5px;line-height:1.35}
+.setb{cursor:pointer}.setb .ico{color:var(--c3);flex:none}
+.sw{position:relative;flex:none;width:50px;height:30px;border-radius:99px;background:var(--g3);border:1px solid var(--linea);cursor:pointer;transition:background .2s,border-color .2s}
+.sw i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.sw[aria-checked=true]{background:var(--oro);border-color:var(--oro)}.sw[aria-checked=true] i{transform:translateX(20px)}
+.sw:disabled{opacity:.4;cursor:not-allowed}
+.setc .lnk{justify-self:start;margin:2px 0 12px}
 </style>
 <style id="gateCss">html.locked,html.locked body{overflow:hidden!important}html.locked body>*:not(#gate){visibility:hidden!important}
 #gate{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 30%,#1a160c 0,#050505 70%);font-family:Manrope,system-ui,sans-serif;color:#F8F6EF}
@@ -473,7 +485,8 @@ const I=(n,s=20)=>`<svg class="ico" style="width:${s}px;height:${s}px" viewBox="
  phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
  mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/>',
  pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
- send:'<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>'
+ send:'<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>',
+ cog:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>'
 }[n]||'')}</svg>`;
 
 /* ---------- Datos de demostración ---------- */
@@ -593,8 +606,8 @@ function shell(content,route){
   $('#root').innerHTML=`<div class="shell">
    <aside class="side"><div class="who"><img src="assets/jp-logo.webp" alt=""><div>${who}</div></div><button class="bell side-bell" data-act="avisos">${I('bell',18)}<span>Avisos</span>${unread()?`<i>${unread()}</i>`:''}</button>
     ${nav.map(([k,t,i])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i)}${t}</a>`).join('')}
-    <div class="end"><a href="#" data-act="help" data-tab="asis">${I('help')}Asistente y ayuda</a><a href="#" data-act="help" data-tab="chat">${I('chat')}Mensajes${msgBadge()?`<em>${msgBadge()}</em>`:''}</a><a href="#" data-act="help" data-tab="contacto">${I('phone')}Contacto del club</a><a href="#" data-act="theme" class="thm">${THM}<span>Modo claro / oscuro</span></a>${isStandalone()?'':`<a href="#" data-act="install">${I('dl')}Instalar la app</a>`}<a href="${WEB}">${I('globe')}Web de JP Fútbol</a><a href="#" data-act="reset">${I('reset')}Reiniciar demo</a><a href="#" data-act="logout">${I('out')}Salir</a></div></aside>
-   <div><header class="topbar"><div style="display:flex;gap:10px;align-items:center"><img src="assets/jp-logo.webp" alt=""><span class="t">${S.role==='mister'?'Míster '+S.me:P(S.kid).name.split(' ')[0]}</span></div><div style="display:flex;gap:8px"><button class="btn sm thm" data-act="theme" aria-label="Modo claro u oscuro">${THM}</button>${isStandalone()?'':`<button class="btn sm" data-act="install" aria-label="Instalar la app">${I('dl',18)}</button>`}<button class="btn sm bell" data-act="avisos" aria-label="Avisos">${I('bell',18)}${unread()?`<i>${unread()}</i>`:''}</button><button class="btn sm" data-act="logout" aria-label="Salir">${I('out',18)}</button></div></header>
+    <div class="end"><a href="#" data-act="help" data-tab="asis">${I('help')}Asistente y ayuda</a><a href="#" data-act="help" data-tab="chat">${I('chat')}Mensajes${msgBadge()?`<em>${msgBadge()}</em>`:''}</a><a href="#" data-act="help" data-tab="contacto">${I('phone')}Contacto del club</a><a href="#" data-act="theme" class="thm">${THM}<span>Modo claro / oscuro</span></a>${isStandalone()?'':`<a href="#" data-act="install">${I('dl')}Instalar la app</a>`}<a href="${WEB}">${I('globe')}Web de JP Fútbol</a><a href="#" data-act="ajustes">${I('cog')}Ajustes y notificaciones</a><a href="#" data-act="reset">${I('reset')}Reiniciar demo</a><a href="#" data-act="logout">${I('out')}Salir</a></div></aside>
+   <div><header class="topbar"><div style="display:flex;gap:10px;align-items:center"><img src="assets/jp-logo.webp" alt=""><span class="t">${S.role==='mister'?'Míster '+S.me:P(S.kid).name.split(' ')[0]}</span></div><div style="display:flex;gap:8px"><button class="btn sm thm" data-act="theme" aria-label="Modo claro u oscuro">${THM}</button>${isStandalone()?'':`<button class="btn sm" data-act="install" aria-label="Instalar la app">${I('dl',18)}</button>`}<button class="btn sm bell" data-act="avisos" aria-label="Avisos">${I('bell',18)}${unread()?`<i>${unread()}</i>`:''}</button><button class="btn sm" data-act="ajustes" aria-label="Ajustes">${I('cog',18)}</button></div></header>
    <main class="main pf pf-${(location.hash.replace('#/','').split('/')[0])||route}">${content}<p class="krea-sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo</p></main></div></div>
    <nav class="tabbar" aria-label="Secciones">${nav.map(([k,t,i,sh])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i,22)}${sh}</a>`).join('')}</nav>
    <button class="fab" data-act="help" aria-label="Ayuda, mensajes y contacto" title="Ayuda, mensajes y contacto">${I('help',26)}${msgBadge()?`<i>${msgBadge()}</i>`:''}</button>`;
@@ -887,13 +900,14 @@ function horarioHTML(p){const PS=packSessions(p);return `<section class="card" s
 
 /* ---------- Avisos del club ---------- */
 const AVT={info:['Información','📣'],hora:['Cambio de horario','🕘'],susp:['Sesión suspendida','⛔'],pago:['Recordatorio','💳']};
-function avisos(){if(!S.avisos){const d=n=>new Date(Date.now()-864e5*n).toISOString();S.avisos=[{id:'a1',ty:'info',to:'all',by:'Perotti',d:d(1),txt:'Bienvenidos a la app de JP Fútbol. Aquí recibiréis los avisos del club, los vídeos y el progreso de cada jugador y jugadora.'},{id:'a2',ty:'hora',to:'alev',by:'Miguel',d:d(3),txt:'El miércoles el grupo Alevín entrena en el campo 2. Mismo horario.'}];}return S.avisos;}
+function avisos(){if(!S.avisos){const d=n=>new Date(Date.now()-864e5*n).toISOString();S.avisos=[{id:'a1',ty:'info',to:'all',by:'Perotti',d:d(1),txt:'Bienvenidos a la app de JP Fútbol. Aquí recibiréis los avisos del club, los vídeos y el progreso de cada jugador y jugadora.'},{id:'a2',ty:'hora',to:'alev',by:'Miguel',d:d(3),txt:'El miércoles el grupo Alevín entrena en el campo 2. Mismo horario.'}];}return MSG_API?[...(S.avSrv||[]),...S.avisos]:S.avisos;}
 const avFor=p=>avisos().filter(a=>a.to==='all'||a.to===p.group);
 function unread(){if(S.role!=='familia')return 0;const p=P(S.kid);const r=(S.readAv&&S.readAv[p.id])||[];return avFor(p).filter(a=>!r.includes(a.id)).length;}
 function avItem(a){const [t,e]=AVT[a.ty]||AVT.info;return `<div class="avi ${a.ty}"><span class="ave">${e}</span><div class="grow"><div class="avh"><b>${t}</b><small>${fmtD(a.d)}</small></div><p>${a.txt}</p><small class="muted">Míster ${a.by} · ${a.to==='all'?'Todas las familias':(GROUPS[a.to]?GROUPS[a.to].name:'')}</small></div></div>`;}
-function avSheet(){if(S.role==='mister'){const L=avisos();sheet(`<h2 class="disp">Avisos enviados</h2><p class="muted" style="margin-bottom:14px">Lo que han recibido las familias en su app</p><button class="btn oro full" data-act="newAviso" style="margin-bottom:14px">${I('plus')}Enviar aviso nuevo</button><div class="avl">${L.map(avItem).join('')}</div>`);return;}
+const avSet=()=>`<button type="button" class="avset" data-act="ajustes">${I('bell',18)}<span>Notificaciones en este móvil</span><em>${ntOn()?'Activadas':'Desactivadas'} ›</em></button>`;
+function avSheet(){if(S.role==='mister'){const L=avisos();sheet(`<h2 class="disp">Avisos enviados</h2><p class="muted" style="margin-bottom:14px">Lo que han recibido las familias en su app</p>${avSet()}<button class="btn oro full" data-act="newAviso" style="margin-bottom:14px">${I('plus')}Enviar aviso nuevo</button><div class="avl">${L.map(avItem).join('')}</div>`);return;}
   const p=P(S.kid);const L=avFor(p);S.readAv=S.readAv||{};S.readAv[p.id]=L.map(a=>a.id);save();rerender();
-  sheet(`<h2 class="disp">Avisos del club</h2><p class="muted" style="margin-bottom:14px">Para la familia de ${p.name.split(' ')[0]}</p><div class="avl">${L.map(avItem).join('')||'<p class="muted">No hay avisos.</p>'}</div>`);}
+  sheet(`<h2 class="disp">Avisos del club</h2><p class="muted" style="margin-bottom:14px">Para la familia de ${p.name.split(' ')[0]}</p>${avSet()}<div class="avl">${L.map(avItem).join('')||'<p class="muted">No hay avisos.</p>'}</div>`);}
 /* Mensajes ya hechos: el míster elige uno y solo tiene que pulsar «Enviar aviso». {g} = grupo */
 const AVTPL={
  info:[['Vídeos nuevos','Ya tenéis en la app los vídeos de la última sesión del {g}. ¡Echadles un ojo!'],['Ropa de lluvia','Hoy puede llover: traed chubasquero y ropa de cambio.'],['Foto de grupo','En la próxima sesión hacemos foto de grupo: venid con la equipación blanca.'],['No hay entreno (festivo)','Por festivo, esta semana no hay entrenamiento del {g}. Volvemos la semana que viene.'],['Puntualidad','Recordad traer a los chicos y chicas 5 minutos antes y recogerlos puntuales al terminar.'],['¡Gran sesión!','¡Gran sesión hoy del {g}! Seguid así. 💪']],
@@ -914,7 +928,9 @@ function newAviso(){let ty='info',tk=-1;
   $$('.av4 button').forEach(b=>b.onclick=()=>{ty=b.dataset.ty;tk=-1;$$('.av4 button').forEach(x=>x.setAttribute('aria-pressed',x===b));if($('#avtx').dataset.auto==='1'){$('#avtx').value='';$('#avtx').dataset.auto='0';}drawT();});
   drawT();
   $('#avto').onchange=()=>{if($('#avtx').dataset.auto==='1')fill();};$('#avtx').oninput=e=>e.target.dataset.auto='0';
-  $('#avf').onsubmit=ev=>{ev.preventDefault();const txt=$('#avtx').value.trim();if(!txt){$('#ave').textContent='Escribe el mensaje.';return;}const to=$('#avto').value;avisos().unshift({id:'a'+Date.now(),ty,to,by:S.me,d:new Date().toISOString(),txt});save();closeSheet();render();const n=to==='all'?S.players.length:S.players.filter(p=>p.group===to).length;toast(`Aviso enviado a ${n} familias`);};}
+  $('#avf').onsubmit=ev=>{ev.preventDefault();const txt=$('#avtx').value.trim();if(!txt){$('#ave').textContent='Escribe el mensaje.';return;}const to=$('#avto').value;const done=()=>{closeSheet();render();const n=to==='all'?S.players.length:S.players.filter(p=>p.group===to).length;toast(`Aviso enviado a ${n} familias`);};
+    if(MSG_API){$('#ave').textContent='';msgPost({aviso:{ty,to,by:S.me,txt}}).then(done).catch(()=>{$('#ave').textContent='No se ha podido enviar. Revisa la conexión e inténtalo de nuevo.';});return;}
+    avisos().unshift({id:'a'+Date.now(),ty,to,by:S.me,d:new Date().toISOString(),txt});save();done();};}
 /* ---------- Ayuda: asistente gratuito, mensajes con los místers y contacto del club ---------- */
 const CLUB={wa:'34609712137',tel:'+34609712137',telTxt:'609 712 137',mail:'jpacademytecnificacion@gmail.com',sede:'Centro Deportivo Valdezorras · C/ Vereda de Poco Aceite, Sevilla',maps:'https://www.google.com/maps/search/?api=1&query=Centro+Deportivo+Valdezorras+Sevilla'};
 const waL=t=>'https://wa.me/'+CLUB.wa+'?text='+encodeURIComponent(t);
@@ -924,11 +940,47 @@ const TARDE='Ahora es tarde: Perotti y Miguel lo verán a primera hora.';
 /* En la web publicada los mensajes van por el servidor (mensajes.php) y llegan de un móvil a otro; en local se quedan en el navegador */
 const MSG_API=/kreadigitalstudio\.es$/.test(location.hostname)?'mensajes.php':null;
 let MSY=0,MSOK=false;
-function msgPost(body){return fetch(MSG_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json()).then(j=>{if(!j||!j.ok)throw 0;msgSet(j.msgs);return j;});}
-function msgSet(m){const a=JSON.stringify(S.msgs||{});S.msgs=m||{};MSOK=true;if(JSON.stringify(S.msgs)!==a){save();msgBadges();if($('#help')&&$('#sheet').classList.contains('open')&&HT==='chat')drawHelp(true);}}
-function msgSync(){if(!MSG_API||!S.role)return;MSY=Date.now();fetch(MSG_API+'?t='+MSY,{cache:'no-store'}).then(r=>r.json()).then(j=>{if(j&&j.ok)msgSet(j.msgs);}).catch(()=>{});}
-function msgBadges(){const n=msgBadge();[['.fab','i'],['.side [data-tab="chat"]','em'],['#help .htabs [data-ht="chat"]','em']].forEach(([s,t])=>{const el=$(s);if(!el)return;let b=el.querySelector(t);if(n){if(!b){b=document.createElement(t);el.appendChild(b);}b.textContent=n;}else if(b)b.remove();});}
-setInterval(()=>{if(!MSG_API||document.hidden||!S.role)return;const open=$('#help')&&$('#sheet').classList.contains('open')&&HT==='chat';if(open||Date.now()-MSY>20000)msgSync();},4000);
+function msgPost(body){return fetch(MSG_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json()).then(j=>{if(!j||!j.ok)throw 0;msgSet(j);return j;});}
+const chatOpen=()=>!!($('#help')&&$('#sheet').classList.contains('open')&&HT==='chat');
+function msgSet(j){const old=S.msgs||{},oldAv=S.avSrv||[],first=!MSOK,a=JSON.stringify(old)+JSON.stringify(oldAv);S.msgs=j.msgs||{};S.avSrv=j.avisos||[];MSOK=true;
+  if(JSON.stringify(S.msgs)+JSON.stringify(S.avSrv)!==a){save();if(!first)ntNew(old,oldAv);msgBadges();if(chatOpen())drawHelp(true);}}
+function msgSync(){if(!MSG_API||!S.role)return;MSY=Date.now();fetch(MSG_API+'?t='+MSY,{cache:'no-store'}).then(r=>r.json()).then(j=>{if(j&&j.ok)msgSet(j);}).catch(()=>{});}
+function msgBadges(){const n=msgBadge(),u=unread();[['.fab','i',n],['.side [data-tab="chat"]','em',n],['#help .htabs [data-ht="chat"]','em',n],['.topbar .bell','i',u],['.side-bell','i',u]].forEach(([s,t,c])=>{const el=$(s);if(!el)return;let b=el.querySelector(t);if(c){if(!b){b=document.createElement(t);el.appendChild(b);}b.textContent=c;}else if(b)b.remove();});}
+setInterval(()=>{if(!MSG_API||!S.role)return;if(document.hidden&&!(S.cfg&&S.cfg.nt))return;if(chatOpen()||Date.now()-MSY>(document.hidden?30000:20000))msgSync();},4000);
+/* Notificaciones: llegan con la app abierta o en segundo plano, según los ajustes de cada móvil */
+function ntPop(t,o){o={icon:'assets/logo-round.webp',badge:'assets/logo-round.webp',...o};const nw=()=>{try{new Notification(t,o)}catch(_){}};
+  if(navigator.serviceWorker&&navigator.serviceWorker.getRegistration)navigator.serviceWorker.getRegistration().then(r=>r&&r.showNotification?r.showNotification(t,o):nw()).catch(nw);else nw();}
+function ntShow(t,b,tag){if(!document.hidden){if(!chatOpen())toast(t);return;}if('Notification' in window&&Notification.permission==='granted')ntPop(t,{body:b,tag,renotify:true});}
+function ntNew(old,oldAv){const c=S.cfg||{},fam=S.role==='familia';if(!c.nt)return;
+  if(c.ntMsg!==false)(fam?[S.kid]:Object.keys(S.msgs)).forEach(id=>{const x=P(id);(S.msgs[id]||[]).slice((old[id]||[]).length).filter(m=>m.f===(fam?'mis':'fam')).forEach(m=>ntShow(fam?'Mensaje del míster '+(m.by||''):'Mensaje de la familia de '+(x?nom(x):''),m.t,'msg-'+id));});
+  if(fam&&c.ntAv!==false){const p=P(S.kid),seen=new Set(oldAv.map(a=>a.id));(S.avSrv||[]).filter(a=>!seen.has(a.id)&&(a.to==='all'||a.to===p.group)).forEach(a=>{ntShow((AVT[a.ty]||AVT.info)[0]+' · JP Fútbol',a.txt,'av-'+a.id);});msgBadges();}}
+function ntTest(){ntPop('JP Fútbol',{body:'Así te llegarán los mensajes y avisos del club.',tag:'jp-test'});}
+/* ---------- Ajustes ---------- */
+const swH=(k,on,l,sub,dis)=>`<div class="setr"><div><b>${l}</b>${sub?`<small>${sub}</small>`:''}</div><button type="button" class="sw" role="switch" aria-checked="${!!on}" data-sw="${k}" aria-label="${l}" ${dis?'disabled':''}><i></i></button></div>`;
+const ntOn=()=>!!(S.cfg&&S.cfg.nt)&&'Notification' in window&&Notification.permission==='granted';
+function ajustesSheet(){const c=S.cfg=S.cfg||{},fam=S.role==='familia',sup='Notification' in window,perm=sup?Notification.permission:'no',on=ntOn();
+  sheet(`<div id="ajs"><h2 class="disp">Ajustes</h2><p class="muted">${fam?'Familia de '+P(S.kid).name:'Míster '+S.me} · en este móvil</p>
+  <h3 class="seth">${I('bell',16)}Notificaciones</h3>
+  <div class="setc">${swH('nt',on,'Recibir notificaciones','Te avisamos al momento de lo nuevo')}
+  ${swH('ntMsg',c.ntMsg!==false,fam?'Mensajes del míster':'Mensajes de las familias','Cuando te escriben en Mensajes',!on)}
+  ${fam?swH('ntAv',c.ntAv!==false,'Avisos del club','Sesión suspendida, cambios de horario, recordatorios',!on):''}
+  ${on?`<button type="button" class="lnk" data-ntest>Enviar una notificación de prueba</button>`:''}</div>
+  <p class="hnote">${!sup?'Este navegador no permite notificaciones. En iPhone, primero añade la app a la pantalla de inicio (Compartir › Añadir a pantalla de inicio) y ábrela desde ahí.':perm==='denied'?'Las notificaciones están bloqueadas para esta app. Actívalas en los ajustes del navegador o del móvil y vuelve aquí.':'Llegan cuando la app está abierta o en segundo plano. En la versión final llegarán también con la app cerrada, como en WhatsApp.'}</p>
+  <h3 class="seth">${I('cog',16)}Apariencia y app</h3>
+  <div class="setc">${swH('dark',document.documentElement.getAttribute('data-theme')!=='light','Modo oscuro','Fondo negro y dorado')}
+  ${isStandalone()?'':`<button type="button" class="setr setb" data-aj="install"><div><b>Instalar la app</b><small>Tenerla como una app más en el móvil</small></div>${I('dl',18)}</button>`}
+  <button type="button" class="setr setb" data-aj="help"><div><b>Ayuda y contacto</b><small>Asistente, mensajes y contacto del club</small></div>${I('help',18)}</button></div>
+  <button type="button" class="btn full" data-aj="logout" style="margin-top:18px">${I('out',18)}Cerrar sesión</button></div>`);
+  $('#ajs').onclick=ajClick;}
+function ajClick(e){const c=S.cfg=S.cfg||{},s=e.target.closest('[data-sw]');
+  if(s){const k=s.dataset.sw,v=s.getAttribute('aria-checked')!=='true';
+    if(k==='dark'){toggleTheme();ajustesSheet();return;}
+    if(k==='nt'){if(!v){c.nt=false;save();ajustesSheet();toast('Notificaciones desactivadas');return;}if(!('Notification' in window)){ajustesSheet();return;}
+      Promise.resolve(Notification.requestPermission()).then(p=>{c.nt=p==='granted';save();ajustesSheet();if(c.nt){toast('Notificaciones activadas');ntTest();msgSync();}else if(p==='denied')toast('Has bloqueado las notificaciones en este móvil');});return;}
+    c[k]=v;save();ajustesSheet();return;}
+  if(e.target.closest('[data-ntest]')){ntTest();toast('Notificación de prueba enviada');return;}
+  const b=e.target.closest('[data-aj]');if(!b)return;const a=b.dataset.aj;
+  if(a==='install'){closeSheet();installApp();}if(a==='help')helpSheet('asis');if(a==='logout'){closeSheet();S.role=null;save();location.hash='';render();}}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)msgSync();});
 function msgs(){if(MSG_API){if(!MSOK)return {};return S.msgs||(S.msgs={});}if(!S.msgs){const p0=S.players[0],p1=S.players[1],ago=m=>new Date(Date.now()-6e4*m).toISOString();S.msgs={};
   if(p0)S.msgs[p0.id]=[{f:'fam',t:'Hola, ¿tiene que traer botas de tacos o de césped artificial?',at:ago(1500),r:true},{f:'mis',by:GROUPS[p0.group].mister,t:'Hola, mejor las de césped artificial (multitacos). ¡Nos vemos en la sesión!',at:ago(1440),r:false}];
@@ -1342,6 +1394,7 @@ document.addEventListener('click',e=>{
   if(a==='theme'){e.preventDefault();toggleTheme();return;}
   if(a==='avisos'){avSheet();return;}
   if(a==='help'){helpSheet(t.dataset.tab);return;}
+  if(a==='ajustes'){ajustesSheet();return;}
   if(a==='newAviso'){newAviso();return;}
   if(a==='install'){e.preventDefault();installApp();return;}
   if(a==='mvg'){if(!SOCIOS.includes(S.me))return;const C=cuad(),k=t.dataset.g2;C.g[k]=(C.g[k]||'may')==='peq'?'may':'peq';save();rerender();toast((GROUPS[k].short||GROUPS[k].name)+' pasa a la franja '+C.fr[C.g[k]].n);return;}
