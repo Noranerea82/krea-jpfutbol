@@ -426,6 +426,7 @@ html[data-theme=light] .sc{box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 26px -18p
 .sw[aria-checked=true]{background:var(--oro);border-color:var(--oro)}.sw[aria-checked=true] i{transform:translateX(20px)}
 .sw:disabled{opacity:.4;cursor:not-allowed}
 .setc .lnk{justify-self:start;margin:2px 0 12px}
+.ntsteps{margin:8px 0 0;padding-left:20px;display:grid;gap:6px;font-size:13.5px;color:var(--c2);line-height:1.45}.ntsteps li::marker{color:var(--oro2);font-weight:800}
 </style>
 <style id="gateCss">html.locked,html.locked body{overflow:hidden!important}html.locked body>*:not(#gate){visibility:hidden!important}
 #gate{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 30%,#1a160c 0,#050505 70%);font-family:Manrope,system-ui,sans-serif;color:#F8F6EF}
@@ -957,6 +958,12 @@ function ntNew(old,oldAv){const c=S.cfg||{},fam=S.role==='familia';if(!c.nt)retu
 function ntTest(){ntPop('JP Fútbol',{body:'Así te llegarán los mensajes y avisos del club.',tag:'jp-test'});}
 /* ---------- Ajustes ---------- */
 const swH=(k,on,l,sub,dis)=>`<div class="setr"><div><b>${l}</b>${sub?`<small>${sub}</small>`:''}</div><button type="button" class="sw" role="switch" aria-checked="${!!on}" data-sw="${k}" aria-label="${l}" ${dis?'disabled':''}><i></i></button></div>`;
+/* Pasos para desbloquear las notificaciones según el móvil */
+function ntHelp(){const ua=navigator.userAgent,ios=/iPhone|iPad|iPod/.test(ua),inst=isStandalone();
+  const pasos=ios?['Abre los <b>Ajustes</b> del iPhone','Entra en <b>Notificaciones</b>','Busca <b>JP Fútbol</b> y activa <b>Permitir notificaciones</b>']
+   :inst?['Mantén pulsado el icono de <b>JP Fútbol</b> en tu móvil','Pulsa <b>Información de la aplicación</b> (la «i»)','Entra en <b>Notificaciones</b> y actívalas']
+   :['Pulsa el icono que hay a la izquierda de la dirección web, arriba (<b>candado</b> o <b>ajustes</b>)','Entra en <b>Permisos</b> o <b>Configuración del sitio</b>','En <b>Notificaciones</b>, elige <b>Permitir</b>'];
+  return `<b style="color:var(--cal)">Las notificaciones están bloqueadas en este móvil.</b> Para activarlas:</p><ol class="ntsteps">${pasos.map(x=>`<li>${x}</li>`).join('')}<li>Vuelve aquí y activa <b>Recibir notificaciones</b></li></ol><p class="hnote">Si estás probando desde un ordenador o desde una ventana de vista previa, ábrela en el móvil: algunos navegadores bloquean siempre las notificaciones.`;}
 const ntOn=()=>!!(S.cfg&&S.cfg.nt)&&'Notification' in window&&Notification.permission==='granted';
 function ajustesSheet(){const c=S.cfg=S.cfg||{},fam=S.role==='familia',sup='Notification' in window,perm=sup?Notification.permission:'no',on=ntOn();
   sheet(`<div id="ajs"><h2 class="disp">Ajustes</h2><p class="muted">${fam?'Familia de '+P(S.kid).name:'Míster '+S.me} · en este móvil</p>
@@ -965,7 +972,7 @@ function ajustesSheet(){const c=S.cfg=S.cfg||{},fam=S.role==='familia',sup='Noti
   ${swH('ntMsg',c.ntMsg!==false,fam?'Mensajes del míster':'Mensajes de las familias','Cuando te escriben en Mensajes',!on)}
   ${fam?swH('ntAv',c.ntAv!==false,'Avisos del club','Sesión suspendida, cambios de horario, recordatorios',!on):''}
   ${on?`<button type="button" class="lnk" data-ntest>Enviar una notificación de prueba</button>`:''}</div>
-  <p class="hnote">${!sup?'Este navegador no permite notificaciones. En iPhone, primero añade la app a la pantalla de inicio (Compartir › Añadir a pantalla de inicio) y ábrela desde ahí.':perm==='denied'?'Las notificaciones están bloqueadas para esta app. Actívalas en los ajustes del navegador o del móvil y vuelve aquí.':'Llegan cuando la app está abierta o en segundo plano. En la versión final llegarán también con la app cerrada, como en WhatsApp.'}</p>
+  <p class="hnote">${!sup?'Este navegador no permite notificaciones. En iPhone, primero añade la app a la pantalla de inicio (Compartir › Añadir a pantalla de inicio) y ábrela desde ahí.':perm==='denied'?ntHelp():'Llegan cuando la app está abierta o en segundo plano. En la versión final llegarán también con la app cerrada, como en WhatsApp.'}</p>
   <h3 class="seth">${I('cog',16)}Apariencia y app</h3>
   <div class="setc">${swH('dark',document.documentElement.getAttribute('data-theme')!=='light','Modo oscuro','Fondo negro y dorado')}
   ${isStandalone()?'':`<button type="button" class="setr setb" data-aj="install"><div><b>Instalar la app</b><small>Tenerla como una app más en el móvil</small></div>${I('dl',18)}</button>`}
@@ -976,7 +983,7 @@ function ajClick(e){const c=S.cfg=S.cfg||{},s=e.target.closest('[data-sw]');
   if(s){const k=s.dataset.sw,v=s.getAttribute('aria-checked')!=='true';
     if(k==='dark'){toggleTheme();ajustesSheet();return;}
     if(k==='nt'){if(!v){c.nt=false;save();ajustesSheet();toast('Notificaciones desactivadas');return;}if(!('Notification' in window)){ajustesSheet();return;}
-      Promise.resolve(Notification.requestPermission()).then(p=>{c.nt=p==='granted';save();ajustesSheet();if(c.nt){toast('Notificaciones activadas');ntTest();msgSync();}else if(p==='denied')toast('Has bloqueado las notificaciones en este móvil');});return;}
+      Promise.resolve(Notification.requestPermission()).then(p=>{c.nt=p==='granted';save();ajustesSheet();if(c.nt){toast('Notificaciones activadas');ntTest();msgSync();}else if(p==='denied')toast('Están bloqueadas: sigue los pasos de abajo');});return;}
     c[k]=v;save();ajustesSheet();return;}
   if(e.target.closest('[data-ntest]')){ntTest();toast('Notificación de prueba enviada');return;}
   const b=e.target.closest('[data-aj]');if(!b)return;const a=b.dataset.aj;
