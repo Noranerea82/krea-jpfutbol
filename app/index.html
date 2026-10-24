@@ -409,7 +409,7 @@ html.locked #gate{display:flex}
 
 <script src="biblioteca.js"></script>
 <script>
-const WEB=location.hostname==='jpfutbol-app.kreadigitalstudio.es'?'https://jpfutbol-web.kreadigitalstudio.es/':'../';
+const WEB=/kreadigitalstudio.es$/.test(location.hostname)?'https://jpfutbolweb.kreadigitalstudio.es/':'../';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const I=(n,s=20)=>`<svg class="ico" style="width:${s}px;height:${s}px" viewBox="0 0 24 24">${({
  home:'<path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',

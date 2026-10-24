@@ -27,7 +27,7 @@
 /* ---- Modo claro ---- */
 html[data-theme=light]{--noche:#ECEBE7;--grada:#FFFFFF;--grada-2:#F4F3EF;--linea:#D8D5CD;--oro:#E2B746;--oro-claro:#B8891F;--oro-hondo:#8A6410;--cal:#0B0B0A;--cal-2:#4F4B44;--cal-3:#7D786E;--verde:#E8F2EA;color-scheme:light}
 html[data-theme=light] :is(.hero,.final,.vcard,#vm,#gate,.lb,.map,.phone,#pm .pm-hero,.top,.band,#menu,#videos){--noche:#050505;--grada:#0E0E0C;--grada-2:#161613;--linea:#2A2822;--oro:#E2B746;--oro-claro:#F5CB64;--oro-hondo:#B8861F;--cal:#F8F6EF;--cal-2:#C9C4B6;--cal-3:#9A9588;color-scheme:dark;color:var(--cal)}
-html[data-theme=light] .orienta::before{opacity:.07;filter:invert(1) sepia(1) saturate(2) hue-rotate(5deg)}
+html[data-theme=light] .orienta::before{opacity:.16;filter:invert(1) sepia(1) saturate(2) hue-rotate(5deg)}
 html[data-theme=light] .top.solid{background:rgba(5,5,5,.92)}
 /* Versión clara: fondo gris cálido, tarjetas blancas, botones con borde y menús en negro (como la app) */
 html[data-theme=light] #videos{background:#0B0B0A}
@@ -102,6 +102,7 @@ section{position:relative}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
 .hero-facts{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:40px;padding-top:22px;border-top:1px solid rgba(248,246,239,.16);color:var(--cal-2);font-size:15px}
 .hero-facts b{color:var(--cal);font-weight:700}
+.hero-facts>*{display:inline-flex;align-items:center;gap:8px}.hf-ic{width:18px;height:18px;flex:none;fill:none;stroke:var(--oro);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.hf-loc{color:inherit;text-decoration:none}.hf-loc:hover b{color:var(--oro)}.hf-loc:hover{color:var(--cal)}
 .hero-mods a:hover{border-color:var(--oro);background:rgba(226,183,70,.16)}
 .hero-mods{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
 .hero-mods a{display:block;text-decoration:none;transition:border-color .2s,background .2s;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:99px;border:1px solid rgba(226,183,70,.45);background:rgba(5,5,5,.45);backdrop-filter:blur(4px);color:var(--cal)}
@@ -136,13 +137,12 @@ section{position:relative}
 .pilares svg{width:30px;height:30px;stroke:var(--oro);fill:none;stroke-width:1.8;margin-top:2px}
 .pilares b{display:block;font-size:18px}
 .pilares span{color:var(--cal-3);font-size:15.5px}
-.collage{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.collage{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(0,1fr);gap:12px}.collage figure:first-child img{object-position:46% 50%}
 .collage figure{border-radius:var(--r);overflow:hidden;position:relative}
 .collage figure:first-child{grid-row:span 2}
 .collage img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5}
 .collage figure:not(:first-child) img{aspect-ratio:4/3.9}
-@media (max-width:900px){.metodo .wrap{grid-template-columns:minmax(0,1fr)}}
-
+.collage img{transition:transform 2.6s cubic-bezier(.2,.7,.2,1),filter .6s}.collage figure:first-child:hover img{transform:scale(1.04) translate(-.5%,-1%);filter:saturate(1.08) brightness(1.04)}.collage figure:not(:first-child):hover img{transform:scale(1.09) translate(-1.5%,-1.5%);filter:saturate(1.08) brightness(1.04)}.collage figure:nth-child(2):hover img{transform:scale(1.09) translate(1.5%,-1%)}.collage figure:nth-child(3):hover img{transform:scale(1.09) translate(-1%,1.5%)}
 /* ---------- Programas ---------- */
 .prog-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px;margin-bottom:40px}
 .tabs{position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
@@ -176,7 +176,17 @@ section{position:relative}
 
 /* ---------- Orientador ---------- */
 .orienta{background:var(--grada);border-block:1px solid var(--linea);overflow:hidden}
-.orienta::before{content:"";position:absolute;inset:0;background:url(assets/img/jp-field-gold.webp) right center/contain no-repeat;opacity:.18;pointer-events:none}
+.orienta::before{content:"";position:absolute;inset:0;background:url(assets/img/jp-field-gold.webp) right center/contain no-repeat;opacity:.28;pointer-events:none}
+/* Fondos de fútbol en las secciones (campo, balón, esquina) */
+:root{--deco-c:#E2B746;--deco-pitch:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1060 690' fill='none' stroke='black' stroke-width='5'%3E%3Crect x='5' y='5' width='1050' height='680'/%3E%3Cpath d='M530 5v680'/%3E%3Ccircle cx='530' cy='345' r='91.5'/%3E%3Ccircle cx='530' cy='345' r='5' fill='black'/%3E%3Crect x='5' y='143.5' width='165' height='403'/%3E%3Crect x='5' y='253.5' width='55' height='183'/%3E%3Crect x='890' y='143.5' width='165' height='403'/%3E%3Crect x='1000' y='253.5' width='55' height='183'/%3E%3Ccircle cx='115' cy='345' r='5' fill='black'/%3E%3Ccircle cx='945' cy='345' r='5' fill='black'/%3E%3Cpath d='M170 272a91.5 91.5 0 0 1 0 146M890 272a91.5 91.5 0 0 0 0 146'/%3E%3Cpath d='M5 15a10 10 0 0 0 10-10M1045 5a10 10 0 0 0 10 10M5 675a10 10 0 0 1 10 10M1045 685a10 10 0 0 1 10-10'/%3E%3C/svg%3E")}html[data-theme=light]{--deco-c:#C49A2C}
+.deco{overflow:hidden}.deco>.wrap{position:relative;z-index:1}
+.deco::before{content:"";position:absolute;pointer-events:none;z-index:0;background:var(--deco-c);-webkit-mask:var(--deco-m) center/contain no-repeat;mask:var(--deco-m) center/contain no-repeat}
+.deco-pitch::before{--deco-m:var(--deco-pitch);width:min(1150px,130vw);aspect-ratio:1060/690;left:-14%;top:50%;transform:translateY(-50%) rotate(-14deg);opacity:.15}
+.deco-half::before{--deco-m:var(--deco-pitch);width:min(1000px,120vw);aspect-ratio:1060/690;right:-38%;top:-6%;transform:rotate(9deg);opacity:.08}
+
+.deco-corner::before{--deco-m:var(--deco-pitch);width:min(1300px,150vw);aspect-ratio:1060/690;left:-58%;bottom:-62%;transform:rotate(-6deg);opacity:.12}
+.deco-circle::before{--deco-m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' fill='none' stroke='black' stroke-width='3'%3E%3Ccircle cx='200' cy='200' r='120'/%3E%3Ccircle cx='200' cy='200' r='5' fill='black'/%3E%3Cpath d='M200 0v400'/%3E%3C/svg%3E");width:min(520px,80vw);aspect-ratio:1;left:-12%;bottom:-18%;opacity:.13}
+html[data-theme=light] .deco-pitch::before{opacity:.20}html[data-theme=light] .deco-corner::before{opacity:.16}html[data-theme=light] .deco-half::before{opacity:.11}
 .orienta .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(32px,6vw,80px);align-items:start}
 .quiz{background:var(--noche);border:1px solid var(--linea);border-radius:22px;padding:clamp(22px,3vw,34px)}
 .q{margin-bottom:22px}
@@ -478,11 +488,9 @@ html.locked #gate{display:flex}
         <a class="btn btn-linea" href="#orienta">Qué programa me encaja</a>
       </div>
       <div class="hero-facts">
-        <span><b>Lunes a jueves</b> de 20:00 a 21:30</span>
-        <span><b>Centro Deportivo Valdezorras</b>, Sevilla</span>
-        <span><b>6 místers</b> y <b>8 modalidades</b> de entrenamiento</span>
+        <span><svg class="hf-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Lunes a jueves</b> de 20:00 a 21:30</span></span>
+        <a href="#sede" class="hf-loc"><svg class="hf-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span><b>Centro Deportivo Valdezorras</b>, Sevilla</span></a>
       </div>
-      <ul class="hero-mods" aria-label="Modalidades de entrenamiento"><li><a href="#programas" data-goto="t-tec">Tecnificación</a></li><li><a href="#programas" data-goto="t-tac">Técnico-táctica</a></li><li><a href="#programas" data-goto="t-fis">Preparación física</a></li><li><a href="#programas" data-goto="t-por">Porteros y porteras</a></li><li><a href="#programas" data-goto="t-dec">Toma de decisiones</a></li><li><a href="#programas" data-goto="t-vid">Análisis de vídeo</a></li><li><a href="#programas" data-goto="t-ind">Sesiones individuales</a></li><li><a href="#programas" data-goto="t-cap">Captación abierta</a></li></ul>
     </div>
     <div class="reel" aria-hidden="true">
       <video id="reelVid" muted loop playsinline preload="none" poster="assets/img/poster-captacion.webp"><source data-src="assets/vid/hero-mobile.mp4" type="video/mp4"></video>
@@ -492,12 +500,12 @@ html.locked #gate{display:flex}
 </section>
 
 <div class="band" id="band" aria-hidden="true"><div class="band-track">
-  <span>Tecnificación</span><span>Técnico-táctica</span><span>Trabajo individual</span><span>Grupos reducidos</span><span>Preparación física</span><span>Porteros y porteras</span><span>Toma de decisiones</span><span>Análisis de vídeo</span><span>Sesiones individuales</span><span>Jugadores y jugadoras</span><span>Valdezorras · Sevilla</span>
-  <span>Tecnificación</span><span>Técnico-táctica</span><span>Trabajo individual</span><span>Grupos reducidos</span><span>Preparación física</span><span>Porteros y porteras</span><span>Toma de decisiones</span><span>Análisis de vídeo</span><span>Sesiones individuales</span><span>Jugadores y jugadoras</span><span>Valdezorras · Sevilla</span>
+  <span>Tecnificación</span><span>Técnico-táctica</span><span>Trabajo individual</span><span>Grupos reducidos</span><span>Preparación física</span><span>Porteros y porteras</span><span>Toma de decisiones</span><span>Análisis de vídeo</span><span>Sesiones individuales</span><span>Jugadores y jugadoras</span>
+  <span>Tecnificación</span><span>Técnico-táctica</span><span>Trabajo individual</span><span>Grupos reducidos</span><span>Preparación física</span><span>Porteros y porteras</span><span>Toma de decisiones</span><span>Análisis de vídeo</span><span>Sesiones individuales</span><span>Jugadores y jugadoras</span>
 </div></div>
 
 <!-- Método -->
-<section class="sec metodo" id="metodo">
+<section class="sec metodo deco deco-circle" id="metodo">
   <div class="wrap">
     <div class="rv">
       <h2 class="disp">El talento se entrena.<br><span class="gold">La confianza también.</span></h2>
@@ -517,7 +525,7 @@ html.locked #gate{display:flex}
 </section>
 
 <!-- Programas -->
-<section class="sec" id="programas" style="padding-top:0">
+<section class="sec deco deco-half" id="programas" style="padding-top:0">
   <div class="wrap">
     <div class="prog-head rv">
       <h2 class="disp">Muchas formas de mejorar.<br><span class="gold">Un solo método.</span></h2>
@@ -711,7 +719,7 @@ html.locked #gate{display:flex}
 </section>
 
 <!-- App -->
-<section class="sec app" id="app" style="background:var(--grada);border-block:1px solid var(--linea)">
+<section class="sec app deco deco-pitch" id="app" style="background:var(--grada);border-block:1px solid var(--linea)">
   <div class="wrap">
     <div class="rv">
       <h2 class="disp">El área de familias, jugadores y jugadoras.</h2>
@@ -741,7 +749,7 @@ html.locked #gate{display:flex}
 </section>
 
 <!-- Sede y contacto -->
-<section class="sec" id="sede">
+<section class="sec deco deco-corner" id="sede">
   <div class="wrap">
     <div class="sede">
       <div class="rv">
@@ -845,7 +853,7 @@ html.locked #gate{display:flex}
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const WA='34609712137';
-const APP_URL=location.hostname==='jpfutbol-web.kreadigitalstudio.es'?'https://jpfutbol-app.kreadigitalstudio.es/':'app/index.html';
+const APP_URL=/kreadigitalstudio.es$/.test(location.hostname)?'https://jpfutbolapp.kreadigitalstudio.es/':'app/index.html';
 $('#appLink').href=APP_URL;
 
 /* Cabecera, menú y barra móvil */

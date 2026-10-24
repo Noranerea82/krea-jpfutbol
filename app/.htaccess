@@ -1,0 +1,6 @@
+# JP Fútbol · los nombres antiguos (con guion) llevan a los definitivos
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^jpfutbol-web\.kreadigitalstudio\.es$ [NC]
+RewriteRule ^ https://jpfutbolweb.kreadigitalstudio.es%{REQUEST_URI} [R=301,L]
+RewriteCond %{HTTP_HOST} ^jpfutbol-app\.kreadigitalstudio\.es$ [NC]
+RewriteRule ^ https://jpfutbolapp.kreadigitalstudio.es%{REQUEST_URI} [R=301,L]
