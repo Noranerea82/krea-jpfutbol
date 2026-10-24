@@ -13,7 +13,8 @@ $estado = ''; $tipo = '';
 if (is_file($archivo) && filesize($archivo) > 0) {
   $estado = 'La clave de la IA ya está guardada. El asistente de la web ya puede usarla. Esta página ya no hace nada.'; $tipo = 'ok';
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $clave = trim((string) ($_POST['clave'] ?? ''));
+  /* Quita espacios, saltos de línea y caracteres invisibles que se cuelan al copiar y pegar */
+  $clave = preg_replace('/[^A-Za-z0-9_\-]/', '', (string) ($_POST['clave'] ?? ''));
   if (!preg_match('/^sk-ant-[A-Za-z0-9_\-]{20,}$/', $clave)) {
     $estado = 'Esa clave no tiene el formato de una clave de Anthropic (empieza por «sk-ant-»). Revisa que la has copiado entera.'; $tipo = 'mal';
   } else {
