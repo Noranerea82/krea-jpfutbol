@@ -921,7 +921,16 @@ const waL=t=>'https://wa.me/'+CLUB.wa+'?text='+encodeURIComponent(t);
 const nz=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 const tarde=()=>{const h=new Date().getHours();return h<9||h>=22;};
 const TARDE='Ahora es tarde: Perotti y Miguel lo verán a primera hora.';
-function msgs(){if(!S.msgs){const p0=S.players[0],p1=S.players[1],ago=m=>new Date(Date.now()-6e4*m).toISOString();S.msgs={};
+/* En la web publicada los mensajes van por el servidor (mensajes.php) y llegan de un móvil a otro; en local se quedan en el navegador */
+const MSG_API=/kreadigitalstudio\.es$/.test(location.hostname)?'mensajes.php':null;
+let MSY=0,MSOK=false;
+function msgPost(body){return fetch(MSG_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json()).then(j=>{if(!j||!j.ok)throw 0;msgSet(j.msgs);return j;});}
+function msgSet(m){const a=JSON.stringify(S.msgs||{});S.msgs=m||{};MSOK=true;if(JSON.stringify(S.msgs)!==a){save();msgBadges();if($('#help')&&$('#sheet').classList.contains('open')&&HT==='chat')drawHelp(true);}}
+function msgSync(){if(!MSG_API||!S.role)return;MSY=Date.now();fetch(MSG_API+'?t='+MSY,{cache:'no-store'}).then(r=>r.json()).then(j=>{if(j&&j.ok)msgSet(j.msgs);}).catch(()=>{});}
+function msgBadges(){const n=msgBadge();[['.fab','i'],['.side [data-tab="chat"]','em'],['#help .htabs [data-ht="chat"]','em']].forEach(([s,t])=>{const el=$(s);if(!el)return;let b=el.querySelector(t);if(n){if(!b){b=document.createElement(t);el.appendChild(b);}b.textContent=n;}else if(b)b.remove();});}
+setInterval(()=>{if(!MSG_API||document.hidden||!S.role)return;const open=$('#help')&&$('#sheet').classList.contains('open')&&HT==='chat';if(open||Date.now()-MSY>20000)msgSync();},4000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)msgSync();});
+function msgs(){if(MSG_API){if(!MSOK)return {};return S.msgs||(S.msgs={});}if(!S.msgs){const p0=S.players[0],p1=S.players[1],ago=m=>new Date(Date.now()-6e4*m).toISOString();S.msgs={};
   if(p0)S.msgs[p0.id]=[{f:'fam',t:'Hola, ¿tiene que traer botas de tacos o de césped artificial?',at:ago(1500),r:true},{f:'mis',by:GROUPS[p0.group].mister,t:'Hola, mejor las de césped artificial (multitacos). ¡Nos vemos en la sesión!',at:ago(1440),r:false}];
   if(p1)S.msgs[p1.id]=[{f:'fam',t:'Hoy llegaremos unos 10 minutos tarde, perdona.',at:ago(40),r:false}];save();}return S.msgs;}
 const famUnread=id=>(msgs()[id]||[]).filter(m=>m.f==='mis'&&!m.r).length;
@@ -986,8 +995,9 @@ let HT='asis',HLOG=null,HKEY='',HCV=null;
 function helpSheet(tab){if(tab)HT=tab;const k=S.role+'|'+S.kid+'|'+S.me;if(k!==HKEY){HKEY=k;HLOG=null;HCV=null;}const b=msgBadge();
   sheet(`<div id="help"><h2 class="disp">Ayuda y contacto</h2><p class="muted">${S.role==='familia'?'Resuelve tus dudas al momento o escribe al míster':'Ayuda de la app, mensajes de las familias y contacto'}</p>
   <div class="htabs" role="tablist">${[['asis','Asistente','help'],['chat','Mensajes','chat'],['contacto','Contacto','phone']].map(([t,l,i])=>`<button type="button" role="tab" data-ht="${t}" aria-selected="${HT===t}">${I(i,17)}${l}${t==='chat'&&b?`<em>${b}</em>`:''}</button>`).join('')}</div><div id="hbody"></div></div>`);
-  $('#help').onclick=helpClick;drawHelp();}
-function drawHelp(){const fam=S.role==='familia',p=fam?P(S.kid):null,hb=$('#hbody');if(!hb)return;
+  $('#help').onclick=helpClick;drawHelp();msgSync();}
+function drawHelp(auto){const fam=S.role==='familia',p=fam?P(S.kid):null,hb=$('#hbody');if(!hb)return;
+  const hmi=$('#hmi'),keep=hmi?{v:hmi.value,f:document.activeElement===hmi}:null,hsel=$('#hnew'),kf=hsel&&document.activeElement===hsel;if(auto&&kf)return;
   if(HT==='asis'){if(!HLOG)HLOG=[{html:fam?`Hola 👋 Soy el asistente de JP Fútbol. Resuelvo al momento las dudas más habituales sobre ${nom(p)}, la app y la academia. Elige una pregunta o escríbela.${tarde()?' Si necesitas al club, Perotti y Miguel te contestarán a primera hora.':''}`:`Hola, míster ${S.me} 👋 Te ayudo con la app: pasar lista, avisos, sesiones, evaluaciones, pagos… Elige una pregunta o escríbela.`}];
     hb.innerHTML=`<div class="hlog" id="hlog" aria-live="polite">${HLOG.map(m=>`<div class="bub ${m.me?'me':''}">${m.html}${hActs(m.acts)}</div>`).join('')}</div>
     <div class="hops">${(fam?HQF:HQM).map(q=>`<button type="button" class="chip" data-hq="${q}">${q}</button>`).join('')}</div>
@@ -1006,22 +1016,26 @@ function drawHelp(){const fam=S.role==='familia',p=fam?P(S.kid):null,hb=$('#hbod
   if(!fam&&!HCV){const conv=Object.entries(msgs()).filter(([id,L])=>L.length&&P(id)).sort((a,b)=>new Date(b[1][b[1].length-1].at)-new Date(a[1][a[1].length-1].at));
     hb.innerHTML=`<div class="f"><label for="hnew">Escribir a una familia</label><select id="hnew"><option value="">Elige jugador o jugadora</option>${S.players.map(x=>`<option value="${x.id}">${x.name} · ${GROUPS[x.group].short||GROUPS[x.group].name}</option>`).join('')}</select></div>
     <div class="list cvl">${conv.map(([id,L])=>{const x=P(id),u=L.filter(m=>m.f==='fam'&&!m.r).length,last=L[L.length-1];return `<div class="item" data-cv="${id}" role="button" tabindex="0">${av(x)}<div class="grow"><b>Familia de ${nom(x)}</b><small>${last.f==='mis'?'Tú: ':''}${esc(last.t)}</small></div>${u?`<em>${u}</em>`:`<small class="muted">${hhmm(last.at).split(' · ')[0]}</small>`}</div>`}).join('')||'<p class="muted">Todavía no hay mensajes de las familias.</p>'}</div>
-    <p class="hnote">Las familias escriben desde su app y tú les contestas aquí. Para avisar a todo un grupo, usa <b>Enviar aviso</b>.</p>`;
+    <p class="hnote">Las familias escriben desde su app y tú les contestas aquí. Para avisar a todo un grupo, usa <b>Enviar aviso</b>.${MSG_API&&SOCIOS.includes(S.me)&&conv.length?` <button type="button" class="lnk" data-hreset>Borrar los mensajes de prueba</button>`:''}</p>`;
     $('#hnew').onchange=e=>{if(e.target.value){HCV=e.target.value;drawHelp();}};return;}
-  const id=fam?S.kid:HCV,x=P(id),L=msgs()[id]=msgs()[id]||[];let ch=false;L.forEach(m=>{if(m.f===(fam?'mis':'fam')&&!m.r){m.r=true;ch=true;}});if(ch){save();rerender();const e=$('#help .htabs em');if(e)e.remove();}
+  const id=fam?S.kid:HCV,x=P(id),L=msgs()[id]||[],ot=fam?'mis':'fam';if(L.some(m=>m.f===ot&&!m.r)){L.forEach(m=>{if(m.f===ot)m.r=true;});save();msgBadges();if(MSG_API)msgPost({pid:id,read:ot}).catch(()=>{});}
   const QR=fam?['Hoy no podrá venir','Llegaremos unos minutos tarde','¿Qué tiene que traer mañana?','Quería comentar su progreso']:['Recibido, ¡gracias!','Sin problema, nos vemos el próximo día','Lo hablamos al terminar la sesión','Te llamo en un rato'];
   hb.innerHTML=`${fam?`<p class="muted" style="font-size:13.5px;margin-bottom:8px">Conversación con el equipo técnico de <b>${GROUPS[x.group].short||GROUPS[x.group].name}</b> · míster ${GROUPS[x.group].mister}</p>`:`<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><button type="button" class="btn sm" data-cv="">${I('back',16)}Mensajes</button><b>Familia de ${x.name}</b></div>`}
   <div class="hlog" id="hlog">${L.map(m=>{const mine=m.f===(fam?'fam':'mis');return `<div class="bub ${mine?'me':''}">${esc(m.t)}<small>${m.f==='mis'?'Míster '+(m.by||''):'Familia'} · ${hhmm(m.at)}</small></div>`}).join('')||`<p class="muted" style="text-align:center;padding:14px 0">${fam?'Escribe al míster: lo verá en su app.':'Escribe a la familia: lo verá en su app.'}</p>`}</div>
   <div class="hops">${QR.map(q=>`<button type="button" class="chip" data-qr="${q}">${q}</button>`).join('')}</div>
   <form class="hform" id="hm"><input id="hmi" placeholder="${fam?'Escribe al míster':'Escribe a la familia'}" autocomplete="off" aria-label="Mensaje" maxlength="500"><button class="btn oro" aria-label="Enviar">${I('send',18)}</button></form>
-  <p class="hnote">${fam?`Los místers suelen contestar por la tarde. Si es urgente, llama al ${CLUB.telTxt}.`:'La familia recibe tu respuesta al momento en su app.'}${S.role&&fam?' En la demo, entra como míster para ver y contestar este mensaje.':''}</p>`;
-  $('#hm').onsubmit=e=>{e.preventDefault();hSend($('#hmi').value);};const l=$('#hlog');l.scrollTop=l.scrollHeight;}
+  <p class="hnote">${fam?`Los místers suelen contestar por la tarde. Si es urgente, llama al ${CLUB.telTxt}.`:'La familia recibe tu respuesta al momento en su app.'}${fam&&!MSG_API?' En la demo, entra como míster para ver y contestar este mensaje.':''}</p>`;
+  $('#hm').onsubmit=e=>{e.preventDefault();hSend($('#hmi').value);};const l=$('#hlog');l.scrollTop=l.scrollHeight;
+  if(keep){$('#hmi').value=keep.v;if(keep.f)$('#hmi').focus();}}
 function hAsk(q,typed){HLOG.push({me:true,html:esc(q)});const r=hAnswer(q);HLOG.push(r);drawHelp();if(typed)$('#hq').focus();}
-function hSend(t){t=String(t||'').trim();if(!t)return;const fam=S.role==='familia',id=fam?S.kid:HCV;if(!id)return;(msgs()[id]=msgs()[id]||[]).push({f:fam?'fam':'mis',by:fam?'':S.me,t,at:new Date().toISOString(),r:false});save();drawHelp();$('#hmi').focus();toast(fam?'Mensaje enviado al míster':'Respuesta enviada a la familia');}
+function hSend(t){t=String(t||'').trim();if(!t)return;const fam=S.role==='familia',id=fam?S.kid:HCV;if(!id)return;const m={f:fam?'fam':'mis',by:fam?'':S.me,t,at:new Date().toISOString(),r:false},ok=fam?'Mensaje enviado al míster':'Respuesta enviada a la familia';
+  if(MSG_API){const i=$('#hmi');if(i)i.value='';msgPost({pid:id,...m}).then(()=>{drawHelp();toast(ok);}).catch(()=>{if(i&&!i.value)i.value=t;toast('No se ha podido enviar. Revisa la conexión e inténtalo de nuevo.');});return;}
+  (msgs()[id]=msgs()[id]||[]).push(m);save();drawHelp();$('#hmi').focus();toast(ok);}
 function helpClick(e){const tb=e.target.closest('[data-ht]');if(tb){helpSheet(tb.dataset.ht);return;}
   const q=e.target.closest('[data-hq]');if(q){hAsk(q.dataset.hq);return;}
   const qr=e.target.closest('[data-qr]');if(qr){hSend(qr.dataset.qr);return;}
   const cv=e.target.closest('[data-cv]');if(cv){HCV=cv.dataset.cv||null;drawHelp();return;}
+  const rs=e.target.closest('[data-hreset]');if(rs){if(rs.dataset.ok!=='1'){rs.dataset.ok='1';rs.textContent='Pulsa otra vez para borrarlos todos';return;}msgPost({reset:true}).then(()=>{drawHelp();toast('Mensajes de prueba borrados');}).catch(()=>toast('No se han podido borrar'));return;}
   const b=e.target.closest('[data-hb]');if(!b)return;const [k,v]=b.dataset.hb.split('|');
   if(k==='go'){closeSheet();location.hash='#/'+v;return;}
   if(k==='tab'){helpSheet(v);return;}
