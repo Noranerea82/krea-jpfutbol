@@ -381,6 +381,32 @@ footer .krea b{color:var(--oro);font-weight:700}
 .dock .wa{flex:none;width:48px;padding:0;background:#25D366;color:#fff}
 @media (max-width:980px){.dock{display:flex}}
 
+/* ---------- Asistente JP Fútbol (IA) ---------- */
+.jpb-btn{position:fixed;right:22px;bottom:22px;z-index:45;width:60px;height:60px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(145deg,#F5CB64,#E2B746 55%,#B8891F);color:#130F05;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px -8px rgba(226,183,70,.55),0 0 0 4px rgba(226,183,70,.16);transition:transform .2s}
+.jpb-btn:hover{transform:translateY(-2px) scale(1.04)}.jpb-btn svg{width:28px;height:28px;fill:none;stroke:#130F05;stroke-width:1.8;stroke-linejoin:round}.jpb-btn svg .sp{fill:#130F05;stroke:none}
+.jpb-btn.on svg{opacity:.85}.jpb-dot{position:absolute;top:6px;right:6px;width:12px;height:12px;border-radius:50%;background:#25D366;border:2px solid #0B0B0A}
+.jpb-tip{position:fixed;right:92px;bottom:34px;z-index:45;padding:10px 14px;border-radius:14px 14px 4px 14px;background:#0E0E0C;color:#F8F6EF;font-size:14px;font-weight:600;border:1px solid rgba(226,183,70,.45);box-shadow:0 12px 30px -10px rgba(0,0,0,.6);cursor:pointer;animation:jpbIn .35s ease}
+.jpb{position:fixed;right:22px;bottom:96px;z-index:46;width:min(390px,calc(100vw - 24px));height:min(600px,calc(100vh - 130px));display:flex;flex-direction:column;border-radius:22px;overflow:hidden;background:#0E0E0C;color:#F8F6EF;border:1px solid #2A2822;box-shadow:0 30px 70px -20px rgba(0,0,0,.75);animation:jpbIn .25s ease;font-size:15px}
+.jpb[hidden],.jpb-tip[hidden]{display:none}
+@keyframes jpbIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.jpb-h{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,#2B2410,#121210 70%);border-bottom:1px solid rgba(226,183,70,.3)}
+.jpb-h img{width:40px;height:40px;border-radius:12px;background:#050505}.jpb-h div{flex:1;min-width:0}.jpb-h b{display:block;font-size:15.5px}
+.jpb-h small{display:flex;align-items:center;gap:6px;font-size:12px;color:#C9C4B6}.jpb-h small i{width:8px;height:8px;border-radius:50%;background:#25D366}
+.jpb-x{width:34px;height:34px;border-radius:10px;border:1px solid #2A2822;background:transparent;color:#F8F6EF;font-size:22px;line-height:1;cursor:pointer}
+.jpb-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:radial-gradient(500px 260px at 100% 0,rgba(226,183,70,.08),transparent 60%)}
+.jpb-m{max-width:86%;padding:10px 13px;border-radius:16px;line-height:1.5;font-size:14.5px}
+.jpb-m.bot{align-self:flex-start;background:#1A1915;border:1px solid #2A2822;border-top-left-radius:5px}.jpb-m.bot b{color:#F5CB64}
+.jpb-m.me{align-self:flex-end;background:#E2B746;color:#130F05;font-weight:600;border-top-right-radius:5px}
+.jpb-typ{display:flex;gap:4px;padding:3px 0}.jpb-typ i{width:7px;height:7px;border-radius:50%;background:#C9C4B6;animation:jpbT 1s infinite}.jpb-typ i:nth-child(2){animation-delay:.15s}.jpb-typ i:nth-child(3){animation-delay:.3s}
+@keyframes jpbT{0%,80%,100%{opacity:.3;transform:none}40%{opacity:1;transform:translateY(-3px)}}
+.jpb-opts{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px}.jpb-opts:empty{display:none}
+.jpb-opts button,.jpb-opts a{padding:8px 12px;border-radius:999px;border:1px solid rgba(226,183,70,.5);background:rgba(226,183,70,.1);color:#F5CB64;font:inherit;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none}
+.jpb-opts button:hover{background:rgba(226,183,70,.22)}.jpb-opts a.wa{background:#25D366;border-color:#25D366;color:#fff}
+.jpb-f{display:flex;gap:8px;padding:10px 12px;border-top:1px solid #2A2822;background:#121210}
+.jpb-f input{flex:1;min-width:0;height:44px;border-radius:12px;border:1px solid #2A2822;background:#0B0B0A;color:#F8F6EF;padding:0 14px;font:inherit;font-size:15px}.jpb-f input:focus{outline:0;border-color:#E2B746}
+.jpb-f button{width:44px;height:44px;border-radius:12px;border:0;background:#E2B746;cursor:pointer;display:flex;align-items:center;justify-content:center}.jpb-f button svg{width:20px;height:20px;fill:#130F05}
+.jpb-legal{margin:0;padding:0 14px 10px;background:#121210;font-size:11px;color:#9A9588}
+@media (max-width:980px){.jpb-btn{right:14px;bottom:calc(84px + var(--safe-b,0px));width:54px;height:54px}.jpb{right:12px;bottom:calc(146px + var(--safe-b,0px));height:min(560px,calc(100vh - 190px))}.jpb-tip{right:78px;bottom:calc(94px + var(--safe-b,0px))}}
 /* ---------- Modales ---------- */
 .modal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.84);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s}
 .modal.open{opacity:1;pointer-events:auto}
@@ -1024,5 +1050,74 @@ function recommend(){
 }
 </script>
 <script>document.addEventListener('click',e=>{const b=e.target.closest('[data-theme-toggle]');if(!b)return;const r=document.documentElement;const l=r.getAttribute('data-theme')!=='light';if(l)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');try{localStorage.setItem('jp-theme',l?'light':'dark')}catch(_){}});</script>
+<!-- Asistente JP Fútbol (IA) -->
+<button class="jpb-btn" id="jpbBtn" type="button" aria-controls="jpb" aria-expanded="false" aria-label="Abrir el asistente de JP Fútbol"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.2 3.6c-.5.4-1.3.1-1.3-.6V16A2.5 2.5 0 0 1 4 13.5z"/><path class="sp" d="M12 6.4l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg><span class="jpb-dot"></span></button>
+<div class="jpb-tip" id="jpbTip" hidden>¿Dudas? Te ayudo al momento 👋</div>
+<section class="jpb" id="jpb" hidden aria-label="Asistente de JP Fútbol">
+  <header class="jpb-h"><img src="assets/img/jp-logo.webp" alt=""><div><b>Asistente JP Fútbol</b><small><i></i>Asistente virtual · responde al momento</small></div><button type="button" class="jpb-x" id="jpbX" aria-label="Cerrar el asistente">×</button></header>
+  <div class="jpb-body" id="jpbBody" aria-live="polite"></div>
+  <div class="jpb-opts" id="jpbOpts"></div>
+  <form class="jpb-f" id="jpbF" autocomplete="off"><input id="jpbIn" maxlength="500" placeholder="Escribe tu pregunta…" aria-label="Escribe tu pregunta"><button type="submit" aria-label="Enviar"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg></button></form>
+  <p class="jpb-legal">Asistente virtual de IA. No compartas datos sensibles. Para reservas te pasamos con el equipo.</p>
+</section>
+<script>
+/* Asistente JP Fútbol: preguntas rápidas, respuestas de la academia (sin conexión) y, si hay clave, IA vía asistente.php */
+(function(){
+  var WA='34609712137',btn=document.getElementById('jpbBtn'),win=document.getElementById('jpb'),body=document.getElementById('jpbBody'),opts=document.getElementById('jpbOpts'),tip=document.getElementById('jpbTip'),started=false,hist=[],ia=true;
+  function wa(t){return 'https://wa.me/'+WA+'?text='+encodeURIComponent(t)}
+  function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>')}
+  function add(cls,html){var d=document.createElement('div');d.className='jpb-m '+cls;d.innerHTML=html;body.appendChild(d);body.scrollTop=body.scrollHeight;return d}
+  function typing(){return add('bot','<span class="jpb-typ"><i></i><i></i><i></i></span>')}
+  function say(html,cb){var t=typing();setTimeout(function(){t.innerHTML=html;body.scrollTop=body.scrollHeight;cb&&cb()},550)}
+  function choices(list){opts.innerHTML='';list.forEach(function(c){var el;
+    if(c.href){el=document.createElement('a');el.href=c.href;el.target='_blank';el.rel='noopener';el.className='wa'}
+    else{el=document.createElement('button');el.type='button';if(c.book)el.setAttribute('data-book',c.book);
+      el.addEventListener('click',function(){if(c.book){close();return}add('me',esc(c.l));opts.innerHTML='';c.go&&c.go()})}
+    el.textContent=c.l;opts.appendChild(el)})}
+  var TEMAS=['Horarios y lugar','Packs y precios','¿Qué programa me encaja?','Probar una sesión','Qué hay que traer','La app de familias','Hablar con el equipo'];
+  function menu(){choices(TEMAS.map(function(t){return{l:t,go:function(){responder(t,true)}}}))}
+  var FAQ=[
+    [/horari|hora|cu[aá]ndo|d[ií]as|lunes|martes|mi[eé]rcoles|jueves|d[oó]nde|lugar|sitio|valdezorras|direcci|ubicaci/i,'Entrenamos en el <b>Centro Deportivo Valdezorras</b> (Sevilla), de <b>lunes a jueves de 20:00 a 21:30</b>. Cada grupo entrena los días de su categoría y el equipo te confirma grupo y horario al reservar.'],
+    [/precio|cu[eé]sta|cu[aá]nto|tarifa|pack|pagar|pago|mensual|trimestr/i,'Packs mensuales (orientativos): <b>Inicio 40 €</b> (1 día), <b>Progreso 70 €</b> (2 días, el más elegido), <b>Completo 95 €</b> (3 sesiones con preparación física) y <b>Porteros 70 €</b> (2 días). Pagando el trimestre ahorras un 10 %. El equipo confirma el precio al reservar.'],
+    [/encaja|recomiend|empezar|programa|conviene|nivel|edad|a[nñ]os/i,'Depende de la edad y de lo que quiera mejorar: de 6 a 9 años suele encajar <b>Tecnificación</b> (pack Inicio o Progreso); de 10 a 17, Tecnificación o <b>Técnico-táctica</b>, y el pack <b>Completo</b> si quiere sumar físico; porteros y porteras, el pack <b>Porteros</b>. En la web tienes el test «Encuentra por dónde empezar».'],
+    [/prueba|probar|captaci|conocer|gratis/i,'¡Claro! Puedes pedir una <b>sesión de prueba</b> en captación abierta: el equipo te propone día para conocer la metodología y valorar por dónde empezar. Lo más rápido es escribirnos por WhatsApp.'],
+    [/traer|llevar|ropa|botas|guantes|material|equipaci/i,'Ropa deportiva, <b>botas para césped artificial</b> y agua. Porteros y porteras, también sus guantes.'],
+    [/app|aplicaci|familia|seguimiento|evoluci|v[ií]deo/i,'Con la <b>app de JP Fútbol</b> las familias ven la evolución de su hijo o hija, su horario, avisos del club, tareas para casa, vídeos y pruebas físicas, y gestionan su pack. El acceso lo da el club al apuntarse.'],
+    [/portero|portera|porter[ií]a/i,'Tenemos entrenamiento específico de <b>porteros y porteras</b> para todas las edades: posición base, colocación, reacción, blocaje y decisiones bajo palos. Pack Porteros: 2 sesiones semanales (70 €/mes orientativo).'],
+    [/f[ií]sic|fuerza|velocidad|coordinaci|lesi[oó]n|prevenci/i,'La <b>preparación física</b> trabaja fuerza, coordinación, velocidad y prevención de lesiones, adaptada a cada edad. Va incluida en el pack Completo. Si hay una lesión, consulta primero con un profesional sanitario y cuéntaselo al equipo.'],
+    [/individual|1 ?a ?1|personal|particular/i,'Hay <b>sesiones individuales</b> 1 a 1 o en pareja con un míster (pierna menos hábil, golpeo, vuelta tras lesión, preparación de pruebas). El precio se consulta con el equipo.'],
+    [/m[ií]ster|entrenador|equipo t[eé]cnico|perotti|jos[eé]/i,'El equipo técnico lo forman <b>Perotti y José</b> (socios), Miguel, Fernando, <b>Iván</b> (porteros y porteras), <b>Bulnes</b> (preparación física) y Antonio.'],
+    [/reserv|apunt|inscri|plaza|matr[ií]cul/i,'Puedes reservar en un minuto con el botón <b>«Reservar plaza»</b>: rellenas los datos y se envían por WhatsApp. El equipo te confirma grupo y horario.'],
+    [/hola|buenas|buenos/i,'¡Hola! 😊 Soy el asistente de JP Fútbol. Pregúntame por horarios, packs, programas o cómo apuntarte.'],
+    [/gracias/i,'¡A ti! Si quieres, te paso con el equipo por WhatsApp. ⚽']
+  ];
+  var NOSE='Buena pregunta 🙂 Para darte una respuesta exacta, mejor que te atienda el equipo. ¿Te paso por WhatsApp?';
+  function local(q){var h=FAQ.find(function(f){return f[0].test(q)});return h?h[1]:null}
+  function otra(){say('¿Qué más quieres saber?',menu)}
+  function cierre(q){choices([{l:'Reservar plaza',book:'Tecnificación 2 días'},{l:'Hablar por WhatsApp',href:wa('Hola JP Fútbol 👋 Vengo de vuestra web. Mi pregunta: '+q)},{l:'Otra pregunta',go:otra}])}
+  function responder(q,rapida){
+    if(/equipo|persona|humano|whats|hablar con/i.test(q)){say('Te paso con el equipo de JP Fútbol por <b>WhatsApp</b> (609 712 137). Perotti o José te responderán en cuanto puedan.',function(){choices([{l:'Abrir WhatsApp',href:wa('Hola JP Fútbol 👋 Vengo de vuestra web y quería información.')},{l:'Otra pregunta',go:otra}])});return}
+    var r=local(q);
+    if(rapida||!ia){say(r||NOSE,function(){cierre(q)});return}
+    hist.push({role:'user',content:q});var t=typing();
+    var ctrl=('AbortController' in window)?new AbortController():null,to=setTimeout(function(){ctrl&&ctrl.abort()},25000);
+    fetch('asistente.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist}),signal:ctrl?ctrl.signal:undefined})
+    .then(function(x){return x.json()})
+    .then(function(j){clearTimeout(to);if(!j||!j.ok){if(j&&j.error==='sin_clave')ia=false;throw 0}
+      t.innerHTML=esc(j.reply);body.scrollTop=body.scrollHeight;hist.push({role:'assistant',content:j.reply});cierre(q)})
+    .catch(function(){clearTimeout(to);var a=r||NOSE;t.innerHTML=a;hist.push({role:'assistant',content:a.replace(/<[^>]+>/g,'')});body.scrollTop=body.scrollHeight;cierre(q)});
+  }
+  function open(){win.hidden=false;btn.setAttribute('aria-expanded','true');btn.classList.add('on');tip.hidden=true;try{sessionStorage.setItem('jpb-tip','1')}catch(e){}
+    if(!started){started=true;say('¡Hola! 👋 Soy el <b>asistente virtual de JP Fútbol</b>. Te ayudo con horarios, packs, programas y cómo apuntarte, también fuera del horario del equipo.',function(){say('¿Sobre qué quieres saber?',menu)})}
+    setTimeout(function(){document.getElementById('jpbIn').focus({preventScroll:true})},60)}
+  function close(){win.hidden=true;btn.setAttribute('aria-expanded','false');btn.classList.remove('on')}
+  btn.addEventListener('click',function(){win.hidden?open():close()});
+  document.getElementById('jpbX').addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!win.hidden)close()});
+  document.getElementById('jpbF').addEventListener('submit',function(e){e.preventDefault();var i=document.getElementById('jpbIn'),q=i.value.trim();if(!q)return;i.value='';add('me',esc(q));opts.innerHTML='';responder(q,false)});
+  tip.addEventListener('click',open);
+  try{if(!sessionStorage.getItem('jpb-tip'))setTimeout(function(){if(win.hidden){tip.hidden=false;setTimeout(function(){tip.hidden=true},7000)}},9000)}catch(e){}
+})();
+</script>
 </body>
 </html>
