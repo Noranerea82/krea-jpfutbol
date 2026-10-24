@@ -543,7 +543,11 @@ const photoSlot=p=>`<label class="photo-slot ${picOf(p)?'has':''}" title="${picO
 
 const score=p=>Math.round(Object.values(p.areas).reduce((a,b)=>a+b,0)/4);
 const DAYS=['Lunes','Martes','Miércoles','Jueves'];
-function todayName(){const d=new Date().getDay();return DAYS[Math.min(Math.max(d-1,0),3)];}
+const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const isTrainDay=()=>{const d=new Date().getDay();return d>=1&&d<=4;};
+/* Día de entrenamiento de referencia: hoy si se entrena (lunes a jueves); si no, el próximo lunes */
+function todayName(){const d=new Date().getDay();return d>=1&&d<=4?DAYS[d-1]:'Lunes';}
+function nextTrainDate(){const x=new Date();while(x.getDay()<1||x.getDay()>4)x.setDate(x.getDate()+1);return x;}
 
 /* ---------- Utilidades UI ---------- */
 function toast(t){const el=$('#toast');el.innerHTML=I('check',18)+t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2200);}
@@ -623,9 +627,10 @@ function vHoy(){
   const total=groups.reduce((a,[k])=>a+playersOn(k,day).length,0);
   const present=groups.reduce((a,[k])=>a+att(k).length,0);
   const pend=S.players.filter(p=>!p.paid).length;
-  return `<div class="hd"><div><h1 class="disp">Hoy, ${day.toLowerCase()}</h1><p>Centro Deportivo Valdezorras · C/ Vereda de Poco Aceite</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="newAviso">${I('bell')}Enviar aviso</button><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div></div>
+  const tr=isTrainDay(),now=new Date(),nd=nextTrainDate();
+  return `<div class="hd"><div><h1 class="disp">Hoy, ${DIAS[now.getDay()].toLowerCase()}</h1><p>${tr?`${fmtLong(now)} · Día de entrenamiento`:`${fmtLong(now)} · Hoy no hay entrenamiento. Debajo tienes la próxima sesión: <b style="color:var(--oro2)">${day.toLowerCase()} ${fmtLong(nd)}</b>`}</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="newAviso">${I('bell')}Enviar aviso</button><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div></div>
   <div class="grid g4" style="margin-bottom:14px">
-   <div class="card kpi"><small>Grupos hoy</small><b>${groups.length}</b><span>${groups.map(([,g])=>(g.short||g.name)).join(' · ')}</span></div>
+   <div class="card kpi"><small>${tr?"Grupos hoy":"Grupos el "+day.toLowerCase()}</small><b>${groups.length}</b><span>${groups.map(([,g])=>(g.short||g.name)).join(' · ')}</span></div>
    <div class="card kpi"><small>Asistencia</small><b>${present}/${total}</b><span>Marca a los jugadores al llegar</span></div>
    <div class="card kpi"><small>Jugadores activos</small><b>${S.players.length}</b><span>En ${Object.keys(GROUPS).length} grupos</span></div>
    <div class="card kpi"><small>Pagos pendientes</small><b class="${pend?'gold':''}">${pend}</b><span>Ver packs y pagos</span></div>
@@ -633,7 +638,7 @@ function vHoy(){
   ${sugHTML(day)}
   <div class="grid g2">${groups.map(([k,g])=>{const pl=playersOn(k,day);return `<section class="card"><h3><span>${g.name}</span><span class="pill gold">${msTxt(metaFor(k,day))}</span></h3><p class="muted" style="margin:-4px 0 10px;font-size:13px">${metaFor(k,day).s} a ${metaFor(k,day).e}</p>
    ${turnos(k).map(tt=>{const pt=pl.filter(p=>turnoOf(p,day,k)===tt);return `<div class="thd"><b>${turnoLbl(k,tt)}</b><span>${pt.length}/${frOf(k).cap} plazas</span></div><div class="list">${pt.map(p=>{const on=att(k).includes(p.id);return `<div class="item ${ciLevel(ciOf(p,day))==='away'?'away':''}">${av(p)}<div class="grow"><b>${p.name} ${camBadge(p)}</b><small>${p.age} años · ${p.pos}</small>${ciTag(p,day)}</div><button class="btn sm" data-open="${p.id}">Ficha</button><button class="check ${on?'on':''}" data-att="${key(k)}|${p.id}" aria-pressed="${on}" aria-label="Asistencia de ${p.name}">${I('check')}</button></div>`}).join('')||'<p class="muted" style="font-size:13px;padding:6px 0">Nadie en este turno.</p>'}</div>`}).join('')}
-   <div style="margin-top:12px"><small class="muted">Plan de hoy</small><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">${(planFor(k,day)||EXS[g.prog]).map(x=>`<span class="pill">${x}</span>`).join('')}</div></div></section>`}).join('')||'<div class="card empty">Hoy no hay sesiones.</div>'}</div>`;
+   <div style="margin-top:12px"><small class="muted">${tr?"Plan de hoy":"Plan del "+day.toLowerCase()}</small><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">${(planFor(k,day)||EXS[g.prog]).map(x=>`<span class="pill">${x}</span>`).join('')}</div></div></section>`}).join('')||'<div class="card empty">Hoy no hay sesiones.</div>'}</div>`;
 }
 /* ---------- Míster: Jugadores ---------- */
 let fGroup='all',fText='';
@@ -1128,7 +1133,7 @@ function ciLevel(c){if(!c)return 'none';if(c.away)return 'away';const v=[c.s,c.e
 function ciTxt(c){const lv=ciLevel(c);if(lv==='none')return 'Sin respuesta de la familia';if(lv==='away')return 'No viene · '+c.why;const L=[];if(c.d===1)L.push('Le duele algo');else if(c.d===2)L.push('Alguna molestia');if(c.s===1)L.push('Ha dormido mal');else if(c.s===2&&lv!=='ok')L.push('Ha dormido regular');if(c.e===1)L.push('Poca energía');return L.length?L.join(' · '):'Llega bien';}
 function ciTag(p,day){const c=ciOf(p,day),lv=ciLevel(c);return `<span class="cib ${lv}"${c&&c.nota?` title="${esc(c.nota)}"`:""}>${{ok:'😀',mid:'😐',bad:'🩹',away:'🚫',none:'⏳'}[lv]} ${ciTxt(c)}</span>`;}
 let CIT=null,CIED=false;
-function ciCard(p){const nx=nextSes(p),day=nx.dn,cu=day===todayName()?'hoy':'el '+day.toLowerCase(),c=ciOf(p,day);
+function ciCard(p){const nx=nextSes(p),day=nx.dn,cu=isTrainDay()&&day===todayName()?'hoy':'el '+day.toLowerCase(),c=ciOf(p,day);
   const head=sub=>`<h3><span>¿Cómo llega ${nm(p)} ${cu}?<small class="h3sub">${sub}</small></span>${c&&!CIED?'<button class="btn sm" data-act="ciEdit">Cambiar</button>':''}</h3>`;
   if(c&&!CIED)return `<section class="card cicard" style="margin-bottom:14px">${head('Enviado al míster '+GROUPS[nx.k].mister)}${ciTag(p,day)}${c.nota?`<small class="muted" style="display:block;margin-top:6px">${esc(c.nota)}</small>`:''}</section>`;
   if(!CIT||CIT.pid!==p.id||CIT.day!==day)CIT={pid:p.id,day,s:0,e:0,d:0,nota:''};
@@ -1357,7 +1362,7 @@ document.addEventListener('click',e=>{
   if(a==='task'){const p=P(id);sheet(`<h2 class="disp">Nueva tarea</h2><p class="muted" style="margin-bottom:16px">Para ${p.name}. La familia la verá en su app.</p><form id="tf"><div class="f"><label for="tt">Tarea</label><input id="tt" placeholder="Ej.: 50 toques con la pierna débil"></div><p id="tfe" class="muted" style="color:var(--bad);min-height:20px"></p><button class="btn oro full">Asignar tarea</button></form>`);
     $('#tf').onsubmit=ev=>{ev.preventDefault();const v=$('#tt').value.trim();if(!v){$('#tfe').textContent='Escribe la tarea.';return;}p.tasks.unshift({t:v,done:false});save();closeSheet();render();toast('Tarea asignada');};}
   if(a==='note'){const p=P(id);sheet(`<h2 class="disp">Nota para la familia</h2><p class="muted" style="margin-bottom:16px">${p.name}</p><form id="nf"><div class="f"><label for="nt">Comentario</label><textarea id="nt" placeholder="Qué ha trabajado hoy y qué mejorar"></textarea></div><p id="nfe" class="muted" style="color:var(--bad);min-height:20px"></p><button class="btn oro full">Guardar nota</button></form>`);
-    if(t.dataset.pre)$('#nt').value=t.dataset.pre;$('#nf').onsubmit=ev=>{ev.preventDefault();const v=$('#nt').value.trim();if(!v){$('#nfe').textContent='Escribe el comentario.';return;}p.notes.unshift({t:v,by:S.me,d:todayName()});save();closeSheet();render();toast('Nota guardada');};}
+    if(t.dataset.pre)$('#nt').value=t.dataset.pre;$('#nf').onsubmit=ev=>{ev.preventDefault();const v=$('#nt').value.trim();if(!v){$('#nfe').textContent='Escribe el comentario.';return;}p.notes.unshift({t:v,by:S.me,d:DIAS[new Date().getDay()]});save();closeSheet();render();toast('Nota guardada');};}
   if(a==='newSession'){let sel=[],area='Todos',q='',conc='Todos';setTimeout(()=>$('#sheetBox').classList.add('wide'));
     sheet(`<h2 class="disp">Planificar sesión</h2><p class="muted" style="margin-bottom:16px">Elige grupo y día, y añade ejercicios de la biblioteca con un toque.</p><form id="sf"><div class="row2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div class="f"><label for="sg">Grupo</label><select id="sg">${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name}</option>`).join('')}</select></div><div class="f"><label for="sd">Día</label><select id="sd">${DAYS.map(d=>`<option ${d===todayName()?'selected':''}>${d}</option>`).join('')}</select></div></div>
     <div class="row2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div class="f"><label for="sh1">Hora de inicio</label><select id="sh1">${HOURS.map(h=>`<option>${h}</option>`).join('')}</select></div><div class="f"><label for="sh2">Hora de fin</label><select id="sh2">${HOURS.map(h=>`<option>${h}</option>`).join('')}</select></div></div>
