@@ -314,6 +314,22 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 .lfrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-4px 0 6px;min-height:22px}.lfrow .lnk{margin-left:auto;font-size:13.5px}
 .lmail{display:flex;align-items:center;gap:12px;width:100%;margin:6px 0 10px;padding:12px 14px;border-radius:14px;border:1px dashed rgba(226,183,70,.55);background:rgba(226,183,70,.06);color:var(--cal);text-align:left;font:inherit;cursor:pointer}.lmail .ico{color:var(--oro2);flex:none}.lmail span{flex:1}.lmail b{display:block;font-size:14px}.lmail small{display:block;color:var(--c3);font-size:12.5px;margin-top:1px}.lmail em{font-style:normal;color:var(--oro2);font-size:20px}
 .lnote2{font-size:12.5px;line-height:1.45;color:var(--c3);margin:-2px 0 10px}
+/* Ficha de pago */
+tr[data-pago]{cursor:pointer}tr[data-pago]:hover td{background:rgba(226,183,70,.06)}
+.pghint{font-size:13px;margin:-4px 0 10px}
+.nph{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--oro2);margin:16px 0 8px;padding-top:12px;border-top:1px solid var(--linea)}form#pf .nph:first-of-type{border-top:0;padding-top:0;margin-top:4px}.npdias{display:flex;flex-wrap:wrap;gap:6px}.npdias .chip{min-height:36px}
+#pf select,#pf input,#pf textarea{width:100%;min-width:0;max-width:100%}
+.pobs{margin-top:6px;font-size:13px;line-height:1.45;color:var(--c2);padding:8px 10px;border-radius:10px;background:rgba(226,183,70,.08);border:1px solid rgba(226,183,70,.25)}
+.sesb{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.sesb .btn{flex:1 1 140px;justify-content:center;gap:6px}.btn.danger{color:#F06B5B;border-color:rgba(240,107,91,.5);background:rgba(240,107,91,.08)}
+.pgh{display:flex;align-items:center;gap:14px;margin-bottom:14px}.pgh h2{font-size:26px;line-height:1}.pgh p{margin-top:4px;font-size:13.5px}
+.pgpack{padding:16px;border-radius:16px;background:var(--noche);border:1px solid var(--linea)}.pgpack .cap{color:var(--oro2)}.pgpack b.disp{display:block;font-size:34px;margin:4px 0 6px}.pgpack p{font-size:14px;color:var(--c2);line-height:1.45;margin-top:3px}.pgpack p b{color:var(--cal)}
+.pgnext{display:flex;align-items:center;gap:6px;color:var(--oro2)!important;font-weight:700}
+.pgst{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;padding:14px 16px;border-radius:16px;border:1px solid}
+.pgst.ok{background:rgba(76,195,138,.1);border-color:rgba(76,195,138,.4)}.pgst.warn{background:rgba(240,164,75,.1);border-color:rgba(240,164,75,.45)}
+.pgst small{display:block;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--c3)}.pgst b{display:block;font-size:18px;margin:2px 0}.pgst.ok b{color:var(--ok)}.pgst.warn b{color:var(--warn)}.pgst span{font-size:13px;color:var(--c2)}
+.pgbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.pgbtns .btn{min-width:0;padding:0 10px;white-space:normal;line-height:1.15}
+#pgs .seth{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--c3);margin:18px 0 8px}
+.pgk{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.pgk div{padding:12px;border-radius:14px;background:var(--noche);border:1px solid var(--linea);text-align:center}.pgk b{display:block;font-family:var(--fd);font-size:24px}.pgk small{color:var(--c3);font-size:12px}
 .ferr{color:var(--bad);font-size:13.5px;line-height:1.4;min-height:18px;margin:4px 0}
 .lpriv{margin:14px 0 6px;text-align:center;font-size:13px;line-height:1.55;color:var(--c3)}.lpriv .lnk{font-size:13px}
 .legal-links{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;margin:12px 0 4px}.legal-links button{background:none;border:0;padding:4px 0;color:var(--c3);font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.legal-links button:hover{color:var(--cal)}
@@ -748,7 +764,7 @@ function vJugadores(){
 function vFicha(id){
   const p=P(id);if(!p)return '<p class="empty">Jugador no encontrado.</p>';
   return `<a href="#/jugadores" class="btn sm" style="margin-bottom:14px">${I('back',16)}Jugadores</a>
-  <div class="hero-card" style="margin-bottom:14px">${photoSlot(p)}<div style="flex:1;min-width:180px"><h1 class="disp" style="font-size:34px;line-height:1.12">${p.name}</h1><p class="muted">${p.age} años · ${p.pos} · ${GROUPS[p.group].name}</p>${p.fam&&(p.fam.tutor||p.fam.tel)?`<p class="muted" style="font-size:13.5px;margin-top:4px">Familia: ${esc(p.fam.tutor||"")}${p.fam.tel?` · <a class="lnk" href="https://wa.me/${p.fam.tel.replace(/[^d]/g,"").replace(/^(?!34)(d{9})$/,"34$1")}" target="_blank" rel="noopener">${esc(p.fam.tel)}</a>`:""}</p>`:""}<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="pill gold">Pack ${p.pack}</span><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pago al día':'Pago pendiente'}</span><button class="btn sm oro" data-act="report" data-id="${p.id}">Informe para la familia</button></div></div><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div></div>
+  <div class="hero-card" style="margin-bottom:14px">${photoSlot(p)}<div style="flex:1;min-width:180px"><h1 class="disp" style="font-size:34px;line-height:1.12">${p.name}</h1><p class="muted">${p.age} años · ${p.pos} · ${GROUPS[p.group].name}</p>${p.foot||p.club?`<p class="muted" style="font-size:13.5px;margin-top:4px">${[p.foot?PIES[p.foot].split(" (")[0]:"",p.club?"Club: "+esc(p.club):""].filter(Boolean).join(" · ")}</p>`:""}${p.obs?`<p class="pobs">${esc(p.obs)}</p>`:""}${p.fam&&(p.fam.tutor||p.fam.tel)?`<p class="muted" style="font-size:13.5px;margin-top:4px">Familia: ${esc(p.fam.tutor||"")}${p.fam.tel?` · <a class="lnk" href="https://wa.me/${p.fam.tel.replace(/[^d]/g,"").replace(/^(?!34)(d{9})$/,"34$1")}" target="_blank" rel="noopener">${esc(p.fam.tel)}</a>`:""}</p>`:""}<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="pill gold">Pack ${p.pack}</span><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pago al día':'Pago pendiente'}</span><button class="btn sm oro" data-act="report" data-id="${p.id}">Informe para la familia</button></div></div><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div></div>
   <div class="grid g2">
    <section class="card"><h3>Evaluación por áreas <button class="btn sm" data-act="eval" data-id="${p.id}">Evaluar</button></h3>${areasHTML(p)}</section>
    <section class="card"><h3>Evolución</h3>${lineChart(p.hist,MONTHS)}</section>
@@ -790,12 +806,72 @@ function vSesiones(){
   ${sesCal()}`;
 }
 /* ---------- Míster: Pagos ---------- */
+/* Detalle de una sesión del calendario, con editar y borrar */
+function sesSheet(k,day){const g=GROUPS[k],m=metaFor(k,day),pl=playersOn(k,day),key=k+'|'+day,plan=planFor(k,day),habitual=g.days.includes(day),propia=!!(plan||(S.meta&&S.meta[key]));
+  sheet(`<div id="sss"><h2 class="disp">${g.name}</h2><p class="muted" style="margin-bottom:10px">${day} · ${m.s} a ${m.e} · ${msTxt(m)}</p>
+  ${propia?`<span class="pill gold" style="margin-bottom:12px">Sesión planificada</span>`:`<p class="muted" style="font-size:13px;margin-bottom:12px">Plan habitual del grupo. Pulsa «Editar» para planificarla a tu manera.</p>`}
+  <h3 style="font-size:14px;margin:6px 0 8px">Ejercicios</h3><div class="list" style="margin-bottom:16px">${(plan||EXS[g.prog]).map((x,i)=>{const e=allLib().find(l=>l.n===x);return `<div class="item"><span class="av" style="width:30px;height:30px;font-size:12px">${i+1}</span><div class="grow"><b>${x}</b><small>${e?e.m:[15,20,20,25][i]||15} min</small></div></div>`}).join('')}</div>
+  <h3 style="font-size:14px;margin-bottom:8px">Convocados (${pl.length})</h3><p class="muted">${pl.map(p=>p.name).join(', ')||'Nadie convocado todavía.'}</p>
+  <div class="sesb"><button type="button" class="btn" data-ss="edit">${I('cal',16)}Editar sesión</button>${propia?`<button type="button" class="btn danger" data-ss="del">${I('x',16)}<span>${habitual?'Borrar planificación':'Borrar sesión'}</span></button>`:''}</div>
+  ${propia&&habitual?`<p class="hnote">Al borrarla, ese día vuelve el plan habitual del grupo.</p>`:''}</div>`);
+  $('#sss').onclick=e=>{const b=e.target.closest('[data-ss]');if(!b)return;
+    if(b.dataset.ss==='edit'){closeSheet();const nb=document.querySelector('[data-act=newSession]');if(!nb)return;nb.click();setTimeout(()=>{if(!$('#sg'))return;$('#sg').value=k;$('#sd').value=day;$('#sd').onchange();},60);return;}
+    if(b.dataset.ok!=='1'){b.dataset.ok='1';b.querySelector('span').textContent='Pulsa otra vez para borrar';return;}
+    if(S.plans)delete S.plans[key];if(S.meta)delete S.meta[key];save();closeSheet();render();toast(habitual?'Planificación borrada: vuelve el plan habitual':'Sesión borrada');};}
+/* Alta completa de un jugador o jugadora (Jugadores › Nuevo jugador/a) */
+const POSICIONES=['Por definir','Portería','Defensa','Centrocampo','Delantera'];
+const PIES={der:'Diestro (pie derecho)',izq:'Zurdo (pie izquierdo)',amb:'Ambidiestro (los dos)'};
+const grupoPorEdad=a=>a<=7?'preb':a<=9?'benj':a<=11?'alev':a<=13?'infa':a<=15?'cade':'juv';
+function newPlayerSheet(){let pie='der',dias=[];
+  sheet(`<h2 class="disp">Nuevo jugador/a</h2><p class="muted" style="margin-bottom:12px">La familia recibirá su acceso a la app con estos datos.</p><form id="pf" novalidate>
+  <h3 class="nph">Jugador o jugadora</h3>
+  <div class="f2"><div class="f"><label for="pn">Nombre</label><input id="pn" autocomplete="off"></div><div class="f"><label for="pap">Apellidos</label><input id="pap" autocomplete="off"></div></div>
+  <div class="f2"><div class="f"><label for="pa">Edad</label><input id="pa" inputmode="numeric" maxlength="2" placeholder="Ej.: 10"></div><div class="f"><label for="pg">Grupo</label><select id="pg">${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name}</option>`).join('')}</select></div></div>
+  <div class="f2"><div class="f"><label for="pps">Posición donde juega</label><select id="pps">${POSICIONES.map(x=>`<option>${x}</option>`).join('')}</select></div><div class="f"><label for="pclub">Club o equipo actual <small class="muted">(opcional)</small></label><input id="pclub" placeholder="Ej.: CD Valdezorras"></div></div>
+  <div class="f"><label>Pie dominante</label><div class="seg3" id="ppie">${Object.entries(PIES).map(([k,l])=>`<button type="button" data-pie="${k}" aria-pressed="${k==='der'}">${l.split(' (')[0]}</button>`).join('')}</div><small class="muted" id="ppien">Pierna no dominante: izquierda</small></div>
+  <h3 class="nph">Pack y días</h3>
+  <div class="f"><label for="ppk">Pack</label><select id="ppk">${Object.keys(PACKS).map(k=>`<option value="${k}">${k} · ${PACKS[k]} €/mes · ${PACKINFO[k].d.replace(" a la semana","/sem.")}</option>`).join('')}</select></div>
+  <div class="f"><label>Días que prefiere <small class="muted">(opcional)</small></label><div class="npdias" id="pdias">${DAYS.map(d=>`<button type="button" class="chip" data-dia="${d}" aria-pressed="false">${d}</button>`).join('')}</div></div>
+  <h3 class="nph">Familia</h3>
+  <div class="f"><label for="pt">Madre, padre o tutor</label><input id="pt" autocomplete="off"></div>
+  <div class="f2"><div class="f"><label for="ptel">Teléfono</label><input id="ptel" type="tel" inputmode="tel" placeholder="600 000 000"></div><div class="f"><label for="pmail">Correo</label><input id="pmail" type="email" placeholder="correo@ejemplo.es"></div></div>
+  <div class="f"><label for="pobs">Observaciones para el míster <small class="muted">(opcional)</small></label><textarea id="pobs" rows="2" placeholder="Objetivo, lesiones anteriores, lo que quiere mejorar…"></textarea></div>
+  <p id="pfe" class="ferr" role="alert"></p><button class="btn oro full">Crear jugador o jugadora</button></form>`);
+  $('#pa').oninput=e=>{const a=+e.target.value;if(a>=5&&a<=18)$('#pg').value=grupoPorEdad(a);};
+  $('#ppie').onclick=e=>{const b=e.target.closest('[data-pie]');if(!b)return;pie=b.dataset.pie;$$('#ppie button').forEach(x=>x.setAttribute('aria-pressed',x===b));$('#ppien').textContent=pie==='amb'?'Usa las dos piernas por igual':'Pierna no dominante: '+(pie==='der'?'izquierda':'derecha');};
+  $('#pdias').onclick=e=>{const b=e.target.closest('[data-dia]');if(!b)return;const d=b.dataset.dia;dias=dias.includes(d)?dias.filter(x=>x!==d):[...dias,d];b.setAttribute('aria-pressed',dias.includes(d));};
+  $('#pf').onsubmit=ev=>{ev.preventDefault();const er=t=>{$('#pfe').textContent=t;},n=$('#pn').value.trim(),ap=$('#pap').value.trim(),ag=$('#pa').value.trim(),tel=$('#ptel').value.trim(),mail=$('#pmail').value.trim();
+    if(!n)return er('Escribe el nombre.');if(!ap)return er('Escribe los apellidos.');if(!/^\d{1,2}$/.test(ag)||+ag<4||+ag>25)return er('Escribe la edad en números.');
+    if(tel&&!/^[+\d][\d\s]{8,14}$/.test(tel))return er('Revisa el teléfono.');if(mail&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail))return er('Revisa el correo.');
+    const pk=$('#ppk').value,p={id:'j'+Date.now(),name:n+' '+ap,age:+ag,pos:$('#pps').value,foot:pie,club:$('#pclub').value.trim(),group:$('#pg').value,pack:pk,paid:false,att:100,sessions:0,areas:{'Técnica':50,'Físico':50,'Táctica':50,'Actitud':50},hist:[50,50,50,50,50,50],tasks:[],notes:[],fam:{tutor:$('#pt').value.trim(),tel,mail},obs:$('#pobs').value.trim()};
+    if(pk==='Inicio'){const d=dias.find(x=>GROUPS[p.group].days.includes(x));if(d)p.day1=d;}if(dias.length)p.prefDays=dias;
+    S.players.push(p);save();closeSheet();location.hash='#/jugador/'+p.id;render();toast('Jugador o jugadora creado');};}
+/* Ficha de pago de cada jugador o jugadora (se abre al tocarlo en Packs y pagos) */
+function pagoSheet(p){const f=p.fam||{},R=p.receipts||[],last=R[0],PS=packSessions(p);
+  sheet(`<div id="pgs"><div class="pgh">${av(p,'lg')}<div><h2 class="disp">${p.name}</h2><p class="muted">${GROUPS[p.group].name} · ${p.age} años · ${p.pos}</p></div></div>
+  <div class="pgpack"><small class="cap">Pack contratado</small><b class="disp">${p.pack}</b><p><b>${PACKS[p.pack]} € al mes</b> · ${PACKINFO[p.pack].d}</p><p>${PACKINFO[p.pack].x}: ${daysTxt(PS)}</p>
+   ${p.nextPack?`<p class="pgnext">${I('reset',15)} Cambia a <b>${p.nextPack.pack}</b> el ${fmtLong(p.nextPack.from)}</p>`:''}</div>
+  <div class="pgst ${p.paid?'ok':'warn'}"><div><small>${mesActual()}</small><b>${p.paid?'Pagado':'Pendiente de pago'}</b><span>${p.paid?(last?`El ${last.d} · ${last.m}`:'Pago registrado este mes'):`Faltan ${PACKS[p.pack]} € de este mes`}</span></div>${p.paid&&last?`<button class="btn sm" data-pgr="0">Recibo</button>`:''}</div>
+  ${p.paid?'':`<div class="pgbtns"><button class="btn" data-pga="remind">${I('bell',16)}Recordar a la familia</button><button class="btn oro" data-pga="cobrar">${I('check',16)}Marcar como pagado</button></div>`}
+  <h3 class="seth">${I('card',16)}Historial de pagos</h3>
+  <div class="setc">${R.length?R.map((r,i)=>`<div class="setr"><div><b>${r.c}</b><small>${r.d} · ${r.m} · ${r.n}</small></div><button class="btn sm" data-pgr="${i}">${r.a} €</button></div>`).join(''):`<p class="muted" style="padding:12px 0;font-size:13.5px">Todavía no hay pagos registrados en la app.</p>`}</div>
+  <h3 class="seth">${I('users',16)}Familia</h3>
+  <div class="setc">${f.tutor||f.tel||f.mail?`<div class="setr"><div><b>${esc(f.tutor||'Familia de '+nom(p))}</b><small>${[f.tel,f.mail].filter(Boolean).map(esc).join(' · ')||'Sin teléfono ni correo'}</small></div>${f.tel?`<a class="btn sm" href="https://wa.me/${f.tel.replace(/\D/g,'').replace(/^(\d{9})$/,'34$1')}" target="_blank" rel="noopener">WhatsApp</a>`:''}</div>`:`<p class="muted" style="padding:12px 0;font-size:13.5px">La familia aún no ha puesto sus datos de contacto en Ajustes.</p>`}</div>
+  <h3 class="seth">${I('chart',16)}Seguimiento</h3>
+  <div class="pgk"><div><b>${p.att}%</b><small>Asistencia</small></div><div><b>${p.sessions}</b><small>Sesiones</small></div><div><b>${score(p)}</b><small>Nota global</small></div></div>
+  <button class="btn full" data-pga="ficha" style="margin-top:14px">${I('users',16)}Ver la ficha completa</button></div>`);
+  $('#pgs').onclick=e=>{const r=e.target.closest('[data-pgr]');if(r){dlReceipt(p,R[+r.dataset.pgr]);return;}const b=e.target.closest('[data-pga]');if(!b)return;const a=b.dataset.pga;
+    if(a==='remind'){toast('Recordatorio de pago enviado a la familia');}
+    if(a==='ficha'){closeSheet();location.hash='#/jugador/'+p.id;}
+    if(a==='cobrar'){if(b.dataset.ok!=='1'){b.dataset.ok='1';b.lastChild.textContent='Pulsa otra vez para confirmar';return;}const d=new Date();p.paid=true;p.receipts=p.receipts||[];p.receipts.unshift({n:'JP-'+d.getFullYear()+'-'+String(Math.floor(Math.random()*90000)+10000),d:d.toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}),c:'Pack '+p.pack+' · '+mesActual(),m:'En mano · míster '+S.me,a:PACKS[p.pack]});save();render();pagoSheet(p);toast('Pago registrado');}};}
 function vPagos(){
   const paid=S.players.filter(p=>p.paid), pend=S.players.filter(p=>!p.paid);
   const total=paid.reduce((a,p)=>a+PACKS[p.pack],0);
+  const cnt={};S.players.forEach(p=>cnt[p.pack]=(cnt[p.pack]||0)+1);const top=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0]||'Progreso';
   return `<div class="hd"><div><h1 class="disp">Packs y pagos</h1><p>Mes en curso</p></div></div>
-  <div class="grid g3" style="margin-bottom:14px"><div class="card kpi"><small>Cobrado este mes</small><b>${total} €</b><span>${paid.length} packs al día</span></div><div class="card kpi"><small>Pendiente</small><b class="gold">${pend.reduce((a,p)=>a+PACKS[p.pack],0)} €</b><span>${pend.length} familias</span></div><div class="card kpi"><small>Pack más elegido</small><b>Progreso</b><span>2 días por semana</span></div></div>
-  <div class="card tw"><table><thead><tr><th>Jugador</th><th>Pack</th><th>Importe</th><th>Estado</th><th></th></tr></thead><tbody>${S.players.map(p=>`<tr><td><b>${p.name}</b><br><small class="muted">${GROUPS[p.group].name}</small></td><td>${p.pack}${p.nextPack?`<br><small class="pill gold" style="margin-top:4px;display:inline-block">→ ${p.nextPack.pack} el ${fmtLong(p.nextPack.from).replace(/ de (\w{3})\w*/,' $1')}</small>`:''}</td><td>${PACKS[p.pack]} €</td><td><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pagado':'Pendiente'}</span></td><td>${p.paid?'':`<button class="btn sm" data-act="remind" data-id="${p.id}">Recordar</button>`}</td></tr>`).join('')}</tbody></table></div>
+  <div class="grid g3" style="margin-bottom:14px"><div class="card kpi"><small>Cobrado este mes</small><b>${total} €</b><span>${paid.length} packs al día</span></div><div class="card kpi"><small>Pendiente</small><b class="gold">${pend.reduce((a,p)=>a+PACKS[p.pack],0)} €</b><span>${pend.length} familias</span></div><div class="card kpi"><small>Pack más elegido</small><b>${top}</b><span>${cnt[top]} jugadores · ${PACKINFO[top].d}</span></div></div>
+  <p class="muted pghint">Toca un jugador o jugadora para ver su pack, sus pagos y los datos de la familia.</p>
+  <div class="card tw"><table><thead><tr><th>Jugador</th><th>Pack</th><th>Importe</th><th>Estado</th><th></th></tr></thead><tbody>${S.players.map(p=>`<tr data-pago="${p.id}"><td><b>${p.name}</b><br><small class="muted">${GROUPS[p.group].name}</small></td><td>${p.pack}${p.nextPack?`<br><small class="pill gold" style="margin-top:4px;display:inline-block">→ ${p.nextPack.pack} el ${fmtLong(p.nextPack.from).replace(/ de (\w{3})\w*/,' $1')}</small>`:''}</td><td>${PACKS[p.pack]} €</td><td><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pagado':'Pendiente'}</span></td><td>${p.paid?'':`<button class="btn sm" data-act="remind" data-id="${p.id}">Recordar</button>`}</td></tr>`).join('')}</tbody></table></div>
   <p class="muted" style="margin-top:12px;font-size:13px">Precios de ejemplo. En la versión real, los pagos se cobran online y se actualizan solos.</p>`;
 }
 /* ---------- Familia ---------- */
@@ -1186,6 +1262,7 @@ function legalSheet(sec){setTimeout(()=>$('#sheetBox').classList.add('wide'));
   ${PIE}</div>`);
   if(sec)setTimeout(()=>{const t=$('#lg-'+sec);if(t)t.scrollIntoView({block:'start'});},60);}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-legal]');if(!b)return;e.preventDefault();if($('#lgl')){const t=$('#lg-'+b.dataset.legal);if(t)t.scrollIntoView({block:'start',behavior:'smooth'});return;}legalSheet(b.dataset.legal);});
+document.addEventListener('click',e=>{const r=e.target.closest('tr[data-pago]');if(!r||e.target.closest('[data-act]'))return;const p=P(r.dataset.pago);if(p)pagoSheet(p);});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)msgSync();});
 function msgs(){if(MSG_API){if(!MSOK)return {};return S.msgs||(S.msgs={});}if(!S.msgs){const p0=S.players[0],p1=S.players[1],ago=m=>new Date(Date.now()-6e4*m).toISOString();S.msgs={};
   if(p0)S.msgs[p0.id]=[{f:'fam',t:'Hola, ¿tiene que traer botas de tacos o de césped artificial?',at:ago(1500),r:true},{f:'mis',by:GROUPS[p0.group].mister,t:'Hola, mejor las de césped artificial (multitacos). ¡Nos vemos en la sesión!',at:ago(1440),r:false}];
@@ -1551,7 +1628,7 @@ document.addEventListener('click',e=>{
   if(t.dataset.g){fGroup=t.dataset.g;render();return;}
   if(t.dataset.task!==undefined){const p=P(S.kid);const k=p.tasks[+t.dataset.task];k.done=!k.done;save();render();if(k.done)toast('Tarea hecha');return;}
   if(t.dataset.vid){playVideo(t.dataset.vid,t.dataset.t);return;}
-  if(t.dataset.group){const g=GROUPS[t.dataset.group];const pl=playersOn(t.dataset.group,t.dataset.day);sheet(`<h2 class="disp">${g.name}</h2><p class="muted" style="margin-bottom:14px">${t.dataset.day} · ${metaFor(t.dataset.group,t.dataset.day).s} a ${metaFor(t.dataset.group,t.dataset.day).e} · ${msTxt(metaFor(t.dataset.group,t.dataset.day))}</p><h3 style="font-size:14px;margin-bottom:8px">Ejercicios</h3><div class="list" style="margin-bottom:16px">${(planFor(t.dataset.group,t.dataset.day)||EXS[g.prog]).map((x,i)=>{const e=allLib().find(l=>l.n===x);return `<div class="item"><span class="av" style="width:30px;height:30px;font-size:12px">${i+1}</span><div class="grow"><b>${x}</b><small>${e?e.m:[15,20,20,25][i]||15} min</small></div></div>`}).join('')}</div><h3 style="font-size:14px;margin-bottom:8px">Convocados (${pl.length})</h3><p class="muted">${pl.map(p=>p.name).join(', ')}</p>`);return;}
+  if(t.dataset.group){sesSheet(t.dataset.group,t.dataset.day);return;}
   e.preventDefault();
   const a=t.dataset.act, id=t.dataset.id;
   if(a==='logout'){S.role=null;save();location.hash='';render();}
@@ -1600,9 +1677,7 @@ document.addEventListener('click',e=>{
     $('#ssel').onclick=e=>{const b=e.target.closest('[data-rm]');if(!b)return;sel.splice(+b.dataset.rm,1);draw();};
     load();
     $('#sf').onsubmit=ev=>{ev.preventDefault();const extra=$('#se').value.split('\n').map(x=>x.trim()).filter(Boolean);const all=[...sel,...extra];if(!all.length){toast('Añade al menos un ejercicio');return;}if(!ms.length){$('#sme').textContent='Elige al menos un míster.';$('#smp').scrollIntoView({block:'center',behavior:'smooth'});return;}if(tmin($('#sh2').value)<=tmin($('#sh1').value)){toast('La hora de fin debe ser posterior a la de inicio');return;}S.plans=S.plans||{};S.plans[$('#sg').value+'|'+$('#sd').value]=all;S.meta=S.meta||{};S.meta[$('#sg').value+'|'+$('#sd').value]={ms,s:$('#sh1').value,e:$('#sh2').value};save();closeSheet();render();toast('Sesión planificada');};}
-  if(a==='newPlayer'){sheet(`<h2 class="disp">Nuevo jugador/a</h2><p class="muted" style="margin-bottom:16px">Se crea con el pack Inicio; la familia recibirá su acceso.</p><form id="pf"><div class="f"><label for="pn">Nombre y apellidos</label><input id="pn"></div><div class="f"><label for="pa">Edad</label><input id="pa" inputmode="numeric" maxlength="2"></div><div class="f"><label for="pg">Grupo</label><select id="pg">${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name}</option>`).join('')}</select></div><p id="pfe" class="muted" style="color:var(--bad);min-height:20px"></p><button class="btn oro full">Crear jugador</button></form>`);
-    $('#pf').onsubmit=ev=>{ev.preventDefault();const n=$('#pn').value.trim(),ag=$('#pa').value.trim();if(!n){$('#pfe').textContent='Escribe el nombre.';return;}if(!/^\d{1,2}$/.test(ag)){$('#pfe').textContent='Escribe la edad en números.';return;}
-      S.players.push({id:'j'+Date.now(),name:n,age:+ag,pos:'Por definir',group:$('#pg').value,pack:'Inicio',paid:false,att:100,sessions:0,areas:{'Técnica':50,'Físico':50,'Táctica':50,'Actitud':50},hist:[50,50,50,50,50,50],tasks:[],notes:[]});save();closeSheet();render();toast('Jugador creado');};}
+  if(a==='newPlayer'){newPlayerSheet();}
   if(a==='pay'){payFlow(P(S.kid));}
   if(a==='theme'){e.preventDefault();toggleTheme();return;}
   if(a==='avisos'){avSheet();return;}
