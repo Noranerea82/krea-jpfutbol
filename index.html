@@ -259,6 +259,24 @@ html[data-theme=light] .deco-pitch::before{opacity:.20}html[data-theme=light] .d
 .feat li b{display:block;font-size:17px;margin-bottom:2px}
 .feat li span{color:var(--cal-3);font-size:15px}
 .feat svg{width:26px;height:26px;stroke:var(--oro);fill:none;stroke-width:1.8;margin-bottom:8px}
+/* Sección de la app con capturas reales */
+/* Información legal */
+#lg{z-index:85}.lgsheet{width:min(720px,100%)}.lgsheet h3{font-size:24px;margin-bottom:10px}
+.lgnav{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:6px;position:sticky;top:-34px;padding:8px 0;background:var(--grada);z-index:1}.lgnav button{background:none;border:0;padding:4px 0;color:var(--oro);font-weight:700;font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.lgsheet section{margin-top:18px;scroll-margin-top:50px}.lgsheet h4{font-size:17px;margin-bottom:8px}.lgsheet p{font-size:14.5px;line-height:1.6;margin:0 0 9px;color:var(--cal-2,#C9C4B6)}.lgsheet p b{color:var(--cal)}
+.lgpie{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:20px!important;font-size:13px!important;text-align:center}.lgpie a{color:inherit;text-decoration:none}.lgpie a b{color:var(--oro)}
+.flegal{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center}.flegal a{color:inherit;font-size:13.5px;text-decoration:underline;text-underline-offset:3px}.flegal a:hover{color:var(--cal)}
+.fine a,.jpb-legal a{color:inherit;text-decoration:underline}
+.app-k{margin:0 0 12px;font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--oro)}
+.phones{display:grid;place-items:center;position:relative;padding:20px 0}
+.phones::before{content:"";position:absolute;width:90%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(226,183,70,.3),transparent 65%);filter:blur(12px)}
+.ph2{grid-area:1/1;position:relative;margin:0;width:min(250px,48vw);aspect-ratio:750/1624;border-radius:38px;border:8px solid #1C1B18;background:#000;box-shadow:0 0 0 1.5px #3A372F,0 40px 90px -20px rgba(0,0,0,.85);overflow:hidden;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.ph2::before{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);width:70px;height:20px;border-radius:12px;background:#000;z-index:2}
+.ph2 img{display:block;width:100%;height:100%;object-fit:cover}
+.ph-back{transform:translate(50%,22px) rotate(7deg) scale(.92)}.ph-front{z-index:2;transform:translate(-36%,0) rotate(-4deg)}
+.phones:hover .ph-back{transform:translate(55%,14px) rotate(9deg) scale(.93)}.phones:hover .ph-front{transform:translate(-40%,-6px) rotate(-5deg)}
+.howto{margin-top:16px;padding:14px 16px;border-radius:14px;border:1px solid var(--linea);background:rgba(226,183,70,.07);font-size:15px;line-height:1.5}.howto p{margin:0 0 6px}.howto p:last-child{margin:0;font-size:13.5px;opacity:.75}
+@media (max-width:900px){.phones{margin-top:10px}.ph2{width:min(210px,44vw);border-radius:30px;border-width:6px}}
 .phone-wrap{display:flex;justify-content:center;position:relative}
 .phone-wrap::before{content:"";position:absolute;width:80%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(226,183,70,.28),transparent 65%);top:12%;filter:blur(10px)}
 .phone{position:relative;width:min(330px,82vw);aspect-ratio:9/19.3;border-radius:46px;background:#000;border:10px solid #1C1B18;box-shadow:0 0 0 1.5px #3A372F,0 40px 90px -20px rgba(0,0,0,.9);overflow:hidden}
@@ -748,28 +766,30 @@ html.locked #gate{display:flex}
 <section class="sec app deco deco-pitch" id="app" style="background:var(--grada);border-block:1px solid var(--linea)">
   <div class="wrap">
     <div class="rv">
-      <h2 class="disp">El área de familias, jugadores y jugadoras.</h2>
-      <p class="lead" style="margin-top:18px">La app de JP Fútbol pone todo el seguimiento en el móvil: las familias ven la evolución de su hijo o hija y gestionan su pack, y los místers organizan cada sesión.</p>
+      <p class="app-k">Todo JP Fútbol, en el móvil</p>
+      <h2 class="disp">Descárgate<br>la app<span class="gold">.</span></h2>
+      <p class="lead" style="margin-top:18px">Las familias siguen la evolución de su hijo o hija, hablan con el míster y reciben los avisos del club al momento. Los místers organizan cada sesión. Se instala en un minuto, sin pasar por ninguna tienda de aplicaciones.</p>
       <ul class="feat">
-        <li><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg><b>Evolución de cada jugador/a</b><span>Sesiones hechas, asistencia y progreso por áreas.</span></li>
-        <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><b>Calendario y reservas</b><span>Próximas sesiones y cambios de día en un toque.</span></li>
-        <li><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><b>Pagos de packs</b><span>Renueva y paga el pack desde el móvil.</span></li>
-        <li><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><b>Tareas y vídeos</b><span>Ejercicios para casa y vídeos de cada sesión.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg><b>Evolución y pruebas físicas</b><span>Nota por áreas, gráficas y el antes y el después.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/></svg><b>Mensajes con el míster</b><span>Y un asistente que resuelve las dudas al momento.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><b>Avisos y notificaciones</b><span>Sesión suspendida o cambio de horario, al instante.</span></li>
+        <li><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><b>Tareas y vídeos</b><span>Ejercicios para casa y vídeos comentados al segundo.</span></li>
+        <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><b>Horario y pack</b><span>Elige turno, paga el pack y descarga los recibos.</span></li>
+        <li><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><b>Privada y segura</b><span>Contraseña propia: cada familia ve solo lo suyo.</span></li>
       </ul>
       <div class="hero-cta" style="margin-top:0">
-        <a class="btn btn-oro" id="appLink" href="app/index.html">Ver la app en acción</a>
+        <a class="btn btn-oro" id="appLink" href="app/index.html">Descargar la app</a>
+        <button type="button" class="btn btn-linea" id="appHow" aria-expanded="false" aria-controls="appHowBox">Cómo instalarla</button>
+      </div>
+      <div class="howto" id="appHowBox" hidden>
+        <p><b>Android:</b> abre la app en Chrome, pulsa el menú ⋮ y elige «Instalar aplicación».</p>
+        <p><b>iPhone:</b> ábrela en Safari, pulsa Compartir y elige «Añadir a pantalla de inicio».</p>
+        <p class="muted">El acceso para cada familia lo da el club al apuntarse.</p>
       </div>
     </div>
-    <div class="phone-wrap rv" aria-hidden="true">
-      <div class="phone"><div class="scr">
-        <div class="scr-top"><img src="assets/img/jp-logo.webp" alt=""><span>Área familias</span></div>
-        <div class="scr-hi">Hola, familia<br><span class="gold">de Hugo</span></div>
-        <div class="pcard"><div class="ring" style="--p:78"><b>78</b></div><div><small>Hugo · Centrocampo · Sub-12</small><strong>Progreso del trimestre</strong><small>+9 puntos desde septiembre</small></div></div>
-        <div class="mini"><div><small>Sesiones</small><b>24</b></div><div><small>Asistencia</small><b>96%</b></div></div>
-        <div class="next"><div><small>Próxima sesión</small><b>Miércoles · 20:00</b></div><em>Tecnificación</em></div>
-        <div class="tasks"><div><i class="ok"></i>Toques con pierna débil · 10 min</div><div><i></i>Vídeo: perfil al recibir</div></div>
-        <div class="tabbar"><span class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg>Inicio</span><span><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/></svg>Agenda</span><span><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Vídeos</span><span><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/></svg>Pagos</span></div>
-      </div></div>
+    <div class="phones rv">
+      <figure class="ph2 ph-back"><img src="assets/img/app-ficha.jpg" alt="Ficha de un jugador en la app: foto, nota global y evaluación por áreas" loading="lazy" width="750" height="1624"></figure>
+      <figure class="ph2 ph-front"><img src="assets/img/app-familia.jpg" alt="Pantalla de inicio de la familia en la app de JP Fútbol" loading="lazy" width="750" height="1624"></figure>
     </div>
   </div>
 </section>
@@ -823,6 +843,7 @@ html.locked #gate{display:flex}
 <footer>
   <div class="wrap">
     <div style="display:flex;align-items:center;gap:12px"><img src="assets/img/jp-logo.webp" alt=""><span>JP Fútbol · Academia de tecnificación · Sevilla</span></div>
+    <nav class="flegal" aria-label="Información legal"><a href="#" data-legal="aviso">Aviso legal</a><a href="#" data-legal="privacidad">Privacidad</a><a href="#" data-legal="condiciones">Condiciones de uso</a><a href="#" data-legal="cookies">Cookies</a></nav>
     <span class="krea">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo</span>
   </div>
 </footer>
@@ -854,6 +875,32 @@ html.locked #gate{display:flex}
   <div class="vbox" id="vmBox"><video id="vmVid" playsinline preload="auto"></video><span class="vload"><i></i></span></div>
 </div>
 <!-- Reserva -->
+<div class="modal" id="lg" role="dialog" aria-modal="true" aria-labelledby="lgT">
+  <div class="sheet lgsheet">
+    <button type="button" class="x" data-close aria-label="Cerrar"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <h3 id="lgT">Información legal</h3>
+    <nav class="lgnav" aria-label="Información legal"><button type="button" data-legal="aviso">Aviso legal</button><button type="button" data-legal="privacidad">Privacidad</button><button type="button" data-legal="condiciones">Condiciones de uso</button><button type="button" data-legal="cookies">Cookies</button></nav>
+    <section id="lg-aviso"><h4>Aviso legal</h4>
+      <p><b>Titular de la web:</b> JP Fútbol · [NOMBRE FISCAL DE JP FÚTBOL] · [NIF DE JP FÚTBOL] · [DIRECCIÓN FISCAL DE JP FÚTBOL] · jpacademytecnificacion@gmail.com · 609 712 137.</p>
+      <p><b>Diseño y desarrollo:</b> KREA Digital Studio · NIF 28795999E · 41018 Sevilla · contacto@kreadigitalstudio.es · kreadigitalstudio.es</p>
+      <p>El diseño y el código de la web son propiedad de KREA Digital Studio, y la marca JP Fútbol pertenece a JP Fútbol. No se permite copiarlos, reproducirlos ni distribuirlos sin autorización por escrito. Las fotos y los vídeos se usan con permiso.</p></section>
+    <section id="lg-privacidad"><h4>Política de privacidad</h4>
+      <p><b>Responsable:</b> JP Fútbol ([NOMBRE FISCAL DE JP FÚTBOL], [NIF DE JP FÚTBOL]), jpacademytecnificacion@gmail.com.</p>
+      <p><b>Reservas:</b> el formulario de reserva no guarda nada en la web. Al enviarlo se abre WhatsApp con el mensaje escrito (nombre, edad y posición del jugador o jugadora, nombre de la madre, padre o tutor, pack y días) y eres tú quien decide enviarlo. Usamos esos datos solo para responder y organizar la plaza.</p>
+      <p><b>Asistente:</b> para responder, las preguntas que escribes en el asistente se envían a un servicio de inteligencia artificial de Anthropic, que solo las procesa para devolver la respuesta. Guardamos la última pregunta de cada conversación, sin tu IP ni datos personales, para saber qué dudas son más frecuentes. No escribas datos sensibles ni de salud.</p>
+      <p><b>Menores:</b> los datos de jugadores y jugadoras menores de 14 años nos los debe facilitar su madre, padre o tutor.</p>
+      <p><b>Quién nos ayuda:</b> OVHcloud (alojamiento de la web, Francia), WhatsApp (mensajería, si decides enviarnos la reserva) y Anthropic (asistente con IA).</p>
+      <p><b>Tus derechos:</b> acceder, corregir, borrar, oponerte, limitar o llevarte tus datos escribiendo a jpacademytecnificacion@gmail.com. También puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p></section>
+    <section id="lg-condiciones"><h4>Condiciones de uso</h4>
+      <p>La información de la web es orientativa: los precios, horarios y grupos los confirma el equipo de JP Fútbol al reservar.</p>
+      <p>El asistente responde de forma automática y con inteligencia artificial, y <b>puede equivocarse</b>. Para cualquier caso concreto, la última palabra es del equipo de JP Fútbol.</p>
+      <p>JP Fútbol se reserva el <b>derecho de admisión</b>. Estas condiciones se rigen por la ley española.</p></section>
+    <section id="lg-cookies"><h4>Cookies</h4>
+      <p>La web no usa cookies de publicidad ni de seguimiento. Solo guarda en tu navegador lo imprescindible para funcionar: el modo claro u oscuro y el acceso a la presentación. Por eso no necesita tu consentimiento.</p></section>
+    <p class="lgpie"><b>JP Fútbol 2026</b><span>© <a href="https://kreadigitalstudio.es" target="_blank" rel="noopener"><b>KREA Digital Studio</b></a> · Diseño y desarrollo</span></p>
+  </div>
+</div>
+
 <div class="modal" id="bk" role="dialog" aria-modal="true" aria-labelledby="bkT">
   <form class="sheet" id="bkForm" novalidate>
     <button type="button" class="x" data-close aria-label="Cerrar"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -872,7 +919,7 @@ html.locked #gate{display:flex}
     </div>
     <p class="err" id="bkErr" role="alert"></p>
     <button class="btn btn-oro" type="submit"><svg class="ico" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg>Enviar reserva por WhatsApp</button>
-    <p class="fine">Se abrirá WhatsApp con tu reserva escrita, lista para enviar.</p>
+    <p class="fine">Se abrirá WhatsApp con tu reserva escrita, lista para enviar. Al enviarla aceptas la <a href="#" data-legal="privacidad">política de privacidad</a>.</p>
   </form>
 </div>
 
@@ -881,6 +928,7 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const WA='34609712137';
 const APP_URL=/kreadigitalstudio.es$/.test(location.hostname)?'https://jpfutbolapp.kreadigitalstudio.es/':'app/index.html';
 $('#appLink').href=APP_URL;
+(function(){const b=document.getElementById('appHow'),x=document.getElementById('appHowBox');if(b)b.onclick=()=>{x.hidden=!x.hidden;b.setAttribute('aria-expanded',!x.hidden);};})();
 
 /* Cabecera, menú y barra móvil */
 const hdr=$('#top'), dock=$('#dock');
@@ -939,6 +987,7 @@ let lastFocus=null;
 function openM(sel){lastFocus=document.activeElement;const m=$(sel);m.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>m.querySelector('[data-close]')?.focus(),50);}
 function closeM(m){m.classList.remove('open');document.body.style.overflow='';if(m.id==='vm'){const v=$('#vmVid');m.classList.remove('playing');v.pause();v.removeAttribute('src');v.load();}lastFocus?.focus();}
 $$('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m||e.target.closest('[data-close]'))closeM(m);});});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-legal]');if(!b)return;e.preventDefault();const m=document.getElementById('lg');if(!m.classList.contains('open'))openM('#lg');setTimeout(()=>{const t=document.getElementById('lg-'+b.dataset.legal);if(t)t.scrollIntoView({block:'start',behavior:m.classList.contains('open')?'smooth':'auto'});},60);});
 addEventListener('keydown',e=>{const m=$('.modal.open');if(!m)return;if(e.key==='Escape')closeM(m);if(m.id==='lb'&&e.key==='ArrowRight')$('#lbNext').click();if(m.id==='lb'&&e.key==='ArrowLeft')$('#lbPrev').click();});
 
 /* Pestañas de programas */
@@ -1058,7 +1107,7 @@ function recommend(){
   <div class="jpb-body" id="jpbBody" aria-live="polite"></div>
   <div class="jpb-opts" id="jpbOpts"></div>
   <form class="jpb-f" id="jpbF" autocomplete="off"><input id="jpbIn" maxlength="500" placeholder="Escribe tu pregunta…" aria-label="Escribe tu pregunta"><button type="submit" aria-label="Enviar"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg></button></form>
-  <p class="jpb-legal">Asistente virtual de IA. No compartas datos sensibles. Para reservas te pasamos con el equipo.</p>
+  <p class="jpb-legal">Asistente virtual de IA: puede equivocarse. No compartas datos sensibles. <a href="#" data-legal="privacidad">Privacidad</a></p>
 </section>
 <script>
 /* Asistente JP Fútbol: preguntas rápidas, respuestas de la academia (sin conexión) y, si hay clave, IA vía asistente.php */
@@ -1082,7 +1131,7 @@ function recommend(){
     [/encaja|recomiend|empezar|programa|conviene|nivel|edad|a[nñ]os/i,'Depende de la edad y de lo que quiera mejorar: de 6 a 9 años suele encajar <b>Tecnificación</b> (pack Inicio o Progreso); de 10 a 17, Tecnificación o <b>Técnico-táctica</b>, y el pack <b>Completo</b> si quiere sumar físico; porteros y porteras, el pack <b>Porteros</b>. En la web tienes el test «Encuentra por dónde empezar».'],
     [/prueba|probar|captaci|conocer|gratis/i,'¡Claro! Puedes pedir una <b>sesión de prueba</b> en captación abierta: el equipo te propone día para conocer la metodología y valorar por dónde empezar. Lo más rápido es escribirnos por WhatsApp.'],
     [/traer|llevar|ropa|botas|guantes|material|equipaci/i,'Ropa deportiva, <b>botas para césped artificial</b> y agua. Porteros y porteras, también sus guantes.'],
-    [/app|aplicaci|familia|seguimiento|evoluci|v[ií]deo/i,'Con la <b>app de JP Fútbol</b> las familias ven la evolución de su hijo o hija, su horario, avisos del club, tareas para casa, vídeos y pruebas físicas, y gestionan su pack. El acceso lo da el club al apuntarse.'],
+    [/app|aplicaci|familia|seguimiento|evoluci|v[ií]deo/i,'Con la <b>app de JP Fútbol</b> las familias ven la evolución de su hijo o hija, su horario, tareas, vídeos y pruebas físicas, <b>escriben al míster</b>, reciben los <b>avisos del club con notificaciones</b> y gestionan su pack. Tiene un asistente para dudas y cada familia entra con su propia contraseña. Se instala en el móvil en un minuto; el acceso lo da el club al apuntarse.'],
     [/portero|portera|porter[ií]a/i,'Tenemos entrenamiento específico de <b>porteros y porteras</b> para todas las edades: posición base, colocación, reacción, blocaje y decisiones bajo palos. Pack Porteros: 2 sesiones semanales (70 €/mes orientativo).'],
     [/f[ií]sic|fuerza|velocidad|coordinaci|lesi[oó]n|prevenci/i,'La <b>preparación física</b> trabaja fuerza, coordinación, velocidad y prevención de lesiones, adaptada a cada edad. Va incluida en el pack Completo. Si hay una lesión, consulta primero con un profesional sanitario y cuéntaselo al equipo.'],
     [/individual|1 ?a ?1|personal|particular/i,'Hay <b>sesiones individuales</b> 1 a 1 o en pareja con un míster (pierna menos hábil, golpeo, vuelta tras lesión, preparación de pruebas). El precio se consulta con el equipo.'],

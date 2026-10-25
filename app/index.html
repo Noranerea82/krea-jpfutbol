@@ -263,10 +263,11 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 .photo-slot{position:relative;width:118px;height:148px;border-radius:20px;flex:none;overflow:hidden;border:1.5px dashed rgba(226,183,70,.55);background:linear-gradient(160deg,#2a2618,#0f0e0b);cursor:pointer}
 .photo-slot img,.photo-slot svg{width:100%;height:100%;object-fit:cover;display:block}
 .photo-slot.has{border-style:solid;border-color:var(--oro)}
-.photo-slot .cam{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;justify-content:center;gap:5px;height:28px;border-radius:9px;background:rgba(5,5,5,.75);backdrop-filter:blur(4px);font-size:10.5px;font-weight:800;color:var(--oro2);white-space:nowrap}
-.photo-slot .cam svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.photo-slot .pcam{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;justify-content:center;gap:5px;height:28px;border-radius:9px;background:rgba(5,5,5,.75);backdrop-filter:blur(4px);font-size:10.5px;font-weight:800;color:var(--oro2);white-space:nowrap}
+.photo-slot .pcam svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
 .photo-slot .ini{position:absolute;top:8px;left:8px;padding:3px 7px;border-radius:8px;background:var(--oro);color:#130F05;font-size:11px;font-weight:800}
-@media (max-width:600px){.photo-slot{width:96px;height:120px}}
+@media (max-width:600px){.photo-slot{width:96px;height:120px}.photo-slot .pcam em{display:none}}
+.photo-slot .pcam em{font-style:normal}.photo-slot.has .ini{display:none}
 .lib{margin-top:6px;border:1px solid var(--linea);border-radius:16px;overflow:hidden;background:var(--noche)}
 .lib summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;font-weight:800}
 .lib summary::-webkit-details-marker{display:none}
@@ -589,7 +590,7 @@ function silhouette(p){const f=isGirl(p);return `<svg viewBox="0 0 100 125" aria
 const DEMO_PICS=['j1','j2','j3','j4','j5','j6','j7','j8','j9','j10'];
 const picOf=p=>p.photo||(DEMO_PICS.includes(p.id)?`assets/jugadores/${p.id}.jpg`:'');
 const av=(p,cls='')=>`<div class="av ph ${cls}" title="${p.name}"><span class="pic">${picOf(p)?`<img src="${picOf(p)}" alt="">`:silhouette(p)}</span><span class="ini">${initials(p.name)}</span></div>`;
-const photoSlot=p=>`<label class="photo-slot ${picOf(p)?'has':''}" title="${picOf(p)?'Cambiar foto':'Añadir foto'}">${picOf(p)?`<img src="${picOf(p)}" alt="Foto de ${p.name}">`:silhouette(p)}<span class="ini">${initials(p.name)}</span><span class="cam"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>${picOf(p)?'Cambiar foto':'Añadir foto'}</span><input type="file" accept="image/*" data-photo="${p.id}" hidden></label>`;
+const photoSlot=p=>`<label class="photo-slot ${picOf(p)?'has':''}" title="${picOf(p)?'Cambiar foto':'Añadir foto'}">${picOf(p)?`<img src="${picOf(p)}" alt="Foto de ${p.name}">`:silhouette(p)}<span class="ini">${initials(p.name)}</span><span class="pcam"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><em>${picOf(p)?"Cambiar foto":"Añadir foto"}</em></span><input type="file" accept="image/*" data-photo="${p.id}" hidden></label>`;
 
 const score=p=>Math.round(Object.values(p.areas).reduce((a,b)=>a+b,0)/4);
 const DAYS=['Lunes','Martes','Miércoles','Jueves'];
@@ -715,7 +716,7 @@ function vJugadores(){
 function vFicha(id){
   const p=P(id);if(!p)return '<p class="empty">Jugador no encontrado.</p>';
   return `<a href="#/jugadores" class="btn sm" style="margin-bottom:14px">${I('back',16)}Jugadores</a>
-  <div class="hero-card" style="margin-bottom:14px">${photoSlot(p)}<div style="flex:1;min-width:180px"><h1 class="disp" style="font-size:34px">${p.name}</h1><p class="muted">${p.age} años · ${p.pos} · ${GROUPS[p.group].name}</p>${p.fam&&(p.fam.tutor||p.fam.tel)?`<p class="muted" style="font-size:13.5px;margin-top:4px">Familia: ${esc(p.fam.tutor||"")}${p.fam.tel?` · <a class="lnk" href="https://wa.me/${p.fam.tel.replace(/[^d]/g,"").replace(/^(?!34)(d{9})$/,"34$1")}" target="_blank" rel="noopener">${esc(p.fam.tel)}</a>`:""}</p>`:""}<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="pill gold">Pack ${p.pack}</span><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pago al día':'Pago pendiente'}</span><button class="btn sm oro" data-act="report" data-id="${p.id}">Informe para la familia</button></div></div><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div></div>
+  <div class="hero-card" style="margin-bottom:14px">${photoSlot(p)}<div style="flex:1;min-width:180px"><h1 class="disp" style="font-size:34px;line-height:1.12">${p.name}</h1><p class="muted">${p.age} años · ${p.pos} · ${GROUPS[p.group].name}</p>${p.fam&&(p.fam.tutor||p.fam.tel)?`<p class="muted" style="font-size:13.5px;margin-top:4px">Familia: ${esc(p.fam.tutor||"")}${p.fam.tel?` · <a class="lnk" href="https://wa.me/${p.fam.tel.replace(/[^d]/g,"").replace(/^(?!34)(d{9})$/,"34$1")}" target="_blank" rel="noopener">${esc(p.fam.tel)}</a>`:""}</p>`:""}<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="pill gold">Pack ${p.pack}</span><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pago al día':'Pago pendiente'}</span><button class="btn sm oro" data-act="report" data-id="${p.id}">Informe para la familia</button></div></div><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div></div>
   <div class="grid g2">
    <section class="card"><h3>Evaluación por áreas <button class="btn sm" data-act="eval" data-id="${p.id}">Evaluar</button></h3>${areasHTML(p)}</section>
    <section class="card"><h3>Evolución</h3>${lineChart(p.hist,MONTHS)}</section>
