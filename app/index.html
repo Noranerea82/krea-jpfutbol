@@ -312,6 +312,8 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 .pwf{position:relative;display:block}.pwf input{width:100%;padding-right:52px}
 .pweye{position:absolute;right:2px;top:50%;transform:translateY(-50%);width:48px;height:48px;display:grid;place-items:center;color:var(--c3);background:none;border:0;cursor:pointer}.pweye:hover{color:var(--cal)}
 .lfrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-4px 0 6px;min-height:22px}.lfrow .lnk{margin-left:auto;font-size:13.5px}
+.lmail{display:flex;align-items:center;gap:12px;width:100%;margin:6px 0 10px;padding:12px 14px;border-radius:14px;border:1px dashed rgba(226,183,70,.55);background:rgba(226,183,70,.06);color:var(--cal);text-align:left;font:inherit;cursor:pointer}.lmail .ico{color:var(--oro2);flex:none}.lmail span{flex:1}.lmail b{display:block;font-size:14px}.lmail small{display:block;color:var(--c3);font-size:12.5px;margin-top:1px}.lmail em{font-style:normal;color:var(--oro2);font-size:20px}
+.lnote2{font-size:12.5px;line-height:1.45;color:var(--c3);margin:-2px 0 10px}
 .ferr{color:var(--bad);font-size:13.5px;line-height:1.4;min-height:18px;margin:4px 0}
 .lpriv{margin:14px 0 6px;text-align:center;font-size:13px;line-height:1.55;color:var(--c3)}.lpriv .lnk{font-size:13px}
 .legal-links{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;margin:12px 0 4px}.legal-links button{background:none;border:0;padding:4px 0;color:var(--c3);font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.legal-links button:hover{color:var(--cal)}
@@ -649,21 +651,48 @@ function loginView(){
     <div class="seg" role="group" aria-label="Tipo de acceso"><button type="button" data-role="mister" aria-pressed="true">Soy míster</button><button type="button" data-role="familia" aria-pressed="false">Soy familia</button></div>
     <div id="lfFields"></div>
     <p id="lfe" class="ferr" role="alert"></p>
-    <button class="btn oro full" type="submit" style="margin-top:2px">Entrar</button>
-    <p class="demo"><b>Versión de demostración.</b> Si el usuario aún no tiene contraseña, pulsa «Entrar». Cada míster y cada familia puede crear la suya en <b>Ajustes › Seguridad</b>.</p>
+    <button class="btn oro full" type="submit" id="lfb" style="margin-top:2px">Entrar</button>
+    <p class="demo"><b>Versión de demostración.</b> Si el usuario aún no tiene contraseña, pulsa «Entrar». Cada míster y cada familia puede crear la suya en <b>Ajustes › Seguridad</b>. Un míster nuevo o provisional entra con su correo.</p>
     <p class="lpriv">Los datos de cada jugador y jugadora solo los ve su familia y el equipo de JP Fútbol.<br>Al entrar aceptas las <button type="button" class="lnk" data-legal="condiciones">condiciones de uso</button> y la <button type="button" class="lnk" data-legal="privacidad">política de privacidad</button>.</p>
     ${LEGALNAV}${PIE}
    </form></div></div>`;
   const selKey=()=>authKey(role,role==='mister'?$('#lm').value:$('#lk').value);
   const pwNote=()=>{const h=hasPw(selKey());$('#lp').placeholder=h?'Tu contraseña':'Aún sin contraseña: pulsa Entrar';$('#lpn').textContent=h?'':'Este usuario todavía no tiene contraseña en este móvil.';$('#lfg').hidden=!h;$('#lfe').textContent='';};
-  const fields=()=>{$('#lfFields').innerHTML=(role==='mister'
+  /* Místers: elegir el nombre de la lista o entrar con correo (míster nuevo o provisional) */
+  let mmode='lista';
+  const okMail=m=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m);
+  const mailOf=n=>((S.prof||{})['m:'+n]||{}).mail||'';
+  const misterByMail=m=>allMisters().find(n=>mailOf(n).toLowerCase()===m.toLowerCase());
+  const fields=()=>{$('#lfe').textContent='';$('#lfb').textContent='Entrar';
+    if(role==='mister'&&mmode==='correo'){
+      $('#lfFields').innerHTML=`<div class="f"><label for="lmail">Correo</label><input id="lmail" type="email" inputmode="email" autocomplete="email" placeholder="tucorreo@ejemplo.es"></div>${pwField('lp','Contraseña','current-password','Mínimo 8 caracteres')}
+       <div id="lnew" hidden><div class="f"><label for="lname">Tu nombre</label><input id="lname" autocomplete="name" placeholder="Nombre con el que te conocen en JP"></div>${pwField('lp2','Repite la contraseña','new-password')}<p class="lnote2">Es la primera vez que entras con este correo: se crea tu acceso como <b>míster provisional</b> del equipo técnico.</p></div>
+       <div class="lfrow"><button type="button" class="lnk" id="lback">← Elegir mi nombre de la lista</button></div>`;
+      const chk=()=>{const m=$('#lmail').value.trim(),nw=okMail(m)&&!misterByMail(m);$('#lnew').hidden=!nw;$('#lfb').textContent=nw?'Crear mi acceso y entrar':'Entrar';};
+      $('#lmail').oninput=chk;$('#lback').onclick=()=>{mmode='lista';fields();};$('#lmail').focus();return;}
+    $('#lfFields').innerHTML=(role==='mister'
     ?`<div class="f"><label for="lm">Míster</label><select id="lm">${allMisters().map(m=>`<option>${m}</option>`).join('')}</select></div>`
     :`<div class="f"><label for="lk">Jugador o jugadora</label><select id="lk">${S.players.slice(0,6).map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></div>`)
-    +pwField('lp','Contraseña','current-password')+`<div class="lfrow"><small class="muted" id="lpn"></small><button type="button" class="lnk" id="lfg">¿Has olvidado tu contraseña?</button></div>`;
-    $(role==='mister'?'#lm':'#lk').onchange=pwNote;$('#lfg').onclick=()=>forgotSheet(selKey(),role==='mister'?'Míster '+$('#lm').value:'Familia de '+P($('#lk').value).name);pwNote();};
+    +pwField('lp','Contraseña','current-password')+`<div class="lfrow"><small class="muted" id="lpn"></small><button type="button" class="lnk" id="lfg">¿Has olvidado tu contraseña?</button></div>`
+    +(role==='mister'?`<button type="button" class="lmail" id="lgo">${I('mail',18)}<span><b>¿Míster nuevo o provisional?</b><small>Entra con tu correo y tu contraseña</small></span><em>›</em></button>`:'');
+    $(role==='mister'?'#lm':'#lk').onchange=pwNote;$('#lfg').onclick=()=>forgotSheet(selKey(),role==='mister'?'Míster '+$('#lm').value:'Familia de '+P($('#lk').value).name);if($('#lgo'))$('#lgo').onclick=()=>{mmode='correo';fields();};pwNote();};
   fields();
-  $$('.seg button').forEach(b=>b.onclick=()=>{role=b.dataset.role;$$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));fields();});
-  $('#lf').onsubmit=async e=>{e.preventDefault();const k=selKey();if(hasPw(k)&&await hashPw($('#lp').value)!==S.auth[k]){$('#lfe').textContent='Contraseña incorrecta. Si no la recuerdas, pulsa «¿Has olvidado tu contraseña?».';return;}S.role=role;if(role==='mister')S.me=$('#lm').value;else S.kid=$('#lk').value;save();location.hash=role==='mister'?'#/hoy':'#/inicio';render();toast(role==='mister'?`Hola, míster ${S.me}`:'Bienvenida, familia');};
+  $$('.seg button').forEach(b=>b.onclick=()=>{role=b.dataset.role;mmode='lista';$$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));fields();});
+  $('#lf').onsubmit=async e=>{e.preventDefault();const er=t=>{$('#lfe').textContent=t;};
+    if(role==='mister'&&mmode==='correo'){const m=$('#lmail').value.trim(),pw=$('#lp').value;
+      if(!okMail(m))return er('Escribe un correo válido.');
+      let n=misterByMail(m);
+      if(n){const k=authKey('mister',n);
+        if(hasPw(k)){if(await hashPw(pw)!==S.auth[k])return er('Correo o contraseña incorrectos. Si no la recuerdas, elige tu nombre en la lista y pulsa «¿Has olvidado tu contraseña?».');}
+        else{if(pw.length<8)return er('Crea una contraseña de al menos 8 caracteres.');S.auth=S.auth||{};S.auth[k]=await hashPw(pw);}}
+      else{n=($('#lname').value||'').trim().replace(/^m[ií]ster\s+/i,'');
+        if(!n)return er('Escribe tu nombre.');
+        if(allMisters().some(x=>x.toLowerCase()===n.toLowerCase()))return er('Ya hay un míster con ese nombre. Elígelo en la lista o añade tu apellido.');
+        if(pw.length<8)return er('La contraseña necesita al menos 8 caracteres.');
+        if(pw!==$('#lp2').value)return er('Las dos contraseñas no coinciden.');
+        S.extraM=S.extraM||[];S.extraM.push(n);S.prof=S.prof||{};S.prof['m:'+n]={mail:m,prov:true};S.auth=S.auth||{};S.auth[authKey('mister',n)]=await hashPw(pw);}
+      S.role='mister';S.me=n;save();location.hash='#/hoy';render();toast(`Hola, míster ${n}`);return;}
+    const k=selKey();if(hasPw(k)&&await hashPw($('#lp').value)!==S.auth[k]){$('#lfe').textContent='Contraseña incorrecta. Si no la recuerdas, pulsa «¿Has olvidado tu contraseña?».';return;}S.role=role;if(role==='mister')S.me=$('#lm').value;else S.kid=$('#lk').value;save();location.hash=role==='mister'?'#/hoy':'#/inicio';render();toast(role==='mister'?`Hola, míster ${S.me}`:'Bienvenida, familia');};
 }
 
 /* ---------- Estructura ---------- */
@@ -1084,9 +1113,9 @@ function ajustesSheet(){const c=S.cfg=S.cfg||{},fam=S.role==='familia',p=fam?P(S
    <button type="button" class="setr setb" data-aj="horario"><div><b>Mi horario</b><small>Días y turnos de ${nom(p)}</small></div>${I('cal',18)}</button>
    <button type="button" class="setr setb" data-aj="auth"><div><b>Autorizaciones de imagen</b><small>Vídeos, fotos y redes del club</small></div>${I('video',18)}</button></div>`
   :`<h3 class="seth">${I('users',16)}Mi perfil</h3>
-  <form class="setc setf" id="misf"><p class="hnote" style="margin:12px 0 4px">Míster <b>${S.me}</b>${misGrupos(S.me).length?' · Entrena a '+misGrupos(S.me).join(', '):''}${SOCIOS.includes(S.me)?' · Socio de JP Fútbol':''}</p>
+  <form class="setc setf" id="misf"><p class="hnote" style="margin:12px 0 4px">Míster <b>${S.me}</b>${misGrupos(S.me).length?' · Entrena a '+misGrupos(S.me).join(', '):''}${SOCIOS.includes(S.me)?' · Socio de JP Fútbol':''}${pr.prov?' · <b>Míster provisional</b>':''}</p>
    <div class="f2"><div class="f"><label for="mp">Teléfono</label><input id="mp" value="${esc(pr.tel||'')}" type="tel" inputmode="tel" autocomplete="tel" placeholder="600 000 000"></div><div class="f"><label for="mm">Correo</label><input id="mm" value="${esc(pr.mail||'')}" type="email" autocomplete="email" placeholder="correo@ejemplo.es"></div></div>
-   <p id="me" class="ferr" role="alert"></p><button class="btn oro">Guardar perfil</button></form>`}
+   <p class="hnote" style="margin:-4px 0 8px">Con tu correo y tu contraseña también puedes entrar desde «¿Míster nuevo o provisional?».</p><p id="me" class="ferr" role="alert"></p><button class="btn oro">Guardar perfil</button></form>`}
   <h3 class="seth">${I('lock',16)}Seguridad</h3>
   <div class="setc"><button type="button" class="setr setb" data-aj="pw"><div><b>${has?'Cambiar contraseña':'Crear contraseña'}</b><small>${has?'Tienes contraseña en este móvil':'Ahora se entra sin contraseña en este móvil'}</small></div>${I('lock',18)}</button>
    <button type="button" class="setr setb" data-aj="logout"><div><b>Cerrar sesión</b><small>Volver a la pantalla de entrada</small></div>${I('out',18)}</button></div>
@@ -1112,7 +1141,7 @@ function ajustesSheet(){const c=S.cfg=S.cfg||{},fam=S.role==='familia',p=fam?P(S
   ${LEGALNAV}${PIE}</div>`);
   $('#ajs').onclick=ajClick;
   const ff=$('#famf');if(ff)ff.onsubmit=ev=>{ev.preventDefault();const t=$('#fp').value.trim(),m=$('#fm').value.trim();if(t&&!/^[+\d][\d\s]{8,14}$/.test(t))return $('#fe').textContent='Revisa el teléfono.';if(m&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))return $('#fe').textContent='Revisa el correo.';p.fam={tutor:$('#ft').value.trim(),tel:t,mail:m};save();$('#fe').textContent='';toast('Datos de la familia guardados');};
-  const mf=$('#misf');if(mf)mf.onsubmit=ev=>{ev.preventDefault();const t=$('#mp').value.trim(),m=$('#mm').value.trim();if(t&&!/^[+\d][\d\s]{8,14}$/.test(t))return $('#me').textContent='Revisa el teléfono.';if(m&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))return $('#me').textContent='Revisa el correo.';Object.assign(prof(),{tel:t,mail:m});save();$('#me').textContent='';toast('Perfil guardado');};}
+  const mf=$('#misf');if(mf)mf.onsubmit=ev=>{ev.preventDefault();const t=$('#mp').value.trim(),m=$('#mm').value.trim();if(t&&!/^[+\d][\d\s]{8,14}$/.test(t))return $('#me').textContent='Revisa el teléfono.';if(m&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))return $('#me').textContent='Revisa el correo.';if(m&&allMisters().some(n=>n!==S.me&&(((S.prof||{})['m:'+n]||{}).mail||'').toLowerCase()===m.toLowerCase()))return $('#me').textContent='Ese correo ya lo usa otro míster.';Object.assign(prof(),{tel:t,mail:m});save();$('#me').textContent='';toast('Perfil guardado');};}
 function ajClick(e){const c=S.cfg=S.cfg||{},s=e.target.closest('[data-sw]');
   if(s){const k=s.dataset.sw,v=s.getAttribute('aria-checked')!=='true';
     if(k==='nt'){if(!v){c.nt=false;save();ajustesSheet();toast('Notificaciones desactivadas');return;}if(!('Notification' in window)){ajustesSheet();return;}
