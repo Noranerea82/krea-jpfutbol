@@ -303,6 +303,7 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 .newex .btn{min-width:0;padding-inline:8px}
 .nxbtns{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px}.newex .nxbtns #nxx{padding-inline:16px}.newex .nxbtns #nxs{padding-inline:12px;white-space:normal;line-height:1.15}
 .lnote{margin:4px 0 10px;padding:10px 12px;border-radius:12px;background:rgba(226,183,70,.1);border:1px solid rgba(226,183,70,.35);font-size:13px;line-height:1.45;color:var(--c2)}
+.battx{margin:12px 0 4px;font-size:13.5px;line-height:1.5;color:var(--c2)}.batt .lnk{display:inline-block;margin-top:6px;font-size:12.5px}
 /* Versión oscura con más tonos (como la web): fondo negro, tarjetas grafito con brillo dorado, piezas internas más claras */
 html:not([data-theme=light]){--g1:#131311;--g2:#1C1B17;--g3:#26241F;--linea:#302D25}
 html:not([data-theme=light]) .card{background:linear-gradient(160deg,rgba(226,183,70,.075),rgba(19,19,17,0) 45%),#131311;border-color:#302D25;box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 18px 40px -24px rgba(0,0,0,.9)}
@@ -1199,6 +1200,8 @@ const TESTS=[
  {k:'cmj',n:'Salto vertical (CMJ)',u:'cm',lo:false,min:10,dec:1,f:a=>22+2.6*(a-10),h:'Potencia. Manos en la cintura, bajar y saltar lo más alto posible. Se mide con una app de salto.'},
  {k:'navette',n:'Course Navette',u:'palier',lo:false,min:8,max:13,dec:1,f:a=>3.5+0.6*(a-8),h:'Resistencia. Ida y vuelta de 20 m al ritmo de los pitidos, cada minuto un poco más rápido.'},
  {k:'yoyo',n:'Yo-Yo IR1',u:'m',lo:false,min:14,dec:0,f:a=>1000+200*(a-14),h:'Resistencia del futbolista. 2×20 m al ritmo de los pitidos con 10 s de recuperación.'}];
+/* Concepto de la biblioteca con ejercicios para mejorar cada prueba */
+const TMEJ={sp10:'Velocidad',sp30:'Velocidad',slalom:'Técnica individual',salto:'Fuerza',cmj:'Fuerza',navette:'Resistencia',yoyo:'Resistencia'};
 const testsFor=p=>TESTS.filter(t=>p.age>=t.min&&(!t.max||p.age<=t.max));
 const fmtN=(v,d)=>(+v).toFixed(d).replace('.',',');
 function seedTests(p,i){const o={},d1=new Date(Date.now()-42*864e5).toISOString(),d2=new Date(Date.now()-5*864e5).toISOString();
@@ -1206,6 +1209,7 @@ function seedTests(p,i){const o={},d1=new Date(Date.now()-42*864e5).toISOString(
     const bef=t.lo?base*(worse?0.99:1+imp):base*(worse?1.01:1-imp);o[t.k]=[{d:d1,v:+bef.toFixed(t.dec)},{d:d2,v:+base.toFixed(t.dec)}];});return o;}
 function testRows(p){return testsFor(p).map(t=>{const L=(p.tests||{})[t.k]||[],b=L[0],a=L[L.length-1];const pct=a&&b&&a!==b?(t.lo?(b.v-a.v):(a.v-b.v))/b.v*100:0;return {t,a,b,pct};});}
 const lastTest=p=>Math.max(0,...Object.values(p.tests||{}).flat().map(x=>+new Date(x.d)));
+const lastBy=p=>{const L=Object.values(p.tests||{}).flat().filter(x=>x.by).sort((a,b)=>new Date(b.d)-new Date(a.d));return L.length?L[0].by:'';};
 function avgImp(p){const R=testRows(p).filter(r=>r.a&&r.b&&r.a!==r.b);return R.length?R.reduce((s,r)=>s+r.pct,0)/R.length:null;}
 function pctPill(r){if(!r.a)return '<span class="pill">Sin medir</span>';if(!r.b||r.b===r.a)return '<span class="pill gold">1.ª medición</span>';
   return r.pct>=0.5?`<span class="pill ok">▲ ${fmtN(r.pct,1)} %</span>`:r.pct<=-0.5?`<span class="pill bad">▼ ${fmtN(-r.pct,1)} %</span>`:'<span class="pill">Igual</span>';}
@@ -1218,15 +1222,17 @@ function measureSheet(p){const T=testsFor(p);
   <p id="mse" class="muted" style="color:var(--bad);min-height:18px;font-size:13px"></p><button class="btn oro full">Guardar pruebas</button></form>`);
   $('#msf').onsubmit=ev=>{ev.preventDefault();const V=[];let bad='';$$('#msf input').forEach(i=>{const s=i.value.trim().replace(',','.');if(!s)return;const x=parseFloat(s);if(!(x>0))bad=TESTS.find(t=>t.k===i.dataset.k).n;else V.push([i.dataset.k,x]);});
     if(bad){$('#mse').textContent='Revisa el dato de '+bad+'.';return;}if(!V.length){$('#mse').textContent='Escribe al menos un resultado.';return;}
-    const now=new Date().toISOString();p.tests=p.tests||{};V.forEach(([k,x])=>(p.tests[k]=p.tests[k]||[]).push({d:now,v:x}));save();closeSheet();rerender();toast(V.length===1?'Prueba guardada':V.length+' pruebas guardadas');};}
+    const now=new Date().toISOString();p.tests=p.tests||{};V.forEach(([k,x])=>(p.tests[k]=p.tests[k]||[]).push({d:now,v:x,by:S.me}));save();closeSheet();rerender();toast(V.length===1?'Prueba guardada':V.length+' pruebas guardadas');};}
 let pGroup='all';
 function vPruebas(){const L=S.players.filter(p=>pGroup==='all'||p.group===pGroup);const top=S.players.filter(p=>avgImp(p)!==null).sort((a,b)=>avgImp(b)-avgImp(a)).slice(0,3);
-  return `<div class="hd"><div><h1 class="disp">Pruebas físicas</h1><p>Preparación física · Míster ${GROUPS.fis.mister} · el antes y el después de cada jugador y jugadora</p></div></div>
-  <details class="card battd" style="margin-bottom:14px"><summary><span>La batería de JP<small class="h3sub">${TESTS.length} pruebas sencillas y adaptadas a cada edad · toca para verlas</small></span><span class="chev">▾</span></summary><div class="batt">${TESTS.map(t=>`<div><span class="ages">${t.max?t.min+' a '+t.max+' años':'Desde '+t.min+' años'}</span><b>${t.n}</b><small>${t.h}</small></div>`).join('')}</div></details>
+  return `<div class="hd"><div><h1 class="disp">Pruebas físicas</h1><p>Preparación física · el antes y el después de cada jugador y jugadora</p></div></div>
+  <details class="card battd" style="margin-bottom:14px"><summary><span>La batería de JP<small class="h3sub">${TESTS.length} pruebas para medir, adaptadas a cada edad · toca para verlas</small></span><span class="chev">▾</span></summary>
+  <p class="battx">Son <b>pruebas de medición</b>, no ejercicios de la sesión. Cada 2 o 3 meses se repiten, se apuntan con el botón <b>Medir</b> de cada jugador o jugadora y la app compara el antes y el después. La familia ve la evolución en su <b>Progreso</b>. Para mejorar cada prueba, toca «Ejercicios para mejorarla».</p>
+  <div class="batt">${TESTS.map(t=>`<div><span class="ages">${t.max?t.min+' a '+t.max+' años':'Desde '+t.min+' años'}</span><b>${t.n}</b><small>${t.h}</small><button type="button" class="lnk" data-act="tmejora" data-c="${TMEJ[t.k]}">Ejercicios para mejorarla ›</button></div>`).join('')}</div></details>
   ${top.length?`<section class="card" style="margin-bottom:14px"><h3>Los que más mejoran</h3><div class="list">${top.map((p,i)=>`<div class="item" style="cursor:pointer" data-open="${p.id}"><span class="rk">${i+1}</span>${av(p)}<div class="grow"><b>${p.name}</b><small>${GROUPS[p.group].short||GROUPS[p.group].name} · ${p.age} años</small></div><span class="pill ok">▲ ${fmtN(avgImp(p),1)} %</span></div>`).join('')}</div></section>`:''}
   <div class="tool"><button class="chip" data-act="pg" data-pg="all" aria-pressed="${pGroup==='all'}">Todos</button>${Object.entries(GROUPS).map(([k,g])=>`<button class="chip" data-act="pg" data-pg="${k}" aria-pressed="${pGroup===k}">${g.short||g.name}${g.sub?`<em class="sub">${g.sub}</em>`:''}</button>`).join('')}</div>
   <div class="card"><div class="list">${L.map(p=>{const R=testRows(p),m=R.filter(r=>r.a&&r.b&&r.a!==r.b),up=m.filter(r=>r.pct>=0.5).length,ld=lastTest(p);
-    return `<div class="item">${av(p)}<div class="grow" style="cursor:pointer" data-open="${p.id}"><b>${p.name}</b><small>${ld?'Medido el '+fmtD(ld):'Sin medir'} · ${R.length} pruebas para su edad</small></div>${m.length?`<span class="pill ${up>=m.length/2?'ok':'warn'}">Mejora en ${up} de ${m.length}</span>`:''}<button class="btn sm" data-act="measure" data-id="${p.id}">Medir</button></div>`}).join('')||'<p class="empty">No hay jugadores en este grupo.</p>'}</div></div>`;}
+    return `<div class="item">${av(p)}<div class="grow" style="cursor:pointer" data-open="${p.id}"><b>${p.name}</b><small>${ld?'Medido el '+fmtD(ld)+(lastBy(p)?' por míster '+lastBy(p):''):'Sin medir'} · ${R.length} pruebas para su edad</small></div>${m.length?`<span class="pill ${up>=m.length/2?'ok':'warn'}">Mejora en ${up} de ${m.length}</span>`:''}<button class="btn sm" data-act="measure" data-id="${p.id}">Medir</button></div>`}).join('')||'<p class="empty">No hay jugadores en este grupo.</p>'}</div></div>`;}
 
 /* ---------- Sugerencias del día (Hoy) ---------- */
 let SUGO=false;
@@ -1367,6 +1373,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(
   if(a==='measure'){measureSheet(P(t.dataset.id));return;}
   if(a==='bAge'){bAge=t.dataset.v;rerender();return;}
   if(a==='bConc'){bConc=t.dataset.v;rerender();return;}
+  if(a==='tmejora'){bConc=t.dataset.c;bAge='all';bQ='';location.hash='#/biblioteca';return;}
   if(a==='exOpen'){exSheet(t.dataset.n,true);return;}
 });
 
