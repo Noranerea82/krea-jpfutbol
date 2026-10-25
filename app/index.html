@@ -304,6 +304,21 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 .nxbtns{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px}.newex .nxbtns #nxx{padding-inline:16px}.newex .nxbtns #nxs{padding-inline:12px;white-space:normal;line-height:1.15}
 .lnote{margin:4px 0 10px;padding:10px 12px;border-radius:12px;background:rgba(226,183,70,.1);border:1px solid rgba(226,183,70,.35);font-size:13px;line-height:1.45;color:var(--c2)}
 .battx{margin:12px 0 4px;font-size:13.5px;line-height:1.5;color:var(--c2)}.batt .lnk{display:inline-block;margin-top:6px;font-size:12.5px}
+/* Ajustes, contraseñas y parte legal */
+.pwf{position:relative;display:block}.pwf input{width:100%;padding-right:52px}
+.pweye{position:absolute;right:2px;top:50%;transform:translateY(-50%);width:48px;height:48px;display:grid;place-items:center;color:var(--c3);background:none;border:0;cursor:pointer}.pweye:hover{color:var(--cal)}
+.lfrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-4px 0 6px;min-height:22px}.lfrow .lnk{margin-left:auto;font-size:13.5px}
+.ferr{color:var(--bad);font-size:13.5px;line-height:1.4;min-height:18px;margin:4px 0}
+.lpriv{margin:14px 0 6px;text-align:center;font-size:13px;line-height:1.55;color:var(--c3)}.lpriv .lnk{font-size:13px}
+.legal-links{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;margin:12px 0 4px}.legal-links button{background:none;border:0;padding:4px 0;color:var(--c3);font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.legal-links button:hover{color:var(--cal)}
+.pie2{display:flex;flex-direction:column;align-items:center;gap:2px;margin:10px 0 0;font-size:12.5px;color:var(--c3);text-align:center}.pie2>b{color:var(--cal)}.pie2 a{color:inherit;text-decoration:none}.pie2 a b{color:var(--oro2)}
+.setf{padding:6px 14px 14px}.setf .f{margin-bottom:10px}.setf .btn{justify-self:start}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:520px){.f2{grid-template-columns:1fr}}
+a.setr{text-decoration:none}
+.fwd{display:inline-flex;transform:rotate(180deg);color:var(--c3)}
+.seg3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;margin:0 0 12px;border-radius:12px;background:var(--g2);border:1px solid var(--linea)}
+.seg3 button{min-height:40px;border-radius:9px;font-weight:700;font-size:13px;color:var(--c2)}.seg3 button[aria-pressed=true]{background:var(--oro);color:#130F05}
+#lgl section{margin-top:18px}#lgl h3{font-size:17px;margin-bottom:8px}#lgl p{font-size:14px;line-height:1.55;color:var(--c2);margin:0 0 8px}#lgl p b{color:var(--cal)}#lgl .legal-links{justify-content:flex-start}
 /* Versión oscura con más tonos (como la web): fondo negro, tarjetas grafito con brillo dorado, piezas internas más claras */
 html:not([data-theme=light]){--g1:#131311;--g2:#1C1B17;--g3:#26241F;--linea:#302D25}
 html:not([data-theme=light]) .card{background:linear-gradient(160deg,rgba(226,183,70,.075),rgba(19,19,17,0) 45%),#131311;border-color:#302D25;box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 18px 40px -24px rgba(0,0,0,.9)}
@@ -477,7 +492,7 @@ html.locked #gate{display:flex}
 #gate .sig{margin-top:34px;font-size:11.5px;color:#9A9588}#gate .sig b{color:#E2B746}
 </style>
 <script>(function(){try{if(localStorage.getItem('jp-acceso')!=='ok')document.documentElement.classList.add('locked')}catch(e){document.documentElement.classList.add('locked')}})();</script>
-<script>(function(){try{if(localStorage.getItem('jp-theme')==='light')document.documentElement.setAttribute('data-theme','light')}catch(e){}})();</script>
+<script>(function(){try{var m=localStorage.getItem('jp-theme');if(m==='light'||(m==='auto'&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light')}catch(e){}})();</script>
 </head>
 <body>
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gateT"><div class="gbox">
@@ -629,16 +644,22 @@ function loginView(){
     <h2 class="disp">Accede a tu espacio</h2><p class="muted">Entrenamientos, seguimiento y packs.</p>
     <div class="seg" role="group" aria-label="Tipo de acceso"><button type="button" data-role="mister" aria-pressed="true">Soy míster</button><button type="button" data-role="familia" aria-pressed="false">Soy familia</button></div>
     <div id="lfFields"></div>
-    <button class="btn oro full" type="submit" style="margin-top:6px">Entrar</button>
-    <p class="demo"><b>Versión de demostración.</b> Pulsa «Entrar»: no hace falta contraseña. Cada míster y cada familia tendrán su propia clave en la versión real.</p>
-    <p class="krea-sig">© 2026 <b>KREA Digital Studio</b> · Diseño y desarrollo</p>
+    <p id="lfe" class="ferr" role="alert"></p>
+    <button class="btn oro full" type="submit" style="margin-top:2px">Entrar</button>
+    <p class="demo"><b>Versión de demostración.</b> Si el usuario aún no tiene contraseña, pulsa «Entrar». Cada míster y cada familia puede crear la suya en <b>Ajustes › Seguridad</b>.</p>
+    <p class="lpriv">Los datos de cada jugador y jugadora solo los ve su familia y el equipo de JP Fútbol.<br>Al entrar aceptas las <button type="button" class="lnk" data-legal="condiciones">condiciones de uso</button> y la <button type="button" class="lnk" data-legal="privacidad">política de privacidad</button>.</p>
+    ${LEGALNAV}${PIE}
    </form></div></div>`;
-  const fields=()=>{$('#lfFields').innerHTML=role==='mister'
-    ?`<div class="f"><label for="lm">Míster</label><select id="lm">${allMisters().map(m=>`<option>${m}</option>`).join('')}</select></div><div class="f"><label for="lp">Contraseña</label><input id="lp" type="password" placeholder="No hace falta en la demo" autocomplete="off"></div>`
-    :`<div class="f"><label for="lk">Jugador</label><select id="lk">${S.players.slice(0,6).map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></div><div class="f"><label for="lp">Contraseña</label><input id="lp" type="password" placeholder="No hace falta en la demo" autocomplete="off"></div>`;};
+  const selKey=()=>authKey(role,role==='mister'?$('#lm').value:$('#lk').value);
+  const pwNote=()=>{const h=hasPw(selKey());$('#lp').placeholder=h?'Tu contraseña':'Aún sin contraseña: pulsa Entrar';$('#lpn').textContent=h?'':'Este usuario todavía no tiene contraseña en este móvil.';$('#lfg').hidden=!h;$('#lfe').textContent='';};
+  const fields=()=>{$('#lfFields').innerHTML=(role==='mister'
+    ?`<div class="f"><label for="lm">Míster</label><select id="lm">${allMisters().map(m=>`<option>${m}</option>`).join('')}</select></div>`
+    :`<div class="f"><label for="lk">Jugador o jugadora</label><select id="lk">${S.players.slice(0,6).map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></div>`)
+    +pwField('lp','Contraseña','current-password')+`<div class="lfrow"><small class="muted" id="lpn"></small><button type="button" class="lnk" id="lfg">¿Has olvidado tu contraseña?</button></div>`;
+    $(role==='mister'?'#lm':'#lk').onchange=pwNote;$('#lfg').onclick=()=>forgotSheet(selKey(),role==='mister'?'Míster '+$('#lm').value:'Familia de '+P($('#lk').value).name);pwNote();};
   fields();
   $$('.seg button').forEach(b=>b.onclick=()=>{role=b.dataset.role;$$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));fields();});
-  $('#lf').onsubmit=e=>{e.preventDefault();S.role=role;if(role==='mister')S.me=$('#lm').value;else S.kid=$('#lk').value;save();location.hash=role==='mister'?'#/hoy':'#/inicio';render();toast(role==='mister'?`Hola, míster ${S.me}`:'Bienvenida, familia');};
+  $('#lf').onsubmit=async e=>{e.preventDefault();const k=selKey();if(hasPw(k)&&await hashPw($('#lp').value)!==S.auth[k]){$('#lfe').textContent='Contraseña incorrecta. Si no la recuerdas, pulsa «¿Has olvidado tu contraseña?».';return;}S.role=role;if(role==='mister')S.me=$('#lm').value;else S.kid=$('#lk').value;save();location.hash=role==='mister'?'#/hoy':'#/inicio';render();toast(role==='mister'?`Hola, míster ${S.me}`:'Bienvenida, familia');};
 }
 
 /* ---------- Estructura ---------- */
@@ -694,7 +715,7 @@ function vJugadores(){
 function vFicha(id){
   const p=P(id);if(!p)return '<p class="empty">Jugador no encontrado.</p>';
   return `<a href="#/jugadores" class="btn sm" style="margin-bottom:14px">${I('back',16)}Jugadores</a>
-  <div class="hero-card" style="margin-bottom:14px">${photoSlot(p)}<div style="flex:1;min-width:180px"><h1 class="disp" style="font-size:34px">${p.name}</h1><p class="muted">${p.age} años · ${p.pos} · ${GROUPS[p.group].name}</p><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="pill gold">Pack ${p.pack}</span><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pago al día':'Pago pendiente'}</span><button class="btn sm oro" data-act="report" data-id="${p.id}">Informe para la familia</button></div></div><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div></div>
+  <div class="hero-card" style="margin-bottom:14px">${photoSlot(p)}<div style="flex:1;min-width:180px"><h1 class="disp" style="font-size:34px">${p.name}</h1><p class="muted">${p.age} años · ${p.pos} · ${GROUPS[p.group].name}</p>${p.fam&&(p.fam.tutor||p.fam.tel)?`<p class="muted" style="font-size:13.5px;margin-top:4px">Familia: ${esc(p.fam.tutor||"")}${p.fam.tel?` · <a class="lnk" href="https://wa.me/${p.fam.tel.replace(/[^d]/g,"").replace(/^(?!34)(d{9})$/,"34$1")}" target="_blank" rel="noopener">${esc(p.fam.tel)}</a>`:""}</p>`:""}<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="pill gold">Pack ${p.pack}</span><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pago al día':'Pago pendiente'}</span><button class="btn sm oro" data-act="report" data-id="${p.id}">Informe para la familia</button></div></div><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div></div>
   <div class="grid g2">
    <section class="card"><h3>Evaluación por áreas <button class="btn sm" data-act="eval" data-id="${p.id}">Evaluar</button></h3>${areasHTML(p)}</section>
    <section class="card"><h3>Evolución</h3>${lineChart(p.hist,MONTHS)}</section>
@@ -1011,29 +1032,127 @@ function ntHelp(){const ua=navigator.userAgent,ios=/iPhone|iPad|iPod/.test(ua),i
    :['Pulsa el icono que hay a la izquierda de la dirección web, arriba (<b>candado</b> o <b>ajustes</b>)','Entra en <b>Permisos</b> o <b>Configuración del sitio</b>','En <b>Notificaciones</b>, elige <b>Permitir</b>'];
   return `<b style="color:var(--cal)">Las notificaciones están bloqueadas en este móvil.</b> Para activarlas:</p><ol class="ntsteps">${pasos.map(x=>`<li>${x}</li>`).join('')}<li>Vuelve aquí y activa <b>Recibir notificaciones</b></li></ol><p class="hnote">Si estás probando desde un ordenador o desde una ventana de vista previa, ábrela en el móvil: algunos navegadores bloquean siempre las notificaciones.`;}
 const ntOn=()=>!!(S.cfg&&S.cfg.nt)&&'Notification' in window&&Notification.permission==='granted';
-function ajustesSheet(){const c=S.cfg=S.cfg||{},fam=S.role==='familia',sup='Notification' in window,perm=sup?Notification.permission:'no',on=ntOn();
-  sheet(`<div id="ajs"><h2 class="disp">Ajustes</h2><p class="muted">${fam?'Familia de '+P(S.kid).name:'Míster '+S.me} · en este móvil</p>
+/* ---------- Contraseñas (versión de prueba: se guardan cifradas solo en este móvil) ---------- */
+async function hashPw(t){const s='jp·'+t;try{if(crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}}catch(_){}let h=0;for(const ch of s)h=(h*31+ch.charCodeAt(0))|0;return 'x'+h;}
+const authKey=(role,who)=>(role==='mister'?'m:':'f:')+who;
+const myKey=()=>authKey(S.role,S.role==='mister'?S.me:S.kid);
+const hasPw=k=>!!(S.auth&&S.auth[k]);
+const EYE=`<svg class="ico" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,EYEX=`<svg class="ico" viewBox="0 0 24 24"><path d="M17.9 17.9A10.1 10.1 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.1-5.9M9.9 4.2A9.1 9.1 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.2 3.2M1 1l22 22"/><path d="M14.1 14.1a3 3 0 1 1-4.2-4.2"/></svg>`;
+const pwField=(id,label,ac,ph)=>`<div class="f"><label for="${id}">${label}</label><span class="pwf"><input id="${id}" type="password" autocomplete="${ac}" placeholder="${ph||''}"><button type="button" class="pweye" data-eye="${id}" aria-label="Mostrar la contraseña" aria-pressed="false">${EYE}</button></span></div>`;
+document.addEventListener('click',e=>{const b=e.target.closest('[data-eye]');if(!b)return;const i=document.getElementById(b.dataset.eye);const show=i.type==='password';i.type=show?'text':'password';b.setAttribute('aria-pressed',show);b.setAttribute('aria-label',show?'Ocultar la contraseña':'Mostrar la contraseña');b.innerHTML=show?EYEX:EYE;});
+function pwSheet(){const k=myKey(),has=hasPw(k);
+  sheet(`<h2 class="disp">${has?'Cambiar contraseña':'Crear contraseña'}</h2><p class="muted" style="margin-bottom:16px">${has?'Escribe la actual y elige una nueva.':'A partir de ahora la pedirá al entrar en este móvil.'}</p><form id="pwf" novalidate>
+  ${has?pwField('pwo','Contraseña actual','current-password'):''}${pwField('pwn','Nueva contraseña','new-password','Mínimo 8 caracteres')}${pwField('pwr','Repítela','new-password')}
+  <p id="pwe" class="ferr" role="alert"></p><button class="btn oro full">Guardar contraseña</button>
+  <p class="hnote">Versión de prueba: la contraseña se guarda cifrada solo en este móvil. En la versión final, cada míster y cada familia tendrá su cuenta y podrá recuperarla por correo.</p></form>`);
+  $('#pwf').onsubmit=async ev=>{ev.preventDefault();const er=m=>$('#pwe').textContent=m,n=$('#pwn').value,r=$('#pwr').value;
+    if(has&&await hashPw($('#pwo').value)!==S.auth[k])return er('La contraseña actual no es correcta.');
+    if(n.length<8)return er('La nueva contraseña necesita al menos 8 caracteres.');if(n!==r)return er('Las dos contraseñas no coinciden.');
+    S.auth=S.auth||{};S.auth[k]=await hashPw(n);save();ajustesSheet();toast(has?'Contraseña cambiada':'Contraseña creada');};}
+function forgotSheet(k,name){sheet(`<h2 class="disp">¿Has olvidado tu contraseña?</h2><p class="muted" style="margin:6px 0 14px">${name}</p>
+  <p style="font-size:14.5px;line-height:1.5">En esta versión de prueba la contraseña se guarda solo en este móvil. Si no la recuerdas, puedes borrarla y entrar; después crea otra en <b>Ajustes › Seguridad</b>. No se borra nada más.</p>
+  <p class="hnote" style="margin-bottom:16px">En la versión final te llegará un correo para elegir una nueva.</p>
+  <div class="nxbtns"><button type="button" class="btn" data-close>Cancelar</button><button type="button" class="btn oro" id="fgo">Borrar contraseña</button></div>`);
+  $('#fgo').onclick=()=>{if(S.auth)delete S.auth[k];save();closeSheet();loginView();toast('Contraseña borrada: ya puedes entrar');};}
+
+/* ---------- Apariencia: oscuro, claro o según el móvil ---------- */
+const themeMode=()=>{try{return localStorage.getItem('jp-theme')||'dark'}catch(_){return 'dark'}};
+function setTheme(m){try{localStorage.setItem('jp-theme',m)}catch(_){}const l=m==='light'||(m==='auto'&&matchMedia('(prefers-color-scheme: light)').matches),r=document.documentElement;if(l)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');document.querySelector('meta[name=theme-color]')?.setAttribute('content',l?'#FFFFFF':'#050505');}
+matchMedia('(prefers-color-scheme: light)').addEventListener?.('change',()=>{if(themeMode()==='auto')setTheme('auto');});
+
+/* ---------- Datos de cada perfil ---------- */
+const prof=()=>{S.prof=S.prof||{};return S.prof[myKey()]=S.prof[myKey()]||{};};
+const misGrupos=m=>Object.values(GROUPS).filter(g=>g.mister===m).map(g=>g.short||g.name);
+function dlDatos(p){const d={jugador:{nombre:p.name,edad:p.age,posicion:p.pos,grupo:GROUPS[p.group].name,pack:p.pack},familia:p.fam||{},autorizaciones:au(p),asistencia:p.att+' %',evaluacion:p.areas,pruebas_fisicas:p.tests||{},tareas:p.tasks,notas_del_mister:p.notes,mensajes:(msgs()[p.id]||[]).map(m=>({de:m.f==='mis'?'Míster '+(m.by||''):'Familia',texto:m.t,fecha:m.at}))};
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}));a.download='JP-Futbol-datos-'+nom(p)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
+const PIE=`<p class="pie2"><b>JP Fútbol 2026</b><span>© <a href="https://kreadigitalstudio.es" target="_blank" rel="noopener"><b>KREA Digital Studio</b></a> · Diseño y desarrollo</span></p>`;
+const LEGALNAV=`<nav class="legal-links" aria-label="Información legal"><button type="button" data-legal="aviso">Aviso legal</button><button type="button" data-legal="privacidad">Privacidad</button><button type="button" data-legal="condiciones">Condiciones de uso</button><button type="button" data-legal="cookies">Cookies</button></nav>`;
+
+/* ---------- Ajustes ---------- */
+function ajustesSheet(){const c=S.cfg=S.cfg||{},fam=S.role==='familia',p=fam?P(S.kid):null,sup='Notification' in window,perm=sup?Notification.permission:'no',on=ntOn(),pr=prof(),tm=themeMode(),has=hasPw(myKey());
+  sheet(`<div id="ajs"><h2 class="disp">Ajustes</h2><p class="muted">${fam?'Familia de '+p.name:'Míster '+S.me} · en este móvil</p>
+  ${fam?`<h3 class="seth">${I('users',16)}Datos de la familia</h3>
+  <form class="setc setf" id="famf"><div class="f"><label for="ft">Nombre del padre, madre o tutor</label><input id="ft" value="${esc((p.fam||{}).tutor||'')}" autocomplete="name" placeholder="Nombre y apellidos"></div>
+   <div class="f2"><div class="f"><label for="fp">Teléfono</label><input id="fp" value="${esc((p.fam||{}).tel||'')}" type="tel" inputmode="tel" autocomplete="tel" placeholder="600 000 000"></div><div class="f"><label for="fm">Correo</label><input id="fm" value="${esc((p.fam||{}).mail||'')}" type="email" autocomplete="email" placeholder="correo@ejemplo.es"></div></div>
+   <p class="hnote" style="margin-top:0">Jugador: <b>${p.name}</b> · ${p.age} años · ${GROUPS[p.group].name} · ${p.pos}</p><p id="fe" class="ferr" role="alert"></p><button class="btn oro">Guardar datos</button></form>
+  <h3 class="seth">${I('card',16)}Accesos rápidos</h3>
+  <div class="setc"><button type="button" class="setr setb" data-aj="pack"><div><b>Mi pack y pagos</b><small>Pack ${p.pack} · ${p.paid?'al día':'pago pendiente'}</small></div>${I('card',18)}</button>
+   <button type="button" class="setr setb" data-aj="horario"><div><b>Mi horario</b><small>Días y turnos de ${nom(p)}</small></div>${I('cal',18)}</button>
+   <button type="button" class="setr setb" data-aj="auth"><div><b>Autorizaciones de imagen</b><small>Vídeos, fotos y redes del club</small></div>${I('video',18)}</button></div>`
+  :`<h3 class="seth">${I('users',16)}Mi perfil</h3>
+  <form class="setc setf" id="misf"><p class="hnote" style="margin:12px 0 4px">Míster <b>${S.me}</b>${misGrupos(S.me).length?' · Entrena a '+misGrupos(S.me).join(', '):''}${SOCIOS.includes(S.me)?' · Socio de JP Fútbol':''}</p>
+   <div class="f2"><div class="f"><label for="mp">Teléfono</label><input id="mp" value="${esc(pr.tel||'')}" type="tel" inputmode="tel" autocomplete="tel" placeholder="600 000 000"></div><div class="f"><label for="mm">Correo</label><input id="mm" value="${esc(pr.mail||'')}" type="email" autocomplete="email" placeholder="correo@ejemplo.es"></div></div>
+   <p id="me" class="ferr" role="alert"></p><button class="btn oro">Guardar perfil</button></form>`}
+  <h3 class="seth">${I('lock',16)}Seguridad</h3>
+  <div class="setc"><button type="button" class="setr setb" data-aj="pw"><div><b>${has?'Cambiar contraseña':'Crear contraseña'}</b><small>${has?'Tienes contraseña en este móvil':'Ahora se entra sin contraseña en este móvil'}</small></div>${I('lock',18)}</button>
+   <button type="button" class="setr setb" data-aj="logout"><div><b>Cerrar sesión</b><small>Volver a la pantalla de entrada</small></div>${I('out',18)}</button></div>
   <h3 class="seth">${I('bell',16)}Notificaciones</h3>
   <div class="setc">${swH('nt',on,'Recibir notificaciones','Te avisamos al momento de lo nuevo')}
   ${swH('ntMsg',c.ntMsg!==false,fam?'Mensajes del míster':'Mensajes de las familias','Cuando te escriben en Mensajes',!on)}
-  ${fam?swH('ntAv',c.ntAv!==false,'Avisos del club','Sesión suspendida, cambios de horario, recordatorios',!on):''}
+  ${fam?swH('ntAv',c.ntAv!==false,'Avisos del club','Sesión suspendida, cambios de horario, recordatorios',!on):swH('ntLista',!!c.ntLista,'Recordatorio para pasar lista','A las 20:00 los días de entrenamiento')}
   ${on?`<button type="button" class="lnk" data-ntest>Enviar una notificación de prueba</button>`:''}</div>
   <p class="hnote">${!sup?'Este navegador no permite notificaciones. En iPhone, primero añade la app a la pantalla de inicio (Compartir › Añadir a pantalla de inicio) y ábrela desde ahí.':perm==='denied'?ntHelp():'Llegan cuando la app está abierta o en segundo plano. En la versión final llegarán también con la app cerrada, como en WhatsApp.'}</p>
   <h3 class="seth">${I('cog',16)}Apariencia y app</h3>
-  <div class="setc">${swH('dark',document.documentElement.getAttribute('data-theme')!=='light','Modo oscuro','Fondo negro y dorado')}
-  ${isStandalone()?'':`<button type="button" class="setr setb" data-aj="install"><div><b>Instalar la app</b><small>Tenerla como una app más en el móvil</small></div>${I('dl',18)}</button>`}
-  <button type="button" class="setr setb" data-aj="help"><div><b>Ayuda y contacto</b><small>Asistente, mensajes y contacto del club</small></div>${I('help',18)}</button></div>
-  <button type="button" class="btn full" data-aj="logout" style="margin-top:18px">${I('out',18)}Cerrar sesión</button></div>`);
-  $('#ajs').onclick=ajClick;}
+  <div class="setc"><div class="setr"><div><b>Modo de color</b><small>Oscuro, claro o el mismo que el móvil</small></div></div>
+   <div class="seg3" role="group" aria-label="Modo de color">${[['dark','Oscuro'],['light','Claro'],['auto','Según el móvil']].map(([k,l])=>`<button type="button" data-tm="${k}" aria-pressed="${tm===k}">${l}</button>`).join('')}</div>
+   ${isStandalone()?'':`<button type="button" class="setr setb" data-aj="install"><div><b>Instalar la app</b><small>Tenerla como una app más en el móvil</small></div>${I('dl',18)}</button>`}
+   <button type="button" class="setr setb" data-aj="help"><div><b>Ayuda y contacto</b><small>Asistente, mensajes y contacto del club</small></div>${I('help',18)}</button></div>
+  ${fam?`<h3 class="seth">${I('lock',16)}Privacidad</h3>
+  <div class="setc"><button type="button" class="setr setb" data-legal="privacidad"><div><b>Información legal</b><small>Aviso legal, privacidad, condiciones y cookies</small></div><span class="fwd">${I('back',18)}</span></button>
+   <button type="button" class="setr setb" data-aj="dl"><div><b>Descargar nuestros datos</b><small>Un archivo con todo lo que la app guarda de ${nom(p)}</small></div>${I('dl',18)}</button>
+   <a class="setr setb" href="${waL(`Hola JP Fútbol, soy de la familia de ${p.name}. Queremos pedir la baja y el borrado de nuestros datos de la app.`)}" target="_blank" rel="noopener"><div><b>Pedir la baja o el borrado de datos</b><small>Se lo pedimos al club por WhatsApp</small></div>${I('chat',18)}</a></div>`
+  :`<h3 class="seth">${I('reset',16)}Datos de la demo</h3>
+  <div class="setc"><button type="button" class="setr setb" data-aj="demo"><div><b>Volver a cargar los datos de ejemplo</b><small>Jugadores, sesiones y pagos de ejemplo, como el primer día</small></div>${I('reset',18)}</button>
+   ${MSG_API&&SOCIOS.includes(S.me)?`<button type="button" class="setr setb" data-aj="wipe"><div><b>Borrar mensajes y avisos de prueba</b><small>Para todos los móviles · solo Perotti y Miguel</small></div>${I('x',18)}</button>`:''}
+   <button type="button" class="setr setb" data-legal="aviso"><div><b>Información legal</b><small>Aviso legal, privacidad, condiciones y cookies</small></div><span class="fwd">${I('back',18)}</span></button></div>`}
+  ${LEGALNAV}${PIE}</div>`);
+  $('#ajs').onclick=ajClick;
+  const ff=$('#famf');if(ff)ff.onsubmit=ev=>{ev.preventDefault();const t=$('#fp').value.trim(),m=$('#fm').value.trim();if(t&&!/^[+\d][\d\s]{8,14}$/.test(t))return $('#fe').textContent='Revisa el teléfono.';if(m&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))return $('#fe').textContent='Revisa el correo.';p.fam={tutor:$('#ft').value.trim(),tel:t,mail:m};save();$('#fe').textContent='';toast('Datos de la familia guardados');};
+  const mf=$('#misf');if(mf)mf.onsubmit=ev=>{ev.preventDefault();const t=$('#mp').value.trim(),m=$('#mm').value.trim();if(t&&!/^[+\d][\d\s]{8,14}$/.test(t))return $('#me').textContent='Revisa el teléfono.';if(m&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))return $('#me').textContent='Revisa el correo.';Object.assign(prof(),{tel:t,mail:m});save();$('#me').textContent='';toast('Perfil guardado');};}
 function ajClick(e){const c=S.cfg=S.cfg||{},s=e.target.closest('[data-sw]');
   if(s){const k=s.dataset.sw,v=s.getAttribute('aria-checked')!=='true';
-    if(k==='dark'){toggleTheme();ajustesSheet();return;}
     if(k==='nt'){if(!v){c.nt=false;save();ajustesSheet();toast('Notificaciones desactivadas');return;}if(!('Notification' in window)){ajustesSheet();return;}
       Promise.resolve(Notification.requestPermission()).then(p=>{c.nt=p==='granted';save();ajustesSheet();if(c.nt){toast('Notificaciones activadas');ntTest();msgSync();}else if(p==='denied')toast('Están bloqueadas: sigue los pasos de abajo');});return;}
     c[k]=v;save();ajustesSheet();return;}
+  const tmb=e.target.closest('[data-tm]');if(tmb){setTheme(tmb.dataset.tm);ajustesSheet();return;}
   if(e.target.closest('[data-ntest]')){ntTest();toast('Notificación de prueba enviada');return;}
-  const b=e.target.closest('[data-aj]');if(!b)return;const a=b.dataset.aj;
-  if(a==='install'){closeSheet();installApp();}if(a==='help')helpSheet('asis');if(a==='logout'){closeSheet();S.role=null;save();location.hash='';render();}}
+  const b=e.target.closest('[data-aj]');if(!b)return;const a=b.dataset.aj,p=S.role==='familia'?P(S.kid):null;
+  if(a==='pw'){pwSheet();return;}
+  if(a==='install'){closeSheet();installApp();}if(a==='help')helpSheet('asis');
+  if(a==='pack'||a==='horario'){closeSheet();location.hash='#/pack';}
+  if(a==='auth')authSheet(p);
+  if(a==='dl'){dlDatos(p);toast('Archivo descargado');}
+  if(a==='demo'){if(b.dataset.ok!=='1'){b.dataset.ok='1';b.querySelector('small').textContent='Pulsa otra vez para confirmarlo';return;}const keep={auth:S.auth,prof:S.prof,cfg:S.cfg};localStorage.removeItem(KEY);load();Object.assign(S,keep,{role:null});save();closeSheet();location.hash='';render();toast('Datos de ejemplo cargados de nuevo');}
+  if(a==='wipe'){if(b.dataset.ok!=='1'){b.dataset.ok='1';b.querySelector('small').textContent='Pulsa otra vez para borrarlos de todos los móviles';return;}msgPost({reset:true}).then(()=>toast('Mensajes y avisos de prueba borrados')).catch(()=>toast('No se han podido borrar. Revisa la conexión.'));}
+  if(a==='logout'){closeSheet();S.role=null;save();location.hash='';render();}}
+/* Recordatorio para pasar lista: una vez, a las 20:00 de los días de entrenamiento */
+setInterval(()=>{if(S.role!=='mister'||!(S.cfg&&S.cfg.ntLista)||!isTrainDay())return;const n=new Date(),k=n.toDateString();if(n.getHours()!==20||n.getMinutes()>15||S.cfg.listaDia===k)return;S.cfg.listaDia=k;save();
+  if(document.hidden&&'Notification' in window&&Notification.permission==='granted')ntPop('Hora de pasar lista',{body:'Marca en «Hoy» quién ha venido a la sesión.',tag:'lista'});else toast('Hora de pasar lista: márcalo en Hoy');},30000);
+
+/* ---------- Información legal ---------- */
+function legalSheet(sec){setTimeout(()=>$('#sheetBox').classList.add('wide'));
+  sheet(`<div id="lgl"><h2 class="disp">Información legal</h2>${LEGALNAV}
+  <section id="lg-aviso"><h3>Aviso legal</h3><p>La app de JP Fútbol ha sido creada y desarrollada por KREA Digital Studio para JP Fútbol, academia de tecnificación de fútbol en Sevilla.</p>
+   <p><b>Desarrollo:</b> KREA Digital Studio · NIF 28795999E · 41018 Sevilla · contacto@kreadigitalstudio.es · kreadigitalstudio.es</p>
+   <p><b>Titular del servicio:</b> JP Fútbol · [NOMBRE FISCAL DE JP FÚTBOL] · [NIF DE JP FÚTBOL] · [DIRECCIÓN FISCAL DE JP FÚTBOL] · ${CLUB.mail} · ${CLUB.telTxt}</p>
+   <p>El diseño, el código y el sello de la app son propiedad de KREA Digital Studio. La marca JP Fútbol pertenece a JP Fútbol. No se permite copiarlos, reproducirlos ni distribuirlos sin autorización por escrito.</p></section>
+  <section id="lg-privacidad"><h3>Política de privacidad</h3>
+   <p><b>Responsable:</b> JP Fútbol ([NOMBRE FISCAL DE JP FÚTBOL], [NIF DE JP FÚTBOL]), ${CLUB.mail}. KREA Digital Studio actúa como encargado del tratamiento para el desarrollo y mantenimiento de la app.</p>
+   <p><b>Qué datos guardamos:</b> nombre, edad, grupo y posición de cada jugador o jugadora; datos de contacto de la familia; asistencia, evaluaciones, pruebas físicas, tareas, notas, vídeos de entrenamiento y mensajes con el equipo técnico; pack y estado de pago; y las autorizaciones de imagen.</p>
+   <p><b>Menores:</b> los datos de los jugadores y jugadoras menores de 14 años los facilita y gestiona su padre, madre o tutor. Las imágenes y vídeos solo se usan según las autorizaciones que la familia marca en la app, y se pueden cambiar en cualquier momento.</p>
+   <p><b>Para qué:</b> organizar los entrenamientos, hacer el seguimiento deportivo, comunicarnos con las familias y gestionar los packs. No vendemos ni cedemos los datos y no los usamos para publicidad.</p>
+   <p><b>Base legal:</b> la prestación del servicio que la familia contrata al inscribirse y, para las imágenes, su consentimiento.</p>
+   <p><b>Quién nos ayuda:</b> OVHcloud (alojamiento de la web, la app y los mensajes, servidores en Francia).</p>
+   <p><b>Cuánto tiempo:</b> mientras el jugador o la jugadora esté en la academia y, después, el tiempo que exija la ley.</p>
+   <p><b>Tus derechos:</b> acceder, corregir, borrar, oponerte, limitar o llevarte tus datos. Puedes descargarlos desde Ajustes y pedir la baja escribiendo a ${CLUB.mail}. También puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p></section>
+  <section id="lg-condiciones"><h3>Condiciones de uso</h3>
+   <p>La app es para las familias y el equipo técnico de JP Fútbol. Cada persona es responsable de su acceso y de lo que escribe o sube. No se permite subir contenido ofensivo, ilegal o de terceros sin permiso.</p>
+   <p>El asistente de la app da respuestas automáticas a dudas frecuentes; para cualquier caso concreto, la última palabra es del equipo de JP Fútbol. Los precios que aparecen son orientativos hasta que el club los confirma.</p>
+   <p>JP Fútbol se reserva el <b>derecho de admisión</b>: puede suspender o retirar el acceso a quien haga un mal uso de la app o incumpla estas condiciones. Estas condiciones se rigen por la ley española.</p></section>
+  <section id="lg-cookies"><h3>Cookies</h3><p>La app no usa cookies de publicidad ni de seguimiento. Solo guarda en el móvil lo imprescindible para funcionar: tu sesión, tus ajustes y una copia de la app para que abra rápido. Por eso no necesita tu consentimiento.</p></section>
+  ${PIE}</div>`);
+  if(sec)setTimeout(()=>{const t=$('#lg-'+sec);if(t)t.scrollIntoView({block:'start'});},60);}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-legal]');if(!b)return;e.preventDefault();if($('#lgl')){const t=$('#lg-'+b.dataset.legal);if(t)t.scrollIntoView({block:'start',behavior:'smooth'});return;}legalSheet(b.dataset.legal);});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)msgSync();});
 function msgs(){if(MSG_API){if(!MSOK)return {};return S.msgs||(S.msgs={});}if(!S.msgs){const p0=S.players[0],p1=S.players[1],ago=m=>new Date(Date.now()-6e4*m).toISOString();S.msgs={};
   if(p0)S.msgs[p0.id]=[{f:'fam',t:'Hola, ¿tiene que traer botas de tacos o de césped artificial?',at:ago(1500),r:true},{f:'mis',by:GROUPS[p0.group].mister,t:'Hola, mejor las de césped artificial (multitacos). ¡Nos vemos en la sesión!',at:ago(1440),r:false}];
