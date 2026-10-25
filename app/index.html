@@ -302,6 +302,7 @@ video.player{width:100%;max-height:70vh;border-radius:14px;background:#000}
 .newex input,.newex select{width:100%;min-width:0;box-sizing:border-box}
 .newex .btn{min-width:0;padding-inline:8px}
 .nxbtns{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px}.newex .nxbtns #nxx{padding-inline:16px}.newex .nxbtns #nxs{padding-inline:12px;white-space:normal;line-height:1.15}
+.lnote{margin:4px 0 10px;padding:10px 12px;border-radius:12px;background:rgba(226,183,70,.1);border:1px solid rgba(226,183,70,.35);font-size:13px;line-height:1.45;color:var(--c2)}
 /* Versión oscura con más tonos (como la web): fondo negro, tarjetas grafito con brillo dorado, piezas internas más claras */
 html:not([data-theme=light]){--g1:#131311;--g2:#1C1B17;--g3:#26241F;--linea:#302D25}
 html:not([data-theme=light]) .card{background:linear-gradient(160deg,rgba(226,183,70,.075),rgba(19,19,17,0) 45%),#131311;border-color:#302D25;box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 18px 40px -24px rgba(0,0,0,.9)}
@@ -491,6 +492,8 @@ html.locked #gate{display:flex}
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="box" id="sheetBox"></div></div>
 
 <script src="biblioteca.js"></script>
+<script src="biblioteca2.js"></script>
+<script src="biblioteca3.js"></script>
 <script>
 const WEB=/kreadigitalstudio.es$/.test(location.hostname)?'https://jpfutbolweb.kreadigitalstudio.es/':'../';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -1314,14 +1317,15 @@ function useEx(name){const x=allLib().find(e=>e.n===name);if(!x)return;const b=d
   sq.value='';sq.dispatchEvent(new Event('input'));toast('Añadido: elige el día y guarda la sesión');}
 let bAge='all',bConc='Todos',bQ='';
 function vBiblio(){const AG={all:'Todas las edades',P:'Prebenjamín',B:'Benjamín',A:'Alevín',I:'Infantil',C:'Cadete y juvenil'};
-  let L=allLib();if(bAge!=='all')L=L.filter(x=>x.own||(x.c||'').includes(bAge));if(bConc!=='Todos')L=L.filter(x=>x.t===bConc);
-  if(bQ)L=L.filter(x=>(x.n+' '+(x.d||'')+' '+(x.o||'')+' '+(x.t||'')+' '+x.a).toLowerCase().includes(bQ.toLowerCase()));
+  const fq=x=>!bQ||(x.n+' '+(x.d||'')+' '+(x.o||'')+' '+(x.t||'')+' '+x.a).toLowerCase().includes(bQ.toLowerCase()),fc=x=>bConc==='Todos'||x.t===bConc;
+  let L=allLib().filter(x=>(bAge==='all'||x.own||(x.c||'').includes(bAge))&&fc(x)&&fq(x)),otras=false;
+  if(!L.length&&bAge!=='all'){L=allLib().filter(x=>fc(x)&&fq(x));otras=L.length>0;}
   return `<a href="#/sesiones" class="btn sm" style="margin-bottom:14px">${I('back',16)}Sesiones</a>
   <div class="hd"><div><h1 class="disp">Biblioteca</h1><p>${allLib().length} ejercicios · ${allLib().filter(x=>x.x).length} con ficha completa · elige y añádelos a tus sesiones</p></div><span class="bib-ic">${I('libro',34)}</span></div>
   <div class="tool"><input class="search" id="bq" placeholder="Buscar: rondo, presión, tercer hombre…" value="${esc(bQ)}" aria-label="Buscar ejercicio"></div>
   <div class="tool">${Object.entries(AG).map(([k,v])=>`<button class="chip" data-act="bAge" data-v="${k}" aria-pressed="${bAge===k}">${v}</button>`).join('')}</div>
   <div class="tool bconcs">${CONCEPTS.map(c=>`<button class="chip" data-act="bConc" data-v="${c}" aria-pressed="${bConc===c}">${c==='Todos'?'Todos los conceptos':c}</button>`).join('')}</div>
-  <p class="muted" style="margin:-2px 0 12px;font-size:13px">${L.length===1?'1 ejercicio':L.length+' ejercicios'}</p>
+  ${otras?`<p class="lnote">No hay ejercicios de <b>${bConc}</b> pensados para ${AG[bAge]}. Te enseñamos los de otras edades: adáptalos al grupo.</p>`:''}<p class="muted" style="margin:-2px 0 12px;font-size:13px">${L.length===1?'1 ejercicio':L.length+' ejercicios'}</p>
   <div class="bgrid">${L.map(x=>`<button class="bcard" data-act="exOpen" data-n="${esc(x.n)}"><span class="ct">${x.t||x.a}</span><b>${esc(x.n)}</b><small>${esc(x.d||'')}</small><span class="bmeta">${exAges(x)?exAges(x)+' · ':''}${x.m} min${x.j?' · '+esc(x.j)+' jug.':''}</span>${x.own?'<span class="bbrief">★ Del club</span>':x.x?'':'<span class="bbrief">Ficha breve</span>'}</button>`).join('')||'<p class="empty">No hay ejercicios con ese filtro.</p>'}</div>`;}
 document.addEventListener('input',e=>{if(e.target.id!=='bq')return;bQ=e.target.value;const pos=e.target.selectionStart;rerender();const n=$('#bq');if(n){n.focus();n.setSelectionRange(pos,pos);}});
 
@@ -1408,8 +1412,8 @@ document.addEventListener('click',e=>{
     <div class="f"><label>Ejercicios de la sesión</label><div class="sel" id="ssel"></div><p class="sel-sum" id="ssum"></p></div>
     <details class="lib" id="slib" open><summary><span class="libt">${I('libro',20)}Biblioteca de ejercicios <small id="scount"></small></span><span class="chev">▾</span></summary><div class="lbody"><div class="areas" id="sareas">${AREAS.map(x=>`<button type="button" class="chip" data-area="${x}" aria-pressed="${x==='Todos'}">${x}</button>`).join('')}</div><div class="concs" id="sconc"><small>Concepto</small>${CONCEPTS.map(x=>`<button type="button" class="chip" data-conc="${x}" aria-pressed="${x==='Todos'}">${x}</button>`).join('')}</div><input class="lsearch" id="sq" placeholder="Buscar ejercicio" autocomplete="off"><button type="button" class="newex-btn" id="nxb">＋ Crear ejercicio y guardarlo en la biblioteca</button><div class="newex" id="nx" hidden><div class="f"><label for="nxn">Nombre del ejercicio</label><input id="nxn" placeholder="Ej.: Rondo 4x2 con salida en conducción"></div><div style="display:grid;grid-template-columns:minmax(0,1fr) 84px;gap:10px"><div class="f"><label for="nxa">Área</label><select id="nxa">${AREAS.slice(2).map(x=>`<option>${x}</option>`).join('')}</select></div><div class="f"><label for="nxm">Minutos</label><input id="nxm" inputmode="numeric" maxlength="2" value="10"></div></div><div class="f"><label for="nxd">Explicación breve (opcional)</label><input id="nxd" placeholder="Qué se trabaja y cómo"></div><div class="f"><label for="nxt">Concepto</label><select id="nxt">${CONCEPTS.slice(1).map(x=>`<option>${x}</option>`).join('')}</select></div><div class="f"><label for="nxo">Objetivo (opcional)</label><input id="nxo" placeholder="Qué queremos conseguir"></div><div class="f"><label for="nxk">Puntos clave (opcional, uno por línea)</label><textarea id="nxk" rows="3" placeholder="Perfil abierto para recibir"></textarea></div><div class="f"><label for="nxc">Para qué grupos</label><select id="nxc"><option value="g">Solo este grupo</option><option value="all">Todos los grupos</option></select></div><p class="muted" id="nxe" style="color:var(--bad);min-height:18px;font-size:13px"></p><div class="nxbtns"><button type="button" class="btn" id="nxx">Cancelar</button><button type="button" class="btn oro" id="nxs">Guardar en biblioteca</button></div></div><div class="llist" id="slist"></div></div></details>
     <div class="f" style="margin-top:14px"><label for="se">Notas o ejercicios propios</label><textarea id="se" placeholder="Uno por línea (opcional)"></textarea></div><button class="btn oro full">Guardar sesión</button></form>`);
-    const draw=()=>{const g=$('#sg').value;const L=libFor(g,area,q,conc);$('#scount').textContent=`· ${L.length} para ${GROUPS[g].short||GROUPS[g].name}`;
-      $('#slist').innerHTML=L.map(x=>{const on=sel.includes(x.n);return `<button type="button" class="lex ${on?'on':''}" data-ex="${x.n.replace(/"/g,'&quot;')}"><b><span class="tag">${x.own?'★ Del club · ':''}${x.a}</span>${x.n}</b><small>${x.t?`<em class="ct">${x.t}</em>`:''}${x.d?x.d+' · ':''}${x.m} min${x.own?' · Creado por míster '+x.by:''} <span class="inf" data-info="${x.n.replace(/"/g,'&quot;')}">Ver ficha</span></small><span class="add">${on?'✓':'+'}</span></button>`}).join('')||(area==='Del club'?'<p class="muted" style="padding:10px">Aún no hay ejercicios del club para este grupo. Pulsa «Crear ejercicio» para añadir el primero.</p>':'<p class="muted" style="padding:10px">No hay ejercicios con ese filtro.</p>');
+    const draw=()=>{const g=$('#sg').value;let L=libFor(g,area,q,conc),otras=false;if(!L.length&&area!=='Del club'&&(conc!=='Todos'||area!=='Todos')){L=libFor('any',area,q,conc);otras=L.length>0;}$('#scount').textContent=otras?`· ${L.length} de otras edades`:`· ${L.length} para ${GROUPS[g].short||GROUPS[g].name}`;
+      $('#slist').innerHTML=(otras?`<p class="lnote">No hay ejercicios de <b>${conc!=='Todos'?conc:area}</b> pensados para ${GROUPS[g].short||GROUPS[g].name}. Te enseñamos los de otras edades: adáptalos al grupo (menos jugadores, más espacio, reglas más sencillas).</p>`:'')+L.map(x=>{const on=sel.includes(x.n);return `<button type="button" class="lex ${on?'on':''}" data-ex="${x.n.replace(/"/g,'&quot;')}"><b><span class="tag">${x.own?'★ Del club · ':''}${x.a}</span>${x.n}</b><small>${x.t?`<em class="ct">${x.t}</em>`:''}${x.d?x.d+' · ':''}${x.m} min${x.own?' · Creado por míster '+x.by:''} <span class="inf" data-info="${x.n.replace(/"/g,'&quot;')}">Ver ficha</span></small><span class="add">${on?'✓':'+'}</span></button>`}).join('')||(area==='Del club'?'<p class="muted" style="padding:10px">Aún no hay ejercicios del club para este grupo. Pulsa «Crear ejercicio» para añadir el primero.</p>':'<p class="muted" style="padding:10px">No hay ejercicios con ese filtro.</p>');
       drawSel();};
     const drawSel=()=>{$('#ssel').innerHTML=sel.map((n,i)=>{const x=allLib().find(e=>e.n===n);return `<div class="it"><i>${i+1}</i><span>${n}</span><small>${x?x.m+' min':''}</small><button type="button" data-rm="${i}" aria-label="Quitar">✕</button></div>`}).join('')||'<p class="muted" style="font-size:13px">Aún no hay ejercicios. Tócalos en la biblioteca para añadirlos.</p>';
       const tot=sel.reduce((t,n)=>t+((allLib().find(e=>e.n===n)||{}).m||0),0);const dur=Math.max(0,tmin($('#sh2').value)-tmin($('#sh1').value));$('#ssum').textContent=sel.length?`${sel.length} ejercicios · ${tot} min de los ${dur} de la sesión`:'';};
@@ -1422,8 +1426,8 @@ document.addEventListener('click',e=>{
     $('#sms').onclick=addM;$('#smn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addM();}};
     $('#sh1').onchange=$('#sh2').onchange=()=>drawSel();
     $('#sg').onchange=()=>{area='Todos';$$('#sareas .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.area==='Todos'));load();};$('#sd').onchange=load;
-    $('#sconc').onclick=e=>{const b=e.target.closest('[data-conc]');if(!b)return;conc=b.dataset.conc;$$('#sconc .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));draw();};
-    $('#sareas').onclick=e=>{const b=e.target.closest('[data-area]');if(!b)return;area=b.dataset.area;$$('#sareas .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));draw();};
+    $('#sconc').onclick=e=>{const b=e.target.closest('[data-conc]');if(!b)return;conc=b.dataset.conc;$$('#sconc .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));if(conc!=='Todos'&&area!=='Todos'){area='Todos';$$('#sareas .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.area==='Todos'));}draw();};
+    $('#sareas').onclick=e=>{const b=e.target.closest('[data-area]');if(!b)return;area=b.dataset.area;$$('#sareas .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));if(area!=='Todos'&&conc!=='Todos'){conc='Todos';$$('#sconc .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.conc==='Todos'));}draw();};
     $('#sq').oninput=e=>{q=e.target.value.trim();draw();};
     $('#nxb').onclick=()=>{$('#nx').hidden=false;$('#nxb').hidden=true;$('#nxn').focus();};
     $('#nxx').onclick=()=>{$('#nx').hidden=true;$('#nxb').hidden=false;$('#nxe').textContent='';};
