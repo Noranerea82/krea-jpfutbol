@@ -341,12 +341,12 @@ html[data-theme=light] .deco-pitch::before{opacity:.20}html[data-theme=light] .d
 .pm.open .sheet{transform:none}
 @media (min-width:700px){.pm{align-items:center;padding:16px}.pm .sheet{border-radius:26px}}
 .pm .x{background:rgba(5,5,5,.6);backdrop-filter:blur(6px);color:#fff}
-.pm-hero{position:relative;height:clamp(200px,42vw,260px);overflow:hidden}
-.pm-hero img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
-.pm-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,14,12,0) 35%,var(--grada) 100%)}
-.pm-head{position:absolute;left:22px;right:22px;bottom:14px;z-index:1}
+.pm-hero{position:relative}
+.pm-hero img{display:block;width:100%;height:auto}
+
+.pm-head{padding:16px 22px 0}
 .pm-head small{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#050505;background:var(--oro);padding:5px 10px;border-radius:99px}
-.pm-head h3{font-family:var(--f-disp);font-size:clamp(30px,8vw,40px);text-transform:uppercase;line-height:1;margin-top:10px}
+.pm-head h3{font-family:var(--f-disp);font-size:clamp(30px,8vw,40px);text-transform:uppercase;line-height:1;margin-top:10px;color:var(--oro-hondo)}
 .pm-body{padding:8px 22px 24px}
 .pm-body > p{color:var(--cal-2);font-size:15.5px;line-height:1.55}
 .pm-blk{margin-top:20px}
@@ -1059,7 +1059,7 @@ $$('#quiz .opts').forEach(g=>g.querySelectorAll('.opt').forEach(b=>b.onclick=()=
 
 /* ---------- Fichas por posición ---------- */
 const POS={
- 'Portería':{tag:'Porteros y porteras',img:'porteros-02-joven',book:'Porteros',
+ 'Portería':{tag:'Porteros y porteras',img:'porteros-04-joven',book:'Porteros',
   intro:'El puesto más específico del campo. Trabajamos la técnica de manos y pies, la colocación y la toma de decisiones para que cada portero y portera gane seguridad bajo palos y fuera de ellos.',
   tec:[['Posición base y desplazamientos','Apoyos activos, pasos laterales y cruzados para llegar equilibrado al balón.'],['Blocaje alto, medio y raso','Atrapar con seguridad y proteger el balón sin dar rechace.'],['Caídas y estiradas','Técnica de caída lateral y estirada para llegar al balón lejano sin hacerse daño.'],['Desvíos','Cuándo y cómo sacar el balón a córner o fuera de la zona de peligro.'],['Juego con el pie','Control, pase y despeje para participar en la salida del equipo.'],['Saques','Saque con mano, volea y media volea con precisión.']],
   tac:[['Colocación','Situarse en la bisectriz del ángulo según la posición del balón.'],['Uno contra uno','Esperar, achicar el espacio y elegir el momento de intervenir.'],['Juego aéreo','Decidir si salir en centros: atrapar en el punto más alto o despejar de puños.'],['Espacio a la espalda','Anticiparse a balones largos detrás de la defensa.'],['Comunicación','Ordenar a la defensa y ayudar en barreras y balón parado.'],['Inicio del juego','Elegir rápido a quién y cómo sacar tras una parada.']],
