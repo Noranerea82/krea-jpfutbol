@@ -1,0 +1,65 @@
+/* JP Fútbol · Pizarra a pantalla entera para crear una tarea. pzOpen({g:grupo o 'all',done:nombre=>...}) */
+const PZ_ACC=[['sel','Mover'],['p','Jugador'],['r','Rival'],['k','Portero'],['pase','Pase'],['tiro','Tiro'],['cond','Conducción'],['mov','Desmarque'],['zona','Zona'],['del','Borrar']];
+const PZ_SHP=[['ln','Línea','line',0],['lnd','Línea discontinua','line',1],['rc','Cuadrado','rect',0],['rcd','Cuadrado discontinuo','rect',1],['ci','Círculo','circ',0],['cid','Círculo discontinuo','circ',1]];
+const PZ_MT=[['b','Balón',1.7],['c','Cono',1.5],['ch','Chino',1.7],['pk','Pica',1],['va','Valla',1.2],['ar','Aro',1.5],['es','Escalera',.55],['m','Miniportería',1],['pg','Portería',.62],['mq','Maniquí',1]];
+const PZ_FIELDS=[['completo','Campo completo'],['medio','Medio campo'],['area','Área'],['libre','Espacio libre']];
+const PZ_COL=[['#fff','Blanco'],['#E53935','Rojo'],['#FFD43B','Amarillo']];
+const PZ_AREA={Rondo:'Técnico-táctica',Posesión:'Técnico-táctica','Juego de posición':'Técnico-táctica','Técnica individual':'Técnica',Finalización:'Técnico-táctica',Progresión:'Táctica','Ataque organizado':'Táctica',Defensa:'Táctica','Transición ofensiva':'Táctica','Transición defensiva':'Táctica','Balón parado':'Táctica',Decisión:'Decisión',Partido:'Partido',Activación:'Calentamiento',Coordinación:'Físico',Velocidad:'Físico',Fuerza:'Físico',Resistencia:'Físico',Prevención:'Físico',Porteros:'Porteros'};
+const PZ_HINT={sel:'Arrastra para mover. Toca una ficha para cambiar su tamaño, girarla, duplicarla o borrarla.',zona:'Arrastra para marcar una zona o espacio de juego.',ln:'Arrastra para trazar una línea.',lnd:'Arrastra para trazar una línea discontinua.',rc:'Arrastra en diagonal para dibujar el cuadrado.',rcd:'Arrastra en diagonal para dibujar el cuadrado discontinuo.',ci:'Arrastra en diagonal para dibujar el círculo.',cid:'Arrastra en diagonal para dibujar el círculo discontinuo.',del:'Toca un elemento para borrarlo.',pase:'Arrastra desde el origen hasta el destino del pase.',tiro:'Arrastra desde el jugador hasta la portería para dibujar el tiro.',cond:'Arrastra para dibujar la conducción.',mov:'Arrastra para dibujar el desmarque.'};
+const pzSw=k=>({p:`<circle cx="10" cy="10" r="8" fill="${PZ_C.own}" stroke="#fff" stroke-width="1.5"/>`,r:`<circle cx="10" cy="10" r="8" fill="${PZ_C.riv}" stroke="#fff" stroke-width="1.5"/>`,k:`<circle cx="10" cy="10" r="8" fill="${PZ_C.gk}" stroke="#fff" stroke-width="1.5"/>`,pase:'<path d="M2 10H14" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"/><path d="M13 6l5 4-5 4z" fill="currentColor"/>',cond:'<path d="M2 10q2-4 4 0t4 0 4 0" stroke="currentColor" stroke-width="2" fill="none"/><path d="M14 6l5 4-5 4z" fill="currentColor"/>',mov:'<path d="M2 10H14" stroke="currentColor" stroke-width="2"/><path d="M13 6l5 4-5 4z" fill="currentColor"/>',tiro:'<path d="M2 10H13" stroke="#FF3B30" stroke-width="3.2"/><path d="M12 5l7 5-7 5z" fill="#FF3B30"/>',zona:'<rect x="3" y="4" width="14" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 2"/>',sel:'<path d="M10 2v16M2 10h16M10 2l-3 3M10 2l3 3M10 18l-3-3M10 18l3-3M2 10l3-3M2 10l3 3M18 10l-3-3M18 10l-3 3" stroke="currentColor" stroke-width="1.6" fill="none"/>',del:'<path d="M4 6h12M8 6V4h4v2M6 6l1 11h6l1-11" stroke="currentColor" stroke-width="1.6" fill="none"/>'}[k]);
+function pzOpen(o){const T={f:'completo',els:[],psz:1};let tool='p',selI=null,undo=[],drag=null,sure=false;
+  const ov=document.createElement('div');ov.className='pzfull';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-label','Pizarra');
+  const tb=(k,l,sw)=>`<button type="button" class="pztool" data-pt="${k}" aria-pressed="${k===tool}"><span class="pzic">${sw}</span>${l}</button>`;
+  ov.innerHTML=`<header class="pzbar"><button type="button" class="btn sm" data-pa="close" aria-label="Cerrar la pizarra">${I('x',18)}</button><div class="pzttl"><b class="disp">Pizarra</b><small id="pzsub">Tarea nueva</small></div><button type="button" class="btn sm" data-pa="undo">Deshacer</button></header>
+  <main class="pzview"><div class="pzseg" role="group" aria-label="Tipo de campo">${PZ_FIELDS.map(([k,l])=>`<button type="button" data-pf="${k}" aria-pressed="${k===T.f}">${l}</button>`).join('')}</div>
+  <svg class="pz pzb" viewBox="0 0 100 64" role="application" aria-label="Campo para dibujar el ejercicio"><defs>${PZ_DEFS}</defs><g class="pzg"></g></svg><div id="pzsel"></div>
+  <p class="pzeb">Jugadores y acciones</p><div class="pzgrid" role="toolbar" aria-label="Jugadores y acciones">${PZ_ACC.map(([k,l])=>tb(k,l,`<svg viewBox="0 0 20 20" width="20" height="20">${pzSw(k)}</svg>`)).join('')}</div>
+  <p class="pzeb">Líneas y formas</p><div class="pzgrid six" role="toolbar" aria-label="Líneas y formas">${PZ_SHP.map(([k,l,s,d])=>tb(k,l,`<svg viewBox="0 0 20 20" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" ${d?'stroke-dasharray="3 2.2"':''}>${s==='line'?'<path d="M3 16L17 4"/>':s==='rect'?'<rect x="3" y="4" width="14" height="12" rx="1"/>':'<circle cx="10" cy="10" r="7"/>'}</svg>`)).join('')}</div>
+  <p class="pzeb">Material</p><div class="pzgrid" role="toolbar" aria-label="Material">${PZ_MT.map(([k,l,z])=>tb(k,l,`<svg viewBox="-4 -4 8 8" width="22" height="22" style="overflow:visible"><g transform="scale(${z})">${PZ_MAT[k].replace(/#fff/g,'currentColor').replace('url(#pznet)','none')}</g></svg>`)).join('')}</div>
+  <label class="pzsz"><b>Tamaño de las fichas</b><input type="range" id="pzpsz" min=".6" max="1.6" step=".1" value="1" aria-label="Tamaño de jugadores, rivales y porteros"><small id="pzpszv">100%</small></label>
+  <p class="pzhint" id="pzhint"></p>
+  <section class="card pzcard"><div class="f"><label for="pzn">Nombre de la tarea</label><input id="pzn" placeholder="Ej.: Rondo 5 contra 2"></div>
+   <div class="pz2"><div class="f"><label for="pzt">Concepto</label><select id="pzt">${CONCEPTS.slice(1).map(x=>`<option ${x==='Posesión'?'selected':''}>${x}</option>`).join('')}</select></div><div class="f"><label for="pzm">Minutos</label><input id="pzm" type="number" min="1" max="90" value="12"></div></div>
+   <div class="f"><label for="pzo">Objetivo</label><textarea id="pzo" rows="2" placeholder="¿Qué quieres que aprendan?"></textarea></div>
+   <div class="f"><label for="pzd">Explicación (opcional)</label><textarea id="pzd" rows="2" placeholder="Cómo se juega la tarea"></textarea></div>
+   <div class="f"><label for="pzk">Puntos clave (opcional, uno por línea)</label><textarea id="pzk" rows="2" placeholder="Perfil abierto para recibir"></textarea></div>
+   ${o.g&&o.g!=='all'?'<div class="f"><label for="pzc">Para qué grupos</label><select id="pzc"><option value="g">Solo este grupo</option><option value="all">Todos los grupos</option></select></div>':''}
+   <p class="muted" id="pze" style="color:var(--bad);min-height:18px;font-size:13px"></p></section>
+  <button type="button" class="btn oro full" data-pa="save">${I('check',18)}Guardar tarea</button></main>`;
+  document.body.appendChild(ov);document.documentElement.style.overflow='hidden';
+  const q=s=>ov.querySelector(s),svg=q('.pzb'),g=q('.pzg'),snap=()=>{undo.push(JSON.stringify(T.els));if(undo.length>50)undo.shift();sure=false;};
+  const barHTML=()=>{const e=T.els[selI];if(!e)return '';const isA=e.t==='a',sh=e.t==='sh',z=e.t==='z',nm={p:'Jugador',r:'Rival',k:'Portero',a:'Flecha',z:'Zona',sh:{line:'Línea',rect:'Cuadrado',circ:'Círculo'}[e.k],...Object.fromEntries(PZ_MT.map(m=>[m[0],m[1]]))}[e.t]||'Elemento',cur=(z?e.zc:e.c)||'#fff',
+     cols=sh||z?`<span class="pzcols" role="group" aria-label="Color">${PZ_COL.map(([c,n])=>`<button type="button" data-pc="${c}" aria-label="${n}" aria-pressed="${cur===c}" style="background:${c}"></button>`).join('')}</span>`:'',b=(a,v,l,t)=>`<button type="button" data-ps="${a}" data-v="${v}" aria-label="${l}">${t}</button>`;
+    return `<div class="pzselb"><b>${nm}</b>${cols}${isA||z?'':b('sz',-1,'Más pequeño','−')+(sh?'':`<small>${Math.round((e.sc||1)*100)}%</small>`)+b('sz',1,'Más grande','+')}${sh?b('dash',0,'Continua o discontinua',e.d?'Disc.':'Cont.'):''}${isA||z||sh||'prkb'.includes(e.t)?'':b('rot',-1,'Girar a la izquierda','↺')+`<small>${e.rot||0}°</small>`+b('rot',1,'Girar a la derecha','↻')}${isA||z?'':b('dup',0,'Duplicar','⧉')}<button type="button" class="del" data-ps="del" data-v="0" aria-label="Borrar">${I('x',16)}</button></div>`;};
+  const draw=tmp=>{const e=T.els[selI];let ring='';if(e&&e.x!==undefined)ring=`<circle cx="${e.x}" cy="${e.y}" r="${4.6*(e.sc||1)*('prk'.includes(e.t)?T.psz:1)}" fill="none" stroke="#fff" stroke-width=".4" stroke-dasharray="1 .8"/>`;g.innerHTML=pzField(T.f)+pzEls(tmp?[...T.els,tmp]:T.els,T.psz)+ring;q('#pzsel').innerHTML=barHTML();};
+  const hint=()=>{q('#pzhint').textContent=PZ_HINT[tool]||'Toca en el campo para colocar. Los jugadores se numeran solos.';};
+  const pt=e=>{const r=svg.getBoundingClientRect(),c=v=>+v.toFixed(1);return {x:c(Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100))),y:c(Math.max(0,Math.min(64,(e.clientY-r.top)/r.height*64)))};};
+  const near=p=>{let b=-1,d=6;T.els.forEach((e,i)=>{const pts=e.x!==undefined?[e]:[{x:(e.x1+e.x2)/2,y:(e.y1+e.y2)/2},{x:e.x1,y:e.y1},{x:e.x2,y:e.y2}];pts.forEach(c=>{const w=Math.hypot(c.x-p.x,c.y-p.y);if(w<d){d=w;b=i;}});});return b;};
+  const shp=Object.fromEntries(PZ_SHP.map(s=>[s[0],s]));
+  svg.addEventListener('pointerdown',e=>{e.preventDefault();const p=pt(e);try{svg.setPointerCapture(e.pointerId);}catch(_){}
+    if(tool==='sel'){selI=near(p);if(selI<0)selI=null;else{snap();drag={i:selI,last:p};}draw();return;}
+    if(tool==='del'){const i=near(p);if(i>=0){snap();T.els.splice(i,1);selI=null;draw();}return;}
+    if(['pase','mov','cond','tiro'].includes(tool)){drag={a:{t:'a',s:tool,x1:p.x,y1:p.y,x2:p.x,y2:p.y}};return;}
+    if(tool==='zona'){drag={a:{t:'z',x1:p.x,y1:p.y,x2:p.x,y2:p.y}};return;}
+    if(shp[tool]){drag={a:{t:'sh',k:shp[tool][2],d:!!shp[tool][3],x1:p.x,y1:p.y,x2:p.x,y2:p.y}};return;}
+    snap();T.els.push({t:tool,x:p.x,y:p.y});draw();});
+  svg.addEventListener('pointermove',e=>{if(!drag)return;const p=pt(e);if(drag.a){drag.a.x2=p.x;drag.a.y2=p.y;draw(drag.a);return;}
+    const m=T.els[drag.i],dx=p.x-drag.last.x,dy=p.y-drag.last.y,r=v=>+v.toFixed(1);if(m.x!==undefined){m.x=r(m.x+dx);m.y=r(m.y+dy);}else{m.x1=r(m.x1+dx);m.y1=r(m.y1+dy);m.x2=r(m.x2+dx);m.y2=r(m.y2+dy);}drag.last=p;draw();});
+  const end=()=>{if(drag&&drag.a&&Math.hypot(drag.a.x2-drag.a.x1,drag.a.y2-drag.a.y1)>2.5){snap();T.els.push(drag.a);}drag=null;draw();};
+  svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+  const close=()=>{ov.remove();document.documentElement.style.overflow='';};
+  const saveT=()=>{const n=q('#pzn').value.trim(),err=q('#pze');if(!n){err.textContent='Escribe el nombre de la tarea.';q('#pzn').focus();return;}if(allLib().some(x=>x.n.toLowerCase()===n.toLowerCase())){err.textContent='Ya existe una tarea con ese nombre.';return;}
+    const all=o.g==='all'||!o.g||q('#pzc').value==='all',t=q('#pzt').value,d=q('#pzd').value.trim(),ob=q('#pzo').value.trim();S.customEx=S.customEx||[];
+    S.customEx.unshift({a:PZ_AREA[t]||'Táctica',c:all?'PBAIC':(CATL[o.g]||'PBAIC'),m:Math.min(90,Math.max(1,+q('#pzm').value||12)),n,d:d||ob,t,o:ob,x:d,k:q('#pzk').value.split(/\n/).map(s=>s.trim()).filter(Boolean),own:true,by:S.me||'',g:all?'all':o.g,f:T.f,els:T.els,psz:T.psz});save();close();toast('Tarea guardada en la biblioteca');if(o.done)o.done(n);};
+  ov.addEventListener('input',e=>{if(e.target.id==='pzn')q('#pzsub').textContent=e.target.value||'Tarea nueva';if(e.target.id==='pzpsz'){T.psz=+e.target.value;q('#pzpszv').textContent=Math.round(T.psz*100)+'%';draw();}});
+  ov.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset,m=T.els[selI];
+    if(d.pf){T.f=d.pf;ov.querySelectorAll('[data-pf]').forEach(c=>c.setAttribute('aria-pressed',c===b));draw();}
+    else if(d.pt){tool=d.pt;selI=null;ov.querySelectorAll('[data-pt]').forEach(c=>c.setAttribute('aria-pressed',c===b));hint();draw();}
+    else if(d.pc&&m){snap();m[m.t==='z'?'zc':'c']=d.pc;draw();}
+    else if(d.ps&&m){snap();const v=+d.v;if(d.ps==='del'){T.els.splice(selI,1);selI=null;}else if(d.ps==='dash')m.d=!m.d;else if(d.ps==='rot')m.rot=((m.rot||0)+v*15+360)%360;
+      else if(d.ps==='dup'){const c=JSON.parse(JSON.stringify(m));['x','y','x1','y1','x2','y2'].forEach(k=>{if(c[k]!==undefined)c[k]=+(c[k]+3).toFixed(1);});T.els.push(c);selI=T.els.length-1;}
+      else if(d.ps==='sz'){if(m.t==='sh'){const cx=(m.x1+m.x2)/2,cy=(m.y1+m.y2)/2,z=1+v*.12;['x1','x2'].forEach(k=>m[k]=+(cx+(m[k]-cx)*z).toFixed(1));['y1','y2'].forEach(k=>m[k]=+(cy+(m[k]-cy)*z).toFixed(1));}else m.sc=Math.min(2.5,Math.max(.5,+((m.sc||1)+v*.1).toFixed(1)));}draw();}
+    else if(d.pa==='undo'&&undo.length){T.els=JSON.parse(undo.pop());selI=null;draw();}
+    else if(d.pa==='save')saveT();
+    else if(d.pa==='close'){if(T.els.length&&!sure){sure=true;toast('Toca otra vez la ✕ para salir sin guardar');return;}close();}});
+  draw();hint();}
