@@ -60,6 +60,6 @@ function pzOpen(o){const T={f:'completo',els:[],psz:1};let tool='p',selI=null,un
       else if(d.ps==='dup'){const c=JSON.parse(JSON.stringify(m));['x','y','x1','y1','x2','y2'].forEach(k=>{if(c[k]!==undefined)c[k]=+(c[k]+3).toFixed(1);});T.els.push(c);selI=T.els.length-1;}
       else if(d.ps==='sz'){if(m.t==='sh'){const cx=(m.x1+m.x2)/2,cy=(m.y1+m.y2)/2,z=1+v*.12;['x1','x2'].forEach(k=>m[k]=+(cx+(m[k]-cx)*z).toFixed(1));['y1','y2'].forEach(k=>m[k]=+(cy+(m[k]-cy)*z).toFixed(1));}else m.sc=Math.min(2.5,Math.max(.5,+((m.sc||1)+v*.1).toFixed(1)));}draw();}
     else if(d.pa==='undo'&&undo.length){T.els=JSON.parse(undo.pop());selI=null;draw();}
-    else if(d.pa==='save')saveT();
+    else if(d.pa==='save')fillGo(b,'ok','Guardando…',()=>{saveT();fillOff(b);});
     else if(d.pa==='close'){if(T.els.length&&!sure){sure=true;toast('Toca otra vez la ✕ para salir sin guardar');return;}close();}});
   draw();hint();}
