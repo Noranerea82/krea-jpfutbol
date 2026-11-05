@@ -1,7 +1,7 @@
 /* JP Fútbol · Pizarra a pantalla entera para crear una tarea. pzOpen({g:grupo o 'all',done:nombre=>...}) */
 const PZ_ACC=[['sel','Mover'],['p','Jugador'],['r','Rival'],['k','Portero'],['pase','Pase'],['tiro','Tiro'],['cond','Conducción'],['mov','Desmarque'],['zona','Zona'],['del','Borrar']];
 const PZ_SHP=[['ln','Línea','line',0],['lnd','Línea discontinua','line',1],['rc','Cuadrado','rect',0],['rcd','Cuadrado discontinuo','rect',1],['ci','Círculo','circ',0],['cid','Círculo discontinuo','circ',1]];
-const PZ_MT=[['b','Balón',1.7],['c','Cono',1.5],['ch','Chino',1.7],['pk','Pica',1],['va','Valla',1.2],['ar','Aro',1.5],['es','Escalera',.55],['m','Miniportería',1],['pg','Portería',.62],['mq','Maniquí',1]];
+const PZ_MT=[['b','Balón',1.7],['c','Cono',1.3],['ch','Chino',1.6],['pk','Pica',1],['va','Valla',1.2],['ar','Aro',1.5],['es','Escalera',.55],['m','Miniportería',1],['pg','Portería',.62],['mq','Maniquí',1]];
 const PZ_FIELDS=[['completo','Campo completo'],['medio','Medio campo'],['area','Área'],['libre','Espacio libre']];
 const PZ_COL=[['#fff','Blanco'],['#E53935','Rojo'],['#FFD43B','Amarillo']];
 const PZ_AREA={Rondo:'Técnico-táctica',Posesión:'Técnico-táctica','Juego de posición':'Técnico-táctica','Técnica individual':'Técnica',Finalización:'Técnico-táctica',Progresión:'Táctica','Ataque organizado':'Táctica',Defensa:'Táctica','Transición ofensiva':'Táctica','Transición defensiva':'Táctica','Balón parado':'Táctica',Decisión:'Decisión',Partido:'Partido',Activación:'Calentamiento',Coordinación:'Físico',Velocidad:'Físico',Fuerza:'Físico',Resistencia:'Físico',Prevención:'Físico',Porteros:'Porteros'};

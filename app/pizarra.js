@@ -2,8 +2,8 @@
    x.f = tipo de campo (libre, medio, area, completo) y x.els = dibujo. Los ejercicios sin dibujo propio reciben uno según su concepto (pzAuto). */
 const PZ_C={own:'#FE7654',riv:'#2E5BD6',gk:'#F4C430',p1:'#286A47',p2:'#245F40',ln:'rgba(255,255,255,.82)'};
 const PZ_MAT={
- c:'<path d="M0 -2.2L2 1.6H-2Z" fill="#FFA51F" stroke="#fff" stroke-width=".3"/>',
- ch:'<ellipse rx="1.5" ry=".75" fill="#FFB020" stroke="#fff" stroke-width=".25"/><ellipse rx=".5" ry=".25" fill="rgba(0,0,0,.25)"/>',
+ c:'<ellipse cy="2.05" rx="2.7" ry=".55" fill="rgba(0,0,0,.28)"/><path d="M-2.2 1.3H2.2L2.75 2.05H-2.75Z" fill="#C94A06"/><path d="M-.32 -2.6Q0 -2.95 .32 -2.6L1.8 1.5Q0 2 -1.8 1.5Z" fill="#FF6A13"/><path d="M.32 -2.6L1.8 1.5Q1.2 1.68 .55 1.72L.02 -2.82Q.2 -2.76 .32 -2.6Z" fill="#D9540B"/><path d="M-1.02 -.6Q0 -.35 1.02 -.6L1.3 .2Q0 .55 -1.3 .2Z" fill="#FFFFFF"/>',
+ ch:'<ellipse cy=".8" rx="2.7" ry=".75" fill="rgba(0,0,0,.28)"/><ellipse cy=".42" rx="2.55" ry=".85" fill="#D98A00"/><path d="M-2.35 .3C-2 -.35 -1.5 -.72 -1.05 -.72H1.05C1.5 -.72 2 -.35 2.35 .3C1.6 .95 -1.6 .95 -2.35 .3Z" fill="#FFC21A"/><path d="M1.05 -.72C1.5 -.72 2 -.35 2.35 .3C1.95 .64 1.4 .78 .95 .84C1.2 .2 1.15 -.3 .7 -.6Z" fill="#E8A200"/><ellipse cy="-.72" rx="1.08" ry=".36" fill="#7A5200"/><ellipse cy="-.66" rx=".82" ry=".24" fill="#2F6B4A"/>',
  pk:'<ellipse cy="2" rx="1" ry=".4" fill="rgba(0,0,0,.25)"/><rect x="-.35" y="-3.4" width=".7" height="5.4" rx=".3" fill="#FFE14D" stroke="#7A5A00" stroke-width=".15"/><rect x="-.35" y="-1.6" width=".7" height=".9" fill="#E8412C"/>',
  b:'<circle r="1.35" fill="#fff" stroke="#123A32" stroke-width=".35"/><circle r=".5" fill="#123A32"/>',
  m:'<rect x="-.8" y="-3" width="1.6" height="6" fill="rgba(255,255,255,.18)" stroke="#fff" stroke-width=".6"/>',
