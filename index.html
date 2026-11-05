@@ -78,6 +78,7 @@ section{position:relative}
 .nav .btn{min-height:44px;padding:0 20px;font-size:14.5px;color:#130F05}
 .burger{display:none;width:46px;height:46px;border-radius:12px;border:1px solid var(--linea);align-items:center;justify-content:center}
 @media (max-width:980px){.nav{display:none}.burger{display:flex}}
+.thm,.burger{border-color:var(--oro);background:color-mix(in srgb,var(--oro) 16%,transparent);color:var(--cal)}.thm svg,.burger svg{width:22px;height:22px;stroke-width:2.2}
 .menu{position:fixed;inset:0;z-index:60;background:var(--noche);display:flex;flex-direction:column;padding:96px 24px 40px;gap:6px;opacity:0;pointer-events:none;transition:opacity .25s}
 .menu.open{opacity:1;pointer-events:auto}
 .menu a{font-family:var(--f-disp);font-size:clamp(24px,7vw,30px);letter-spacing:.02em;text-transform:uppercase;text-decoration:none;padding:6px 0;border-bottom:1px solid var(--linea)}
@@ -198,9 +199,19 @@ html[data-theme=light] .deco-pitch::before{opacity:.20}html[data-theme=light] .d
 .result.show{display:block;animation:pop .35s ease}
 @keyframes pop{from{opacity:0;transform:translateY(8px)}}
 .result small{color:var(--oro-claro);font-weight:700;font-size:13px}
+.result{overflow:hidden;padding:0}.result.show{display:grid;grid-template-columns:minmax(0,38%) minmax(0,1fr)}.result>img{width:100%;height:100%;min-height:220px;object-fit:cover;object-position:50% 20%}.rbody{padding:20px;min-width:0}.rinfo{display:grid;gap:4px;margin-bottom:12px;font-size:14px;color:var(--cal-2)}.rinfo b{font-family:var(--f-disp);font-size:24px;color:var(--oro-claro)}.rhow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}.rhow span{padding:5px 10px;border:1px solid rgba(226,183,70,.4);border-radius:99px;font-size:12.5px;color:var(--cal-2)}.ract{display:flex;flex-wrap:wrap;gap:8px}.ract .btn{flex:1 1 150px;justify-content:center}
+@media (max-width:600px){.result.show{grid-template-columns:minmax(0,1fr)}.result>img{height:200px;min-height:0}}
+.orienta .wrap.posw{display:block;margin-top:clamp(40px,6vw,72px)}.posw h3{font-size:clamp(28px,4vw,42px);text-transform:uppercase;line-height:1}.posw .lead{margin:10px 0 18px}
+.poscards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.posc{position:relative;overflow:hidden;aspect-ratio:4/5;border-radius:16px;border:2px solid var(--linea);padding:0;background:var(--noche);cursor:pointer;text-align:left}.posc img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 20%;transition:transform .4s}.posc:hover{border-color:var(--oro)}.posc:hover img{transform:scale(1.05)}.posc[aria-pressed=true]{border-color:var(--oro);box-shadow:0 0 0 2px var(--oro)}.posc b{position:absolute;left:0;right:0;bottom:0;padding:26px 12px 10px;font-family:var(--f-disp);font-size:20px;text-transform:uppercase;color:#fff;background:linear-gradient(180deg,transparent,rgba(5,5,5,.8))}
+.posdet{margin-top:14px;padding:clamp(16px,3vw,28px);border:1px solid var(--linea);border-radius:22px;background:var(--noche);scroll-margin-top:90px;animation:pop .3s ease}.posd-h{display:grid;grid-template-columns:minmax(0,38%) minmax(0,1fr);gap:clamp(14px,3vw,28px)}.posd-h img{width:100%;height:100%;max-height:340px;object-fit:cover;object-position:50% 20%;border-radius:14px}.posd-h small{color:var(--oro-claro);font-weight:700;font-size:13px}.posd-h h3{margin:6px 0 10px;color:var(--oro)}.posd-h p{color:var(--cal-2);font-size:15.5px;line-height:1.55}.posd-h .pm-how{margin:14px 0 16px}.posd-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}
+@media (max-width:900px){.poscards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-20px;padding-inline:20px;scrollbar-width:none}.posc{flex:0 0 148px;scroll-snap-align:start}.posd-h,.posd-g{grid-template-columns:minmax(0,1fr)}.posd-h img{height:220px}}
 .result h4{font-family:var(--f-disp);font-size:30px;text-transform:uppercase;line-height:1;margin:6px 0 8px}
 .result p{color:var(--cal-2);font-size:15.5px;margin-bottom:16px}
 @media (max-width:900px){.orienta .wrap{grid-template-columns:minmax(0,1fr)}}
+/* Método a todo el ancho en móvil; campo entero de fondo en Encuentra por dónde empezar */
+@media (max-width:900px){.metodo .wrap{grid-template-columns:minmax(0,1fr)}}
+.orienta::before{background-position:center;background-size:cover;opacity:.36}.quiz{background:color-mix(in srgb,var(--noche) 62%,transparent)}
+@media (max-width:900px){.orienta::before{background-size:auto 100%}}
 
 /* ---------- Packs ---------- */
 .packs-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px;margin-bottom:34px}
@@ -410,6 +421,8 @@ footer .krea b{color:var(--oro);font-weight:700}
 .jpb-tip{position:fixed;right:92px;bottom:34px;z-index:45;padding:10px 14px;border-radius:14px 14px 4px 14px;background:#0E0E0C;color:#F8F6EF;font-size:14px;font-weight:600;border:1px solid rgba(226,183,70,.45);box-shadow:0 12px 30px -10px rgba(0,0,0,.6);cursor:pointer;animation:jpbIn .35s ease}
 .jpb{position:fixed;right:22px;bottom:96px;z-index:46;width:min(390px,calc(100vw - 24px));height:min(600px,calc(100vh - 130px));display:flex;flex-direction:column;border-radius:22px;overflow:hidden;background:#0E0E0C;color:#F8F6EF;border:1px solid #2A2822;box-shadow:0 30px 70px -20px rgba(0,0,0,.75);animation:jpbIn .25s ease;font-size:15px}
 .jpb[hidden],.jpb-tip[hidden]{display:none}
+@media (max-width:980px){.jpb-tip{display:none!important}}
+#bk .row2{grid-template-columns:repeat(2,minmax(0,1fr))}#bk .field input,#bk .field select{width:100%;min-width:0}#bk .sheet{overflow-x:hidden}
 @keyframes jpbIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .jpb-h{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,#2B2410,#121210 70%);border-bottom:1px solid rgba(226,183,70,.3)}
 .jpb-h img{width:40px;height:40px;border-radius:12px;background:#050505}.jpb-h div{flex:1;min-width:0}.jpb-h b{display:block;font-size:15.5px}
@@ -711,17 +724,27 @@ html.locked #gate{display:flex}
     <div class="quiz rv" id="quiz">
       <div class="q"><span>Edad de quien entrena</span><div class="opts" data-q="edad">
         <button class="opt" data-v="6-9">6 a 9 años</button><button class="opt" data-v="10-13">10 a 13</button><button class="opt" data-v="14-17">14 a 17</button><button class="opt" data-v="18+">18 o más</button></div></div>
-      <div class="q"><span>Posición habitual <em>Toca para ver qué trabajamos</em></span><div class="opts" data-q="pos">
+      <div class="q"><span>Posición habitual</span><div class="opts" data-q="pos">
         <button class="opt" data-v="Portería">Portería</button><button class="opt" data-v="Defensa">Defensa</button><button class="opt" data-v="Centrocampo">Centrocampo</button><button class="opt" data-v="Delantera">Delantera</button><button class="opt" data-v="Por definir">Por definir</button></div></div>
-      <div class="q"><span>¿Qué quiere mejorar?</span><div class="opts" data-q="obj">
-        <button class="opt" data-v="tec">Control, pase o golpeo</button><button class="opt" data-v="fis">Velocidad, fuerza o coordinación</button><button class="opt" data-v="por">Posición, reacción o blocaje</button><button class="opt" data-v="dud">Aún no lo tengo claro</button></div></div>
-      <div class="result" id="result" aria-live="polite">
-        <small>Te recomendamos</small>
-        <h4 id="rTitle"></h4>
-        <p id="rText"></p>
-        <button class="btn btn-oro" id="rBook">Reservar este pack</button>
+      <div class="q"><span>¿Cuántos días quiere entrenar?</span><div class="opts" data-q="obj">
+        <button class="opt" data-v="1">1 día a la semana</button><button class="opt" data-v="2">2 días</button><button class="opt" data-v="3">3 días</button><button class="opt" data-v="dud">Aún no lo sé</button></div></div><div class="result" id="result" aria-live="polite">
+        <img id="rImg" alt="">
+        <div class="rbody">
+          <small>Te recomendamos</small>
+          <h4 id="rTitle"></h4>
+          <p id="rText"></p>
+          <div class="rinfo" id="rInfo"></div>
+          <div class="rhow" id="rHow"></div>
+          <div class="ract"><button class="btn btn-oro" id="rBook">Reservar plaza</button><button class="btn btn-linea" id="rMore" type="button">Ver qué trabajamos</button></div>
+        </div>
       </div>
     </div>
+  </div>
+  <div class="wrap posw rv">
+    <h3 class="disp">Qué trabajamos en cada puesto</h3>
+    <p class="lead">Toca un puesto y te contamos cómo lo entrenamos.</p>
+    <div class="poscards" id="posCards"></div>
+    <div class="posdet" id="posDet" hidden></div>
   </div>
 </section>
 
@@ -865,14 +888,6 @@ html.locked #gate{display:flex}
   <button class="nav-b next-b" id="lbNext" aria-label="Foto siguiente"><svg class="ico" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
 </div>
 <!-- Ficha por posición -->
-<div class="modal pm" id="pm" role="dialog" aria-modal="true" aria-labelledby="pmT">
-  <div class="sheet">
-    <button class="x" data-close aria-label="Cerrar"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <div class="pm-hero"><img id="pmImg" alt=""><div class="pm-head"><small id="pmTag"></small><h3 id="pmT"></h3></div></div>
-    <div class="pm-body" id="pmBody"></div>
-    <div class="pm-act"><button class="btn btn-oro" id="pmBook" data-close>Reservar plaza</button><button class="btn btn-linea" id="pmNext" data-close>Seguir con el test</button></div>
-  </div>
-</div>
 <!-- Vídeo -->
 <div class="modal vm" id="vm" role="dialog" aria-modal="true" aria-label="Vídeo">
   <button class="x" data-close aria-label="Cerrar"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -920,6 +935,10 @@ html.locked #gate{display:flex}
     <div class="row2">
       <div class="field"><label for="fPos">Posición</label><select id="fPos"><option>Por definir</option><option>Portería</option><option>Defensa</option><option>Centrocampo</option><option>Delantera</option></select></div>
       <div class="field"><label for="fTutor">Madre, padre o tutor</label><input id="fTutor" autocomplete="name"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="fPie">Pierna hábil</label><select id="fPie"><option>Derecha</option><option>Izquierda</option><option>Las dos</option><option>Por definir</option></select></div>
+      <div class="field"><label for="fClub">Club o equipos anteriores (opcional)</label><input id="fClub" autocomplete="off" maxlength="80"></div>
     </div>
     <p class="err" id="bkErr" role="alert"></p>
     <button class="btn btn-oro" type="submit"><svg class="ico" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg>Enviar reserva por WhatsApp</button>
@@ -1049,7 +1068,7 @@ $('#bkForm').onsubmit=e=>{
   if(!/^\d{1,2}$/.test(age)){$('#bkErr').textContent='Escribe la edad en números, por ejemplo 11.';$('#fAge').focus();return;}
   if(!days.length){$('#bkErr').textContent='Elige al menos un día que te venga bien.';return;}
   const per=PACKS.find(p=>p.id===fPack.value)?` (pago ${period==='m'?'mensual':'trimestral'})`:'';
-  const msg=`Hola JP Fútbol, quiero reservar plaza.\n\nPack: ${fPack.value}${per}\nJugador/a: ${name}, ${age} años\nPosición: ${$('#fPos').value}\nDías preferidos: ${days.join(', ')}${tutor?`\nContacto: ${tutor}`:''}`;
+  const msg=`Hola JP Fútbol, quiero reservar plaza.\n\nPack: ${fPack.value}${per}\nJugador/a: ${name}, ${age} años\nPosición: ${$('#fPos').value}\nPierna hábil: ${$('#fPie').value}${$('#fClub').value.trim()?`\nClub: ${$('#fClub').value.trim()}`:''}\nDías preferidos: ${days.join(', ')}${tutor?`\nContacto: ${tutor}`:''}`;
   window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank','noopener');
 };
 
@@ -1085,21 +1104,28 @@ const POS={
   tac:[['Orientación en el campo','Saber dónde está el balón, los compañeros y el rival.'],['Desmarque y apoyo','Moverse para recibir y ayudar al equipo.'],['Defensa individual','Perfil, marcaje y ayuda al compañero o compañera.'],['Transiciones','Reaccionar rápido al ganar o perder el balón.']],
   how:['Rotación por puestos','Juegos reducidos','Valoración del míster','Sesión de prueba']}
 };
-function openPos(k){const d=POS[k];if(!d)return;
-  $('#pmImg').src=`assets/img/${d.img}.webp`;$('#pmTag').textContent=d.tag;$('#pmT').textContent=k==='Por definir'?'Por definir':k;
-  const li=a=>a.map(([b,t])=>`<li><div><b>${b}</b><span>${t}</span></div></li>`).join('');
-  $('#pmBody').innerHTML=`<p>${d.intro}</p><div class="pm-blk"><h4>Técnica individual</h4><ul>${li(d.tec)}</ul></div><div class="pm-blk"><h4>Táctica individual</h4><ul>${li(d.tac)}</ul></div><div class="pm-blk"><h4>Cómo lo entrenamos</h4><div class="pm-how">${d.how.map(h=>`<span>${h}</span>`).join('')}</div></div>`;
-  $('#pmBook').dataset.book=d.book;$('#pm .sheet').scrollTop=0;openM('#pm');}
-$$('.opts[data-q="pos"] .opt').forEach(b=>b.addEventListener('click',()=>openPos(b.dataset.v)));
-$('#pmNext').addEventListener('click',()=>setTimeout(()=>$('.opts[data-q="obj"]').scrollIntoView({behavior:'smooth',block:'center'}),260));
+/* Puestos en fila: al tocar uno se abre debajo lo que trabajamos en ese puesto */
+$('#posCards').innerHTML=Object.keys(POS).map(k=>`<button type="button" class="posc" data-pos="${k}" aria-pressed="false"><img loading="lazy" src="assets/img/${POS[k].img}.webp" alt=""><b>${k}</b></button>`).join('');
+function openPos(k,ir){const d=POS[k];if(!d)return;const box=$('#posDet'),li=a=>a.map(([b,t])=>`<li><div><b>${b}</b><span>${t}</span></div></li>`).join('');
+  $$('.posc').forEach(c=>c.setAttribute('aria-pressed',c.dataset.pos===k));
+  box.innerHTML=`<div class="posd-h"><img src="assets/img/${d.img}.webp" alt="${d.tag}"><div><small>${d.tag}</small><h3 class="disp">${k}</h3><p>${d.intro}</p><div class="pm-how">${d.how.map(h=>`<span>${h}</span>`).join('')}</div><button class="btn btn-oro" data-book="${d.book}">Reservar plaza</button></div></div><div class="posd-g"><div class="pm-blk"><h4>Técnica individual</h4><ul>${li(d.tec)}</ul></div><div class="pm-blk"><h4>Táctica individual</h4><ul>${li(d.tac)}</ul></div></div>`;
+  box.hidden=false;if(ir)box.scrollIntoView({behavior:'smooth',block:'start'});}
+$('#posCards').addEventListener('click',e=>{const c=e.target.closest('.posc');if(!c)return;if(c.getAttribute('aria-pressed')==='true'){c.setAttribute('aria-pressed','false');$('#posDet').hidden=true;return;}openPos(c.dataset.pos,true);});
 function recommend(){
   if(!ans.edad||!ans.pos||!ans.obj)return;
   let t,x,pack;
-  if(ans.pos==='Portería'||ans.obj==='por'){t='Porteros';x='Entrenamiento específico de portería: posición base, reacción y blocaje, dos días por semana.';pack='Porteros';}
-  else if(ans.obj==='fis'){t='Pack completo';x='Técnica y preparación física combinadas para ganar velocidad, fuerza y coordinación sin perder el balón.';pack='Pack completo';}
+  const pu=ans.pos==='Por definir'?'cualquier posición':ans.pos.toLowerCase();
+  if(ans.pos==='Portería'){t='Porteros';x='Entrenamiento específico de portería: posición base, reacción y blocaje, dos días por semana.';pack='Porteros';}
   else if(ans.obj==='dud'){t='Sesión de prueba';x='Ven a una sesión de captación abierta: el míster valora el punto de partida y te recomienda el grupo.';pack='Sesión de prueba';}
-  else{t=ans.edad==='6-9'?'Tecnificación · Inicio':'Tecnificación · Progreso';x=`Trabajo de control, pase y golpeo en grupo reducido, pensado para ${ans.pos==='Por definir'?'cualquier posición':ans.pos.toLowerCase()}.`;pack=ans.edad==='6-9'?'Tecnificación 1 día':'Tecnificación 2 días';}
-  $('#rTitle').textContent=t;$('#rText').textContent=x;$('#rBook').dataset.book=pack;$('#result').classList.add('show');
+  else if(ans.obj==='3'){t='Pack completo';x=`Dos días de tecnificación y uno de preparación física, pensado para ${pu}.`;pack='Pack completo';}
+  else if(ans.obj==='2'){t='Tecnificación · Progreso';x=`Dos días de tecnificación en grupo reducido, pensado para ${pu}.`;pack='Tecnificación 2 días';}
+  else{t='Tecnificación · Inicio';x=`Un día de tecnificación a la semana en grupo reducido, pensado para ${pu}.`;pack='Tecnificación 1 día';}
+  const pk0=pack==='Porteros'?'Portería':ans.pos,d=POS[pk0]||POS['Por definir'],pk=PACKS.find(p=>p.id===pack);
+  $('#rImg').src=`assets/img/${d.img}.webp`;$('#rImg').alt=d.tag;$('#rTitle').textContent=t;$('#rText').textContent=x;
+  $('#rInfo').innerHTML=pk?`<span><b>${pk.m} €</b> al mes</span><span>${pk.feats[0]}</span><span>Lunes a jueves · 20:00 a 21:30</span>`:'<span><b>Sin compromiso</b></span><span>Lunes a jueves · 20:00 a 21:30</span>';
+  $('#rHow').innerHTML=d.how.slice(0,3).map(h=>`<span>${h}</span>`).join('');
+  $('#fPos').value=ans.pos;$('#fAge').placeholder=ans.edad;$('#rBook').dataset.book=pack;$('#rBook').textContent=pk?'Reservar plaza':'Pedir sesión de prueba';$('#rMore').onclick=()=>openPos(pk0,true);
+  const r=$('#result'),nuevo=!r.classList.contains('show');r.classList.add('show');if(nuevo)setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'center'}),120);
 }
 </script>
 <script>document.addEventListener('click',e=>{const b=e.target.closest('[data-theme-toggle]');if(!b)return;const r=document.documentElement;const l=r.getAttribute('data-theme')!=='light';if(l)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');try{localStorage.setItem('jp-theme',l?'light':'dark')}catch(_){}});</script>
