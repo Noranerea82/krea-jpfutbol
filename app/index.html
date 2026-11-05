@@ -1756,7 +1756,7 @@ function demoExtras(){if(XS===S)return;XS=S;let ch=false;
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
   if(a==='ciPick'){CIT[t.dataset.k]=+t.dataset.v;rerender();return;}
   if(a==='ciEdit'){CIED=true;CIT=null;rerender();return;}
-  if(a==='ciSend'){if(!CIT.s||!CIT.e||!CIT.d||!CIT.t){toast('Marca las cuatro respuestas');return;}const p=P(S.kid);(ciAll()[CIT.day]=ciAll()[CIT.day]||{})[p.id]={s:CIT.s,e:CIT.e,d:CIT.d,t:CIT.t,nota:CIT.d<3?CIT.nota.trim():'',at:new Date().toISOString()};CIED=false;CIT=null;save();rerender();toast('Enviado al míster');return;}
+  if(a==='ciSend'){if(!CIT.s||!CIT.e||!CIT.d||!CIT.t){toast('Marca las cuatro respuestas');return;}fillGo(t,'ok','Enviando…',()=>{const p=P(S.kid);(ciAll()[CIT.day]=ciAll()[CIT.day]||{})[p.id]={s:CIT.s,e:CIT.e,d:CIT.d,t:CIT.t,nota:CIT.d<3?CIT.nota.trim():'',at:new Date().toISOString()};CIED=false;CIT=null;save();rerender();toast('Enviado al míster');});return;}
   if(a==='ciAway'){ciAwaySheet(P(S.kid));return;}
   if(a==='ciRemind'){toast(`Recordatorio enviado a ${t.dataset.n==='1'?'1 familia':t.dataset.n+' familias'}`);return;}
   if(a==='sugX'){const d=todayName();S.sugOff=S.sugOff||{};(S.sugOff[d]=S.sugOff[d]||[]).push(t.dataset.k);save();rerender();return;}

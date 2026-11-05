@@ -203,6 +203,7 @@ html[data-theme=light] .deco-pitch::before{opacity:.20}html[data-theme=light] .d
 @media (max-width:600px){.result.show{grid-template-columns:minmax(0,1fr)}.result>img{height:200px;min-height:0}}
 /* Encuentra por dónde empezar: título arriba y cuadro ancho debajo */
 .orienta .wrap:not(.posw){grid-template-columns:minmax(0,1fr);gap:24px}.orienta .wrap:not(.posw)>.rv:first-child{max-width:760px}
+.filling{position:relative;overflow:hidden;isolation:isolate;color:#fff!important;border-color:transparent!important;background:rgba(127,127,127,.25)!important}.filling::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;z-index:-1;animation:fillw 1200ms linear forwards}.fok::before{background:#2FA56A}@keyframes fillw{to{width:100%}}
 #result{scroll-margin-top:96px}
 .quiz{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 28px;align-items:start}.quiz .q{margin:0;min-width:0}.quiz .result{grid-column:1/-1;margin-top:8px}
 .result.show{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.result>img{height:100%;min-height:340px;object-position:50% 35%}
@@ -1066,8 +1067,11 @@ const fPack=$('#fPack');
 fPack.innerHTML=[...PACKS.map(p=>p.id),'Sesión de prueba'].map(x=>`<option>${x}</option>`).join('');
 document.addEventListener('click',e=>{const b=e.target.closest('[data-book]');if(!b)return;fPack.value=b.dataset.book;$('#bkErr').textContent='';openM('#bk');});
 $$('#fDays .opt').forEach(b=>b.onclick=()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true'));
+/* Enviar se llena de verde antes de abrir WhatsApp. Tocar otra vez lo cancela */
+let bkT=0;const bkB=$('#bkForm button[type=submit]'),bkOff=()=>{bkT=0;bkB.classList.remove('filling','fok');bkB.innerHTML=bkB.dataset.orig;};
 $('#bkForm').onsubmit=e=>{
   e.preventDefault();
+  if(bkT){clearTimeout(bkT);bkOff();return;}
   const name=$('#fName').value.trim(), age=$('#fAge').value.trim(), tutor=$('#fTutor').value.trim();
   const days=$$('#fDays .opt[aria-pressed="true"]').map(b=>b.dataset.v);
   if(!name){$('#bkErr').textContent='Escribe el nombre del jugador o jugadora.';$('#fName').focus();return;}
@@ -1075,7 +1079,8 @@ $('#bkForm').onsubmit=e=>{
   if(!days.length){$('#bkErr').textContent='Elige al menos un día que te venga bien.';return;}
   const per=PACKS.find(p=>p.id===fPack.value)?` (pago ${period==='m'?'mensual':'trimestral'})`:'';
   const msg=`Hola JP Fútbol, quiero reservar plaza.\n\nPack: ${fPack.value}${per}\nJugador/a: ${name}, ${age} años\nPosición: ${$('#fPos').value}\nPierna hábil: ${$('#fPie').value}${$('#fClub').value.trim()?`\nClub: ${$('#fClub').value.trim()}`:''}\nDías preferidos: ${days.join(', ')}${tutor?`\nContacto: ${tutor}`:''}`;
-  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank','noopener');
+  const url=`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;$('#bkErr').textContent='';bkB.dataset.orig=bkB.innerHTML;bkB.classList.add('filling','fok');bkB.textContent='Preparando tu reserva…';
+  bkT=setTimeout(()=>{bkOff();const w=window.open(url,'_blank');if(w)w.opener=null;else location.href=url;},1200);
 };
 
 /* Orientador */
