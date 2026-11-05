@@ -90,11 +90,12 @@ input,select,textarea{font:inherit;color:var(--cal)}
 .side a.on{background:rgba(226,183,70,.12);color:var(--oro2)}
 .side .end{margin-top:auto;display:grid;gap:6px}
 .main{min-width:0;padding:26px clamp(16px,3vw,40px) calc(110px + var(--sb))}
-.topbar{display:none}
+.topbar{display:none}.mbk{display:none}
 .tabbar{display:none}
 @media (max-width:900px){
   .shell{grid-template-columns:minmax(0,1fr)}
-  .side{display:none}
+  .side{position:fixed;left:0;top:0;bottom:0;z-index:60;width:min(300px,84vw);height:auto;overflow-y:auto;padding-top:calc(18px + var(--st));padding-bottom:calc(18px + var(--sb));transform:translateX(-102%);visibility:hidden;transition:transform .22s,visibility .22s}.side.open{transform:none;visibility:visible}
+  .mbk{display:block;position:fixed;inset:0;z-index:59;border:0;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .22s}.mbk.open{opacity:1;pointer-events:auto}
   .topbar{display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;padding:calc(10px + var(--st)) 16px 10px;background:rgba(5,5,5,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--linea)}
   .topbar img{width:36px;height:36px;border-radius:9px}
   .topbar .t{font-family:var(--fd);text-transform:uppercase;font-size:18px;letter-spacing:.03em}
@@ -596,6 +597,7 @@ const I=(n,s=20)=>`<svg class="ico" style="width:${s}px;height:${s}px" viewBox="
  cal:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
  card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
  chart:'<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
+ menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
  bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
  dl:'<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>',
  lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
@@ -776,7 +778,7 @@ function shell(content,route){
    <aside class="side"><div class="who"><img class="tlogo" src="assets/logo-round.webp" alt="JP Fútbol"><div>${who}</div></div><button class="bell side-bell ${bellN()?'on':''}" data-act="bell">${I('bell',18)}<span>Notificaciones</span>${bellN()?`<i>${bellN()}</i>`:''}</button>
     ${nav.map(([k,t,i])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i)}${t}</a>`).join('')}
     <div class="end"><a href="#" data-act="help" data-tab="asis">${I('help')}Asistente y ayuda</a><a href="#" data-act="help" data-tab="chat">${I('chat')}Mensajes${msgBadge()?`<em>${msgBadge()}</em>`:''}</a><a href="#" data-act="help" data-tab="contacto">${I('phone')}Contacto del club</a><a href="#" data-act="theme" class="thm">${THM}<span>Modo claro / oscuro</span></a>${isStandalone()?'':`<a href="#" data-act="install">${I('dl')}Instalar la app</a>`}<a href="${WEB}">${I('globe')}Web de JP Fútbol</a><a href="#" data-act="ajustes">${I('cog')}Ajustes y notificaciones</a><a href="#" data-act="reset">${I('reset')}Reiniciar demo</a><a href="#" data-act="logout">${I('out')}Salir</a></div></aside>
-   <div><header class="topbar"><div style="display:flex;gap:10px;align-items:center"><img class="tlogo" src="assets/logo-round.webp" alt="JP Fútbol"><div class="tbt"><span class="t">${S.role==='mister'?'Míster '+S.me:P(S.kid).name.split(' ')[0]}</span><small>${S.role==='mister'?'Equipo técnico':'Área familias'}</small></div></div><div style="display:flex;gap:8px"><button class="btn sm thm" data-act="theme" aria-label="Modo claro u oscuro">${THM}</button>${isStandalone()?'':`<button class="btn sm" data-act="install" aria-label="Instalar la app">${I('dl',18)}</button>`}<button class="btn sm bell ${bellN()?'on':''}" data-act="bell" aria-label="Notificaciones">${I('bell',18)}${bellN()?`<i>${bellN()}</i>`:''}</button><button class="btn sm salir" data-act="logout" aria-label="Salir de la app" title="Salir">${I('out',18)}</button></div></header>
+   <button class="mbk" data-act="menuX" aria-label="Cerrar el menú"></button><div><header class="topbar"><div style="display:flex;gap:10px;align-items:center"><button class="btn sm mnub" data-act="menu" aria-label="Abrir el menú">${I('menu',20)}</button><img class="tlogo" src="assets/logo-round.webp" alt="JP Fútbol"><div class="tbt"><span class="t">${S.role==='mister'?'Míster '+S.me:P(S.kid).name.split(' ')[0]}</span><small>${S.role==='mister'?'Equipo técnico':'Área familias'}</small></div></div><div style="display:flex;gap:8px"><button class="btn sm thm" data-act="theme" aria-label="Modo claro u oscuro">${THM}</button>${isStandalone()?'':`<button class="btn sm" data-act="install" aria-label="Instalar la app">${I('dl',18)}</button>`}<button class="btn sm bell ${bellN()?'on':''}" data-act="bell" aria-label="Notificaciones">${I('bell',18)}${bellN()?`<i>${bellN()}</i>`:''}</button><button class="btn sm salir" data-act="logout" aria-label="Salir de la app" title="Salir">${I('out',18)}</button></div></header>
    <main class="main pf pf-${(location.hash.replace('#/','').split('/')[0])||route}">${content}<p class="krea-sig">© 2026 <b>KREA Digital Studio</b><span class="ks2"><i> · </i>Diseño y desarrollo</span></p></main></div></div>
    <nav class="tabbar" aria-label="Secciones">${nav.map(([k,t,i,sh])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i,22)}${sh}</a>`).join('')}<a href="#" data-act="ajustes" aria-label="Ajustes">${I('cog',22)}Ajustes</a></nav>
    <button class="fab" data-act="help" aria-label="Ayuda, mensajes y contacto" title="Ayuda, mensajes y contacto">${I('help',26)}${msgBadge()?`<i>${msgBadge()}</i>`:''}</button>`;
@@ -1640,6 +1642,9 @@ function useEx(name){const x=allLib().find(e=>e.n===name);if(!x)return;const b=d
   const sq=$('#sq');sq.value=name;sq.dispatchEvent(new Event('input'));const it=[...$$('#slist [data-ex]')].find(e=>e.dataset.ex===name);if(it&&!it.classList.contains('on'))it.querySelector('.add').click();
   sq.value='';sq.dispatchEvent(new Event('input'));toast('Añadido: elige el día y guarda la sesión');}
 let bAge='all',bConc='Todos',bQ='',bMax=48;
+/* Menú de tres rayas del móvil: es el menú lateral del ordenador. Se cierra al elegir algo */
+function menuX(){$$('.side,.mbk').forEach(e=>e.classList.remove('open'));}
+document.addEventListener('click',e=>{if(e.target.closest('.side a,.side button'))menuX();});
 function vBiblio(){const AG={all:'Todas las edades',P:'Prebenjamín',B:'Benjamín',A:'Alevín',I:'Infantil',C:'Cadete y juvenil'};
   const fq=x=>!bQ||(x.n+' '+(x.d||'')+' '+(x.o||'')+' '+(x.t||'')+' '+x.a).toLowerCase().includes(bQ.toLowerCase()),fc=x=>bConc==='Todos'||inConc(x,bConc);
   let L=allLib().filter(x=>(bAge==='all'||x.own||(x.c||'').includes(bAge))&&fc(x)&&fq(x)),otras=false;
@@ -1772,6 +1777,8 @@ document.addEventListener('click',e=>{
   if(a==='newPlayer'){newPlayerSheet();}
   if(a==='pay'){payFlow(P(S.kid));}
   if(a==='theme'){e.preventDefault();toggleTheme();return;}
+  if(a==='menu'){$('.side').classList.add('open');$('.mbk').classList.add('open');return;}
+  if(a==='menuX'){menuX();return;}
   if(a==='avisos'){avSheet();return;}
   if(a==='ntMore'){SUGO=!SUGO;rerender();return;}
   if(a==='bell'){closeSheet();const h='#/'+(S.role==='familia'?'inicio':'hoy'),go=()=>{const w=$('#ntw');if(!w)return;w.scrollIntoView({behavior:'smooth',block:'center'});w.classList.remove('ntflash');void w.offsetWidth;w.classList.add('ntflash');};if(location.hash===h)go();else{location.hash=h;setTimeout(go,300);}return;}
