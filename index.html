@@ -1112,7 +1112,7 @@ function openPos(k,ir){const d=POS[k];if(!d)return;const box=$('#posDet'),li=a=>
   box.hidden=false;if(ir)box.scrollIntoView({behavior:'smooth',block:'start'});}
 $('#posCards').addEventListener('click',e=>{const c=e.target.closest('.posc');if(!c)return;if(c.getAttribute('aria-pressed')==='true'){c.setAttribute('aria-pressed','false');$('#posDet').hidden=true;return;}openPos(c.dataset.pos,true);});
 /* Foto de cada resultado del test, distinta de las de los puestos */
-const PACKFOTO={'Tecnificación 1 día':'tecnificacion-01','Tecnificación 2 días':'tecnificacion-03','Pack completo':'preparacion-03','Sesión de prueba':'preparacion-05','Porteros':'porteros-02-joven'};
+const PACKFOTO={'Tecnificación 1 día':'tecnificacion-01','Tecnificación 2 días':'tecnificacion-03','Pack completo':'preparacion-03','Sesión de prueba':'preparacion-05','Porteros':'porteros-01'};
 function recommend(){
   if(!ans.edad||!ans.pos||!ans.obj)return;
   let t,x,pack;
