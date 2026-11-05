@@ -699,7 +699,7 @@ function nextTrainDate(){const x=new Date();while(x.getDay()<1||x.getDay()>4)x.s
 
 /* ---------- Utilidades UI ---------- */
 function toast(t){const el=$('#toast');el.innerHTML=I('check',18)+t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2200);}
-function sheet(html){$('#sheetBox').classList.remove('wide','vt-box');$('#sheetBox').innerHTML=`<button class="x" data-close aria-label="Cerrar">${I('x')}</button>`+html;$('#sheet').classList.add('open');setTimeout(()=>$('#sheetBox [data-close]').focus(),40);}
+function sheet(html){$('#sheetBox').classList.remove('wide','vt-box');$('#sheetBox').innerHTML=`<button class="x" data-close aria-label="Cerrar">${I('x')}</button>`+html;$('#sheetBox').scrollTop=0;$('#sheet').classList.add('open');setTimeout(()=>{const x=$('#sheetBox [data-close]');if(x)x.focus({preventScroll:true});},40);}
 function closeSheet(){$('#sheet').classList.remove('open');$$('#sheetBox video').forEach(v=>v.pause());}
 $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet'||e.target.closest('[data-close]'))closeSheet();});
 addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();});
@@ -1263,7 +1263,7 @@ function ntHelp(){const ua=navigator.userAgent,ios=/iPhone|iPad|iPod/.test(ua),i
   const pasos=ios?['Abre los <b>Ajustes</b> del iPhone','Entra en <b>Notificaciones</b>','Busca <b>JP Fútbol</b> y activa <b>Permitir notificaciones</b>']
    :inst?['Mantén pulsado el icono de <b>JP Fútbol</b> en tu móvil','Pulsa <b>Información de la aplicación</b> (la «i»)','Entra en <b>Notificaciones</b> y actívalas']
    :['Pulsa el icono que hay a la izquierda de la dirección web, arriba (<b>candado</b> o <b>ajustes</b>)','Entra en <b>Permisos</b> o <b>Configuración del sitio</b>','En <b>Notificaciones</b>, elige <b>Permitir</b>'];
-  return `<b style="color:var(--cal)">Las notificaciones están bloqueadas en este móvil.</b> Para activarlas:</p><ol class="ntsteps">${pasos.map(x=>`<li>${x}</li>`).join('')}<li>Vuelve aquí y activa <b>Recibir notificaciones</b></li></ol><p class="hnote">Si estás probando desde un ordenador o desde una ventana de vista previa, ábrela en el móvil: algunos navegadores bloquean siempre las notificaciones.`;}
+  return `<b style="color:var(--cal)">Las notificaciones están bloqueadas en este móvil.</b> Para activarlas:</p><ol class="ntsteps">${pasos.map(x=>`<li>${x}</li>`).join('')}<li>Vuelve a la app: ya te llegarán los avisos al móvil</li></ol><p class="hnote">Si estás probando desde un ordenador o desde una ventana de vista previa, ábrela en el móvil: algunos navegadores bloquean siempre las notificaciones.`;}
 const ntOn=()=>!!(S.cfg&&S.cfg.nt)&&'Notification' in window&&Notification.permission==='granted';
 /* ---------- Contraseñas (versión de prueba: se guardan cifradas solo en este móvil) ---------- */
 async function hashPw(t){const s='jp·'+t;try{if(crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}}catch(_){}let h=0;for(const ch of s)h=(h*31+ch.charCodeAt(0))|0;return 'x'+h;}
@@ -1320,9 +1320,9 @@ function ajustesSheet(){const c=S.cfg=S.cfg||{},fam=S.role==='familia',p=fam?P(S
   <div class="setc"><button type="button" class="setr setb" data-aj="pw"><div><b>${has?'Cambiar contraseña':'Crear contraseña'}</b><small>${has?'Tienes contraseña en este móvil':'Ahora se entra sin contraseña en este móvil'}</small></div>${I('lock',18)}</button>
    <button type="button" class="setr setb" data-aj="logout"><div><b>Cerrar sesión</b><small>Volver a la pantalla de entrada</small></div>${I('out',18)}</button></div>
   <h3 class="seth">${I('bell',16)}Notificaciones</h3>
-  <div class="setc">${swH('nt',on,'Recibir notificaciones','Te avisamos al momento de lo nuevo')}
-  ${swH('ntMsg',c.ntMsg!==false,fam?'Mensajes del míster':'Mensajes de las familias','Cuando te escriben en Mensajes',!on)}
-  ${fam?swH('ntAv',c.ntAv!==false,'Avisos del club','Sesión suspendida, cambios de horario, recordatorios',!on):swH('ntLista',!!c.ntLista,'Recordatorio para pasar lista','A las 20:00 los días de entrenamiento')}
+  <div class="setc">${swH('nt',!!c.nt,'Recibir notificaciones','Te avisamos al momento de lo nuevo')}
+  ${swH('ntMsg',c.ntMsg!==false,fam?'Mensajes del míster':'Mensajes de las familias','Cuando te escriben en Mensajes')}
+  ${fam?swH('ntAv',c.ntAv!==false,'Avisos del club','Sesión suspendida, cambios de horario, recordatorios'):swH('ntLista',!!c.ntLista,'Recordatorio para pasar lista','A las 20:00 los días de entrenamiento')}
   ${on?`<button type="button" class="lnk" data-ntest>Enviar una notificación de prueba</button>`:''}</div>
   <p class="hnote">${!sup?'Este navegador no permite notificaciones. En iPhone, primero añade la app a la pantalla de inicio (Compartir › Añadir a pantalla de inicio) y ábrela desde ahí.':perm==='denied'?ntHelp():'Llegan cuando la app está abierta o en segundo plano. En la versión final llegarán también con la app cerrada, como en WhatsApp.'}</p>
   <h3 class="seth">${I('cog',16)}Apariencia y app</h3>
@@ -1342,12 +1342,14 @@ function ajustesSheet(){const c=S.cfg=S.cfg||{},fam=S.role==='familia',p=fam?P(S
   $('#ajs').onclick=ajClick;
   const ff=$('#famf');if(ff)ff.onsubmit=ev=>{ev.preventDefault();const t=$('#fp').value.trim(),m=$('#fm').value.trim();if(t&&!/^[+\d][\d\s]{8,14}$/.test(t))return $('#fe').textContent='Revisa el teléfono.';if(m&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))return $('#fe').textContent='Revisa el correo.';p.fam={tutor:$('#ft').value.trim(),tel:t,mail:m};save();$('#fe').textContent='';toast('Datos de la familia guardados');};
   const mf=$('#misf');if(mf)mf.onsubmit=ev=>{ev.preventDefault();const t=$('#mp').value.trim(),m=$('#mm').value.trim();if(t&&!/^[+\d][\d\s]{8,14}$/.test(t))return $('#me').textContent='Revisa el teléfono.';if(m&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))return $('#me').textContent='Revisa el correo.';if(m&&allMisters().some(n=>n!==S.me&&(((S.prof||{})['m:'+n]||{}).mail||'').toLowerCase()===m.toLowerCase()))return $('#me').textContent='Ese correo ya lo usa otro míster.';Object.assign(prof(),{tel:t,mail:m});save();$('#me').textContent='';toast('Perfil guardado');};}
+/* Vuelve a pintar Ajustes sin perder el punto de la pantalla donde estaba la persona */
+function ajKeep(){const sc=e=>{for(;e&&e!==document.body;e=e.parentElement)if(e.scrollHeight>e.clientHeight+1&&/auto|scroll/.test(getComputedStyle(e).overflowY))return e;return null;},a=sc($('#ajs')),y=a?a.scrollTop:0;ajustesSheet();const b=sc($('#ajs'));if(b)b.scrollTop=y;}
 function ajClick(e){const c=S.cfg=S.cfg||{},s=e.target.closest('[data-sw]');
   if(s){const k=s.dataset.sw,v=s.getAttribute('aria-checked')!=='true';
-    if(k==='nt'){if(!v){c.nt=false;save();ajustesSheet();toast('Notificaciones desactivadas');return;}if(!('Notification' in window)){ajustesSheet();return;}
-      Promise.resolve(Notification.requestPermission()).then(p=>{c.nt=p==='granted';save();ajustesSheet();if(c.nt){toast('Notificaciones activadas');ntTest();msgSync();}else if(p==='denied')toast('Están bloqueadas: sigue los pasos de abajo');});return;}
-    c[k]=v;save();ajustesSheet();return;}
-  const tmb=e.target.closest('[data-tm]');if(tmb){setTheme(tmb.dataset.tm);ajustesSheet();return;}
+    if(k==='nt'){c.nt=v;save();if(!v){ajKeep();toast('Notificaciones desactivadas');return;}const off='Activadas en la app. Para que avise el móvil, mira abajo';if(!('Notification' in window)){ajKeep();toast(off);return;}
+      Promise.resolve(Notification.requestPermission()).then(p=>{ajKeep();if(p==='granted'){toast('Notificaciones activadas');ntTest();msgSync();}else toast(p==='denied'?off:'Activadas en la app');});return;}
+    c[k]=v;save();s.setAttribute('aria-checked',v);return;}
+  const tmb=e.target.closest('[data-tm]');if(tmb){setTheme(tmb.dataset.tm);ajKeep();return;}
   if(e.target.closest('[data-ntest]')){ntTest();toast('Notificación de prueba enviada');return;}
   const b=e.target.closest('[data-aj]');if(!b)return;const a=b.dataset.aj,p=S.role==='familia'?P(S.kid):null;
   if(a==='pw'){pwSheet();return;}
