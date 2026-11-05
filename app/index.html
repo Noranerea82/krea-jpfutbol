@@ -584,6 +584,7 @@ html.locked #gate{display:flex}
 <script src="biblioteca2.js"></script>
 <script src="biblioteca3.js"></script>
 <script src="biblioteca4.js"></script>
+<script src="videoteca.js"></script>
 <script src="pizarra.js"></script>
 <script src="pizarra-editor.js"></script>
 <script>
@@ -681,7 +682,7 @@ function nextTrainDate(){const x=new Date();while(x.getDay()<1||x.getDay()>4)x.s
 
 /* ---------- Utilidades UI ---------- */
 function toast(t){const el=$('#toast');el.innerHTML=I('check',18)+t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2200);}
-function sheet(html){$('#sheetBox').classList.remove('wide');$('#sheetBox').innerHTML=`<button class="x" data-close aria-label="Cerrar">${I('x')}</button>`+html;$('#sheet').classList.add('open');setTimeout(()=>$('#sheetBox [data-close]').focus(),40);}
+function sheet(html){$('#sheetBox').classList.remove('wide','vt-box');$('#sheetBox').innerHTML=`<button class="x" data-close aria-label="Cerrar">${I('x')}</button>`+html;$('#sheet').classList.add('open');setTimeout(()=>$('#sheetBox [data-close]').focus(),40);}
 function closeSheet(){$('#sheet').classList.remove('open');$$('#sheetBox video').forEach(v=>v.pause());}
 $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet'||e.target.closest('[data-close]'))closeSheet();});
 addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();});
@@ -857,7 +858,7 @@ function posPlanHTML(p){const L=POSPLAN[p.pos]||POSPLAN['Por definir'];const bas
  return `<section class="card posplan"><h3>Plan por posición · ${p.pos}</h3><div class="phases">${['Percibir','Decidir','Ejecutar','Competir'].map((t,i)=>`<span class="${i<=ph?'on':''}">${t}</span>`).join('')}</div>${L.map(([t,d],i)=>{const v=Math.max(30,Math.min(96,base-8+((i*13+p.age*3)%22)));return `<div class="obj"><b>${t}</b><em>${v}</em><small>${d}</small><span class="bar"><i style="width:${v}%"></i></span></div>`}).join('')}</section>`;}
 /* ---------- Míster: Sesiones ---------- */
 function vSesiones(){
-  return `<div class="hd phd pses" style="--ph:url(assets/foto-sesiones.jpg?v=4);--pp:50% 0"><div><img class="hlogo" src="assets/logo-round.webp" alt="JP F&uacute;tbol"><h1 class="disp">Sesiones de la semana</h1><p>Lunes a jueves · Toca una sesión para ver el plan o un hueco para planificar</p></div></div><div class="hdb"><a class="btn" href="#/biblioteca">${I('libro')}Biblioteca</a><a class="btn" href="#/cuadrante">${I('cal')}Cuadrante y turnos</a><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
+  return `<div class="hd phd pses" style="--ph:url(assets/foto-sesiones.jpg?v=4);--pp:50% 0"><div><img class="hlogo" src="assets/logo-round.webp" alt="JP F&uacute;tbol"><h1 class="disp">Sesiones de la semana</h1><p>Lunes a jueves · Toca una sesión para ver el plan o un hueco para planificar</p></div></div><div class="hdb"><a class="btn" href="#/biblioteca">${I('libro')}Biblioteca</a><a class="btn" href="#/videoteca">${I('play')}Vídeos animados</a><a class="btn" href="#/cuadrante">${I('cal')}Cuadrante y turnos</a><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
   ${sesCal()}`;
 }
 /* ---------- Míster: Pagos ---------- */
@@ -1366,6 +1367,7 @@ const FAQ=[
  {r:'m',k:['lista','asistencia','presente','quien viene','check'],a:()=>`En <b>Hoy</b> tienes los grupos del día por turnos: marca con ✓ a cada jugador o jugadora al llegar. Si una familia ha avisado de que no viene, lo verás en su fila.`,b:()=>[['Ir a Hoy','go','hoy']]},
  {r:'m',k:['aviso','avisar','suspend','lluvia','comunicar','todas las familias','cambio de campo'],a:()=>`Pulsa <b>Enviar aviso</b> (en Hoy o en la campana): elige el tipo, el grupo y un <b>mensaje ya hecho</b> (lluvia, cambio de campo, retraso, festivo…) y envíalo. Llega al momento a la app de las familias.`,b:()=>[['Enviar un aviso','act','newAviso']]},
  {r:'m',k:['sesion','planificar','entrenamiento','plan de hoy','semana'],a:()=>`En <b>Sesiones</b> ves la semana por horas. Toca un hueco o pulsa <b>Planificar sesión</b>: elige grupo, día, místers y añade ejercicios de la biblioteca.`,b:()=>[['Ir a Sesiones','go','sesiones']]},
+ {r:'m',k:['video','vídeo','animacion','animación','videoteca'],a:()=>`En <b>Biblioteca › Vídeos animados</b> tienes ${VT.length} tareas animadas por tipo (rondos, posesión, finalización…). Toca una para verla en grande y a la velocidad que quieras.`,b:()=>[['Ver vídeos','go','videoteca']]},
  {r:'m',k:['biblioteca','ejercicio','rondo','posesion','tarea de'],a:()=>`La <b>Biblioteca</b> (desde Sesiones) tiene más de 200 ejercicios con su ficha, filtros por edad y concepto, y el botón «Usar en una sesión».`,b:()=>[['Abrir biblioteca','go','biblioteca']]},
  {r:'m',k:['evaluar','evaluacion','puntuar','nota del','nota de'],a:()=>`Entra en <b>Jugadores</b>, abre la ficha y pulsa <b>Evaluar</b>: mueves cada área de 0 a 100 y la familia ve la evolución en su Progreso.`,b:()=>[['Ir a Jugadores','go','jugadores']]},
  {r:'m',k:['tarea','deberes','para casa','nota para la familia','comentario'],a:()=>`En la ficha de cada jugador o jugadora tienes <b>Tareas para casa › Asignar</b> y <b>Notas del míster › Nota</b>. La familia las ve al momento en su app.`,b:()=>[['Ir a Jugadores','go','jugadores']]},
@@ -1645,6 +1647,7 @@ function vBiblio(){const AG={all:'Todas las edades',P:'Prebenjamín',B:'Benjamí
   L=[...L].sort((a,b)=>finLib(a)-finLib(b));
   return `<a href="#/sesiones" class="btn sm" style="margin-bottom:14px">${I('back',16)}Sesiones</a>
   <div class="hd"><div><div class="bibt"><span class="bib-ic"><svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><path d="M24 28c-5-3-11-3.6-18-2.6v14.6c7-1 13-.4 18 2.6 5-3 11-3.6 18-2.6V25.4c-7-1-13-.4-18 2.6z" fill="#130F05"/><path d="M24 28v14.6M10 29.4c3.6-.2 6.8.2 10 1.6M38 29.4c-3.6-.2-6.8.2-10 1.6M10 34.4c3.6-.2 6.8.2 10 1.6M38 34.4c-3.6-.2-6.8.2-10 1.6" stroke="#E2B746" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="24" cy="14.5" r="10.6" fill="#fff" stroke="#130F05" stroke-width="1.7"/><path d="M24 9.6l4.7 3.4-1.8 5.5h-5.8l-1.8-5.5z" fill="#130F05"/><path d="M24 9.6V4.4M28.7 13l4.9-1.6M26.9 18.5l3 4.1M21.1 18.5l-3 4.1M19.3 13l-4.9-1.6" stroke="#130F05" stroke-width="1.4" fill="none"/></svg></span><h1 class="disp">Biblioteca</h1></div><p>Elige los ejercicios y añádelos a tus sesiones</p></div></div>
+  ${vtTabs('b')}
   <button class="btn oro full" data-act="pzNew" style="margin-bottom:12px">${I('plus',18)}Crear ejercicio en la pizarra</button>
   <div class="tool"><input class="search" id="bq" placeholder="Buscar: rondo, presión, tercer hombre…" value="${esc(bQ)}" aria-label="Buscar ejercicio"></div>
   <div class="tool">${Object.entries(AG).map(([k,v])=>`<button class="chip" data-act="bAge" data-v="${k}" aria-pressed="${bAge===k}">${v}</button>`).join('')}</div>
@@ -1705,9 +1708,9 @@ function render(){
   if(!S.role){loginView();return;}demoExtras();
   const [r,id]=(location.hash.replace('#/','')||'').split('/');
   const def=S.role==='mister'?'hoy':'inicio';
-  const route=NAV[S.role].some(n=>n[0]===r)||r==='jugador'||((r==='cuadrante'||r==='biblioteca')&&S.role==='mister')?r:def;
-  const V={hoy:vHoy,pruebas:vPruebas,biblioteca:vBiblio,jugadores:vJugadores,jugador:()=>vFicha(id),sesiones:vSesiones,pagos:vPagos,inicio:vInicio,progreso:vProgreso,tareas:vTareas,pack:vPack,cuadrante:vCuadrante};
-  shell(V[route](),route==='jugador'?'jugadores':(route==='cuadrante'||route==='biblioteca')?'sesiones':route);
+  const route=NAV[S.role].some(n=>n[0]===r)||r==='jugador'||((r==='cuadrante'||r==='biblioteca'||r==='videoteca')&&S.role==='mister')?r:def;
+  const V={hoy:vHoy,pruebas:vPruebas,biblioteca:vBiblio,videoteca:vVideoteca,jugadores:vJugadores,jugador:()=>vFicha(id),sesiones:vSesiones,pagos:vPagos,inicio:vInicio,progreso:vProgreso,tareas:vTareas,pack:vPack,cuadrante:vCuadrante};
+  shell(V[route](),route==='jugador'?'jugadores':(route==='cuadrante'||route==='biblioteca'||route==='videoteca')?'sesiones':route);
   window.scrollTo(0,0);hydratePV();
   const q=$('#q');if(q){q.oninput=()=>{fText=q.value;const pos=q.selectionStart;render();const n=$('#q');n.focus();n.setSelectionRange(pos,pos);};}
 }
