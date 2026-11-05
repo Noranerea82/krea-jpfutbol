@@ -231,7 +231,7 @@ svg.chart{width:100%;height:auto;display:block}
 .aus{display:flex;flex-direction:column;gap:10px}.pvc.au{margin:0;align-items:flex-start}.pvc.au .tg{margin-top:2px}.pvc.au b{display:block;color:var(--txt,#fff);font-size:14.5px}.pvc.au small{display:block;font-size:12.5px;color:var(--c2);margin-top:2px;line-height:1.4}
 .h3sub{display:block;font-family:var(--fb,inherit);font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--c2);margin-top:2px}
 .lnk{background:none;border:0;padding:0;color:var(--oro);font-weight:800;text-decoration:underline}
-.paybtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.paybtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}.pico.wl{font:800 15px/1 inherit;color:var(--cal,inherit)}.pyf{margin-top:12px}.pyf small{display:block;margin-bottom:6px;color:var(--c3);font-size:12px;font-weight:700}.pyf div{display:flex;flex-wrap:wrap;gap:6px}.pyf span{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:0 10px;border:1px solid var(--linea);border-radius:999px;font-size:12.5px;font-weight:700}.pwl{display:grid;gap:4px;margin:14px 0;padding:12px 14px;border:1px solid var(--linea);border-radius:14px}.pwl small{color:var(--c3)}.pwl b{display:flex;align-items:center;gap:8px}.pwb{background:#111;color:#fff;border-color:#111}.pgcob{grid-column:1/-1}
 .paybtns button{min-height:64px;border-radius:14px;border:1px solid var(--linea);background:var(--noche);font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .paybtns button[aria-pressed="true"]{border-color:var(--oro);background:rgba(226,183,70,.1)}
 .paybtns small{font-weight:600;color:var(--c3);font-size:12px}
@@ -475,7 +475,7 @@ html[data-theme=light] .sc{box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 26px -18p
 .bub{max-width:88%;padding:10px 13px;border-radius:16px 16px 16px 6px;font-size:14.5px;line-height:1.45;background:var(--g2);border:1px solid var(--linea);align-self:flex-start;overflow-wrap:anywhere}
 .bub.me{align-self:flex-end;background:var(--oro);border-color:var(--oro);color:#130F05;border-radius:16px 16px 6px 16px}
 .bub small{display:block;margin-top:4px;font-size:11px;opacity:.72}.bub b{font-weight:800}
-.hact{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.hact{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.hdots{display:inline-flex;gap:4px;padding:4px 2px}.hdots i{width:7px;height:7px;border-radius:50%;background:var(--oro2);animation:hdot 1s infinite}.hdots i:nth-child(2){animation-delay:.15s}.hdots i:nth-child(3){animation-delay:.3s}@keyframes hdot{0%,60%,100%{opacity:.3}30%{opacity:1}}
 .hact a,.hact button{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--oro);background:transparent;color:var(--oro2);font-weight:800;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;cursor:pointer}
 .hops{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0 10px}
 .hops .chip{flex:none;max-width:100%;min-height:34px;font-size:12.5px;padding:0 12px;white-space:normal}
@@ -967,7 +967,7 @@ function pagoSheet(p){const f=p.fam||{},R=p.receipts||[],last=R[0],PS=packSessio
   <div class="pgpack"><small class="cap">Pack contratado</small><b class="disp">${p.pack}</b><p><b>${PACKS[p.pack]} € al mes</b> · ${PACKINFO[p.pack].d}</p><p>${PACKINFO[p.pack].x}: ${daysTxt(PS)}</p>
    ${p.nextPack?`<p class="pgnext">${I('reset',15)} Cambia a <b>${p.nextPack.pack}</b> el ${fmtLong(p.nextPack.from)}</p>`:''}</div>
   <div class="pgst ${p.paid?'ok':'warn'}"><div><small>${mesActual()}</small><b>${p.paid?'Pagado':'Pendiente de pago'}</b><span>${p.paid?(last?`El ${last.d} · ${last.m}`:'Pago registrado este mes'):`Faltan ${PACKS[p.pack]} € de este mes`}</span></div>${p.paid&&last?`<button class="btn sm" data-pgr="0">Recibo</button>`:''}</div>
-  ${p.paid?'':`<div class="pgbtns"><button class="btn" data-pga="remind">${I('bell',16)}Recordar a la familia</button><button class="btn oro" data-pga="cobrar">${I('check',16)}Marcar como pagado</button></div>`}
+  ${p.paid?'':`<div class="pgbtns"><button class="btn" data-pga="remind">${I('bell',16)}Recordar a la familia</button><button class="btn oro" data-pga="cobrar">${I('check',16)}Marcar como pagado</button><button class="btn pgcob" data-pga="payapp">${I('card',16)}Cobrar con tarjeta o móvil</button></div>`}
   <h3 class="seth">${I('card',16)}Historial de pagos</h3>
   <div class="setc">${R.length?R.map((r,i)=>`<div class="setr"><div><b>${r.c}</b><small>${r.d} · ${r.m} · ${r.n}</small></div><button class="btn sm" data-pgr="${i}">${r.a} €</button></div>`).join(''):`<p class="muted" style="padding:12px 0;font-size:13.5px">Todavía no hay pagos registrados en la app.</p>`}</div>
   <h3 class="seth">${I('users',16)}Familia</h3>
@@ -975,7 +975,7 @@ function pagoSheet(p){const f=p.fam||{},R=p.receipts||[],last=R[0],PS=packSessio
   <h3 class="seth">${I('chart',16)}Seguimiento</h3>
   <div class="pgk"><div><b>${p.att}%</b><small>Asistencia</small></div><div><b>${p.sessions}</b><small>Sesiones</small></div><div><b>${score(p)}</b><small>Nota global</small></div></div>
   <button class="btn full" data-pga="ficha" style="margin-top:14px">${I('users',16)}Ver la ficha completa</button></div>`);
-  $('#pgs').onclick=e=>{const r=e.target.closest('[data-pgr]');if(r){dlReceipt(p,R[+r.dataset.pgr]);return;}const b=e.target.closest('[data-pga]');if(!b)return;const a=b.dataset.pga;
+  $('#pgs').onclick=e=>{const r=e.target.closest('[data-pgr]');if(r){dlReceipt(p,R[+r.dataset.pgr]);return;}const b=e.target.closest('[data-pga]');if(!b)return;const a=b.dataset.pga;if(a==='payapp'){payFlow(p);return;}
     if(a==='remind'){fillGo(b,'ok','Enviando recordatorio…',x=>{x.querySelector('span').textContent='Recordatorio enviado';toast('Recordatorio de pago enviado a la familia');});}
     if(a==='ficha'){closeSheet();location.hash='#/jugador/'+p.id;}
     if(a==='cobrar'){fillGo(b,'ok','Registrando el pago…',()=>{const d=new Date();p.paid=true;p.receipts=p.receipts||[];p.receipts.unshift({n:'JP-'+d.getFullYear()+'-'+String(Math.floor(Math.random()*90000)+10000),d:d.toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}),c:'Pack '+p.pack+' · '+mesActual(),m:'En mano · míster '+S.me,a:PACKS[p.pack]});save();render();pagoSheet(p);toast('Pago registrado');});}};}
@@ -994,7 +994,7 @@ function vPagos(){
   const cnt={};S.players.forEach(p=>cnt[p.pack]=(cnt[p.pack]||0)+1);const top=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0]||'Progreso';
   return `<div class="hd"><div><h1 class="disp">Packs y pagos</h1><p>Mes en curso</p></div></div>
   <div class="grid g3" style="margin-bottom:14px"><button class="card kpi pgk" data-act="pgK" data-k="paid"><small>Cobrado este mes</small><b>${total} €</b><span>${paid.length} packs al día</span><em>Ver detalle ›</em></button><button class="card kpi pgk" data-act="pgK" data-k="pend"><small>Pendiente</small><b class="gold">${pend.reduce((a,p)=>a+PACKS[p.pack],0)} €</b><span>${pend.length} ${pend.length===1?'familia':'familias'}</span><em>Ver detalle ›</em></button><button class="card kpi pgk" data-act="pgK" data-k="packs"><small>Pack más elegido</small><b>${top}</b><span>${cnt[top]} jugadores · ${PACKINFO[top].d}</span><em>Ver detalle ›</em></button></div>
-  <p class="muted pghint">Toca un jugador o jugadora para ver su pack, sus pagos y los datos de la familia.</p>
+  ${PAYF}<p class="muted pghint">Las familias pagan desde su app. Toca un jugador o jugadora para ver su pack, sus pagos y los datos de la familia.</p>
   <div class="card tw"><table><thead><tr><th>Jugador</th><th>Pack</th><th>Importe</th><th>Estado</th><th></th></tr></thead><tbody>${S.players.map(p=>`<tr data-pago="${p.id}"><td><div class="pgn">${picOf(p)?`<span class="pini pph" aria-hidden="true"><img src="${picOf(p)}" alt="" loading="lazy"><i>${initials(p.name)}</i></span>`:`<span class="pini" aria-hidden="true">${initials(p.name)}</span>`}<div><b>${p.name}</b><br><small class="muted">${GROUPS[p.group].name}</small></div></div></td><td>${p.pack}${p.nextPack?`<br><small class="pill gold" style="margin-top:4px;display:inline-block">→ ${p.nextPack.pack} el ${fmtLong(p.nextPack.from).replace(/ de (\w{3})\w*/,' $1')}</small>`:''}</td><td>${PACKS[p.pack]} €</td><td><span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pagado':'Pendiente'}</span></td><td>${p.paid?'':`<button class="btn sm" data-act="remind" data-id="${p.id}">Recordar</button>`}</td></tr>`).join('')}</tbody></table></div>
   <p class="muted" style="margin-top:12px;font-size:13px">Precios de ejemplo. En la versión real, los pagos se cobran online y se actualizan solos.</p>`;
 }
@@ -1027,7 +1027,7 @@ function vTareas(){const p=P(S.kid);return `<div class="hd"><div><h1 class="disp
   ${pvHTML(p,'familia')}${historyHTML(p)}`;}
 function vPack(){const p=P(S.kid);return `<div class="hd"><div><h1 class="disp">Mi pack</h1><p>Gestiona el pack y los pagos</p></div>${kidTag(p)}</div>
   <div class="grid g2"><section class="card"><h3>Pack actual <span class="pill ${p.paid?'ok':'warn'}">${p.paid?'Pagado':'Pendiente'}</span></h3><b class="disp" style="font-size:40px">${p.pack}</b><p class="muted" style="margin:6px 0 4px">${PACKS[p.pack]} € al mes · ${PACKINFO[p.pack].d}</p><p style="margin:0 0 16px;font-size:14px;color:var(--oro2);font-weight:700">${PACKINFO[p.pack].x}: ${daysTxt(packSessions(p))}</p>
-   ${p.paid?'<p class="muted">El próximo pago se renueva el día 1.</p>':`<button class="btn oro full" data-act="pay">${I('card')}Pagar ${PACKS[p.pack]} €</button>`}
+   ${p.paid?((p.receipts||[]).some(r=>r.c.endsWith(mesSig()))?`<p class="muted">Este mes y ${mesSig().split(' ')[0]} ya están pagados.</p>`:`<p class="muted" style="margin-bottom:10px">Este mes está pagado. El próximo pago se renueva el día 1.</p><button class="btn oro full" data-act="payNext">${I('card')}Adelantar ${mesSig().split(' ')[0]} · ${PACKS[p.pack]} €</button>`):`<button class="btn oro full" data-act="pay">${I('card')}Pagar ${PACKS[p.pack]} €</button>`}${PAYF}
    ${p.nextPack?`<div class="npk"><span>${I('reset',18)}</span><div><b>Cambio programado a ${p.nextPack.pack}</b><small>Empieza el ${fmtLong(p.nextPack.from)} · ${PACKS[p.nextPack.pack]} € al mes. Hasta entonces sigue el pack ${p.pack}.</small><button class="lnk" data-act="cancelPack">Cancelar el cambio</button></div></div>`:''}</section>
    <section class="card"><h3>Cambiar de pack</h3><p class="muted" style="font-size:13px;margin:-4px 0 10px">${I('lock',14)} Los cambios se aplican el día 1 del mes siguiente, nunca a mitad de mes.</p><div class="list">${Object.entries(PACKS).map(([n,v])=>`<div class="item"><div class="grow"><b>${n} <span class="dpill">${PACKINFO[n].d.replace(' a la semana','/sem')}</span></b><small>${v} € al mes · ${PACKINFO[n].x}</small></div>${n===p.pack?'<span class="pill gold">Actual</span>':p.nextPack&&p.nextPack.pack===n?`<span class="pill ok">Desde el ${fmtLong(p.nextPack.from).replace(/ de (\w{3})\w*/,' $1')}</span>`:`<button class="btn sm" data-act="changePack" data-pack="${n}">Elegir</button>`}</div>`).join('')}</div></section></div>
   ${(p.receipts&&p.receipts.length)?`<section class="card" style="margin-top:14px"><h3>Historial de pagos</h3><div class="list">${p.receipts.map((r,i)=>`<div class="item"><div class="grow"><b>${r.c}</b><small>${r.d} · ${r.m} · ${r.n}</small></div><b style="white-space:nowrap">${r.a} €</b><button class="btn sm" data-act="rcpt" data-i="${i}">Recibo</button></div>`).join('')}</div></section>`:''}
@@ -1037,15 +1037,17 @@ function vPack(){const p=P(S.kid);return `<div class="hd"><div><h1 class="disp">
 /* ---------- Pago (demo) ---------- */
 const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 function mesActual(){const d=new Date();return MESES[d.getMonth()]+' '+d.getFullYear();}
-function payFlow(p){
-  const amt=PACKS[p.pack];let m='Tarjeta';
+function mesSig(){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()+1);return MESES[d.getMonth()]+' '+d.getFullYear();}
+const PAYF=`<div class="pyf"><small>Formas de pago</small><div><span>${I('card',15)}Tarjeta</span><span>Google Pay</span><span>Apple Pay</span><span>Bizum</span></div></div>`;
+function payFlow(p,nx){
+  const amt=PACKS[p.pack],mes=nx?mesSig():mesActual();let m='Tarjeta';
   const head=(step,t)=>`<div class="pstep"><span class="${step>=1?'on':''}">1 · Pago</span><span class="${step>=2?'on':''}">2 · Datos</span><span class="${step>=3?'on':''}">3 · Confirmar</span></div><h2 class="disp">${t}</h2>`;
-  const sum=`<div class="psum"><div><small>Concepto</small><b>Pack ${p.pack} · ${mesActual()}</b><span>${p.name}</span></div><b class="amt">${amt} €</b></div>`;
+  const sum=`<div class="psum"><div><small>Concepto</small><b>Pack ${p.pack} · ${mes}</b><span>${p.name}</span></div><b class="amt">${amt} €</b></div>`;
   const step1=()=>{sheet(`${head(1,'Pagar pack')}${sum}
-    <div class="paybtns" role="group" aria-label="Forma de pago"><button aria-pressed="${m==='Tarjeta'}" data-m="Tarjeta"><span class="pico">${I('card')}</span>Tarjeta<small>Visa · Mastercard</small></button><button aria-pressed="${m==='Bizum'}" data-m="Bizum"><span class="pico bz">bizum</span>Bizum<small>Desde tu móvil</small></button></div>
+    <div class="paybtns" role="group" aria-label="Forma de pago"><button aria-pressed="${m==='Tarjeta'}" data-m="Tarjeta"><span class="pico">${I('card')}</span>Tarjeta<small>Visa · Mastercard</small></button><button aria-pressed="${m==='Bizum'}" data-m="Bizum"><span class="pico bz">bizum</span>Bizum<small>Desde tu móvil</small></button><button aria-pressed="${m==='Google Pay'}" data-m="Google Pay"><span class="pico wl">G Pay</span>Google Pay<small>Android</small></button><button aria-pressed="${m==='Apple Pay'}" data-m="Apple Pay"><span class="pico wl">Pay</span>Apple Pay<small>iPhone</small></button></div>
     <button class="btn oro full" id="pNext">Continuar</button><p class="psafe">🔒 Pago seguro · Datos cifrados</p>`);
     $$('.paybtns button').forEach(b=>b.onclick=()=>{m=b.dataset.m;$$('.paybtns button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
-    $('#pNext').onclick=()=>m==='Tarjeta'?card():bizum();};
+    $('#pNext').onclick=()=>m==='Tarjeta'?card():m==='Bizum'?bizum():wallet(m);};
   const back=`<button type="button" class="pback" id="pBack">← Cambiar forma de pago</button>`;
   const card=()=>{sheet(`${head(2,'Pago con tarjeta')}
     <div class="ccard" id="cc"><div class="ccchip"></div><span class="ccbrand" id="ccb"></span><div class="ccnum" id="ccn">•••• •••• •••• ••••</div><div class="ccrow"><div><small>Titular</small><b id="cch">NOMBRE APELLIDOS</b></div><div><small>Caduca</small><b id="cce">MM/AA</b></div></div></div>
@@ -1079,18 +1081,23 @@ function payFlow(p){
     $('#pBack').onclick=step1;
     $('#bf').onsubmit=ev=>{ev.preventDefault();const n=$('#bp').value.replace(/\D/g,'');if(!/^[67]\d{8}$/.test(n)){$('#bfe').textContent='Escribe un móvil español de 9 cifras (empieza por 6 o 7).';return;}
       verify({type:'bizum',label:'Bizum ···· '+n.slice(-3),phone:n});};};
-  const verify=(pm)=>{const bz=pm.type==='bizum';
+  const wallet=w=>{sheet(`${head(2,'Pago con '+w)}${sum}
+    <div class="pwl"><small>Tarjeta guardada en ${w}</small><b>${I('card',18)}Visa ···· 4242</b></div>
+    <button class="btn full pwb" id="wGo">Pagar con ${w}</button>${back}
+    <p class="demo"><b>Demostración:</b> no se cobra nada. En la versión real se abre la ventana de ${w} del propio móvil.</p>`);
+    $('#pBack').onclick=step1;$('#wGo').onclick=()=>verify({type:'wallet',label:w});};
+  const verify=(pm)=>{const bz=pm.type==='bizum',wl=pm.type==='wallet';
     sheet(`${head(3,bz?'Acepta el Bizum':'Verificando el pago')}
-    <div class="pwait"><div class="phone"><div class="pnot"><b>${bz?'Bizum':'Tu banco'}</b><span>${bz?'JP Fútbol te solicita':'Confirmar compra en'} ${bz?amt+'&nbsp;€':'JP FÚTBOL · '+amt+'&nbsp;€'}</span><div class="pbtns"><i>Rechazar</i><i class="ok">${bz?'Aceptar':'Confirmar'}</i></div></div></div>
-    <p>${bz?`Hemos enviado la solicitud al <b>${pm.phone.replace(/(\d{3})(\d{3})(\d{3})/,'$1 $2 $3')}</b>. Abre la app de tu banco y acéptala.`:'Tu banco puede pedirte que confirmes la compra en su app (seguridad 3D Secure).'}</p>
+    <div class="pwait"><div class="phone"><div class="pnot"><b>${bz?'Bizum':wl?pm.label:'Tu banco'}</b><span>${bz?'JP Fútbol te solicita':'Confirmar compra en'} ${bz?amt+'&nbsp;€':'JP FÚTBOL · '+amt+'&nbsp;€'}</span><div class="pbtns"><i>Rechazar</i><i class="ok">${bz?'Aceptar':'Confirmar'}</i></div></div></div>
+    <p>${bz?`Hemos enviado la solicitud al <b>${pm.phone.replace(/(\d{3})(\d{3})(\d{3})/,'$1 $2 $3')}</b>. Abre la app de tu banco y acéptala.`:wl?'Confirma el pago con tu huella, tu cara o el código del móvil.':'Tu banco puede pedirte que confirmes la compra en su app (seguridad 3D Secure).'}</p>
     <div class="pbar"><i id="pbar"></i></div><small class="muted" id="pst">Esperando confirmación…</small></div>
     <button class="btn full" id="pOk" style="margin-top:14px">${bz?'Ya lo he aceptado':'Ya lo he confirmado'}</button>`);
     let done=false;const fin=()=>{if(done)return;done=true;success(pm);};
     requestAnimationFrame(()=>{$('#pbar').style.width='100%';});
     const t=setTimeout(fin,4200);$('#pOk').onclick=()=>{clearTimeout(t);fin();};};
-  const success=(pm)=>{const d=new Date();const r={n:'JP-'+d.getFullYear()+'-'+String(Math.floor(Math.random()*90000)+10000),d:d.toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}),c:'Pack '+p.pack+' · '+mesActual(),m:pm.label,a:amt};
-    p.paid=true;p.receipts=p.receipts||[];p.receipts.unshift(r);save();render();
-    sheet(`<div class="pok"><div class="pokc">${I('check')}</div><h2 class="disp">Pago completado</h2><p class="muted">Gracias. ${p.name.split(' ')[0]} tiene el pack ${p.pack} activo este mes.</p></div>
+  const success=(pm)=>{const d=new Date();const r={n:'JP-'+d.getFullYear()+'-'+String(Math.floor(Math.random()*90000)+10000),d:d.toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}),c:'Pack '+p.pack+' · '+mes,m:pm.label,a:amt};
+    if(!nx)p.paid=true;p.receipts=p.receipts||[];p.receipts.unshift(r);save();render();
+    sheet(`<div class="pok"><div class="pokc">${I('check')}</div><h2 class="disp">Pago completado</h2><p class="muted">Gracias. ${p.name.split(' ')[0]} tiene el pack ${p.pack} activo en ${mes.split(' ')[0]}.</p></div>
     <div class="rcpt"><div><span>Recibo</span><b>${r.n}</b></div><div><span>Fecha</span><b>${r.d}</b></div><div><span>Concepto</span><b>${r.c}</b></div><div><span>Forma de pago</span><b>${r.m}</b></div><div class="tot"><span>Total</span><b>${r.a} €</b></div></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px"><button class="btn" id="rDl">Descargar recibo</button><button class="btn oro" data-close>Hecho</button></div>`);
     $('#rDl').onclick=()=>dlReceipt(p,r);};
@@ -1403,11 +1410,11 @@ function horarioTxt(p){const g=GROUPS[p.group],PS=packSessions(p);return `<b>${n
 /* Preguntas frecuentes. r: f = familias, m = místers, a = todos. Las palabras clave van sin tildes. */
 const FAQ=[
  {r:'f',k:['horario','a que hora','que hora','cuando entrena','que dia','que dias','proxima sesion','cuando es','entrena'],a:p=>horarioTxt(p)+' El club entrena de lunes a jueves, de 20:00 a 21:30.',b:()=>[['Ver Mi horario','go','pack']]},
- {r:'a',k:['donde','direccion','ubicacion','como llego','como llegar','aparcar','instalacion','campo de'],a:()=>`Entrenamos en el <b>Centro Deportivo Valdezorras</b> (C/ Vereda de Poco Aceite, Sevilla).`,b:()=>[['Cómo llegar','url',CLUB.maps]]},
+ {r:'a',k:['donde entren','donde esta el campo','donde esta la','donde es','direccion','ubicacion','como llego','como llegar','aparcar','instalacion','campo de'],a:()=>`Entrenamos en el <b>Centro Deportivo Valdezorras</b> (C/ Vereda de Poco Aceite, Sevilla).`,b:()=>[['Cómo llegar','url',CLUB.maps]]},
  {r:'f',k:['no puede','no podra','no va a','no ira','no vamos','no vendra','faltar','falta','ausencia','enfermo','esta malo','esta mala','avisar'],a:p=>`Puedes avisar en un momento de que <b>${nom(p)}</b> no irá a la próxima sesión: el míster lo ve al instante en su lista. También lo tienes en <b>Inicio</b>.`,b:()=>[['Avisar ahora','act','ciAway'],['Escribir al míster','tab','chat']]},
  {r:'f',k:['llegar tarde','llegaremos tarde','llega tarde','retraso','recoger antes','salir antes'],a:p=>`Escríbele al míster en <b>Mensajes</b>, aquí mismo, para que lo sepa antes de empezar (míster ${GROUPS[p.group].mister}).`,b:()=>[['Escribir al míster','tab','chat']]},
  {r:'a',k:['traer','llevar','ropa','botas','agua','guantes','equipacion','mochila','espinilleras'],a:()=>`Hay que traer <b>ropa deportiva</b>, <b>botas para césped artificial</b> (multitacos) y <b>agua</b>. Los porteros y porteras, también sus <b>guantes</b>. Si llueve, mejor un chubasquero y ropa de cambio.`},
- {r:'f',k:['pagar','pago','bizum','tarjeta','cobro','cuota','mensualidad','recibo','factura','justificante'],a:p=>`En <b>Mi pack</b> ves si el mes está pagado y puedes pagar con <b>tarjeta o Bizum</b>; los recibos se descargan desde ahí. Este mes ${p.paid?'está <b>al día</b>.':`está <b>pendiente</b> (${PACKS[p.pack]} €).`}`,b:()=>[['Ir a Mi pack','go','pack']]},
+ {r:'f',k:['pagar','pago','bizum','tarjeta','cobro','cuota','mensualidad','recibo','factura','justificante'],a:p=>`En <b>Mi pack</b> ves si el mes está pagado y puedes pagar con <b>tarjeta, Google Pay, Apple Pay o Bizum</b>; los recibos se descargan desde ahí. Este mes ${p.paid?'está <b>al día</b>.':`está <b>pendiente</b> (${PACKS[p.pack]} €).`}`,b:()=>[['Ir a Mi pack','go','pack']]},
  {r:'f',k:['pack','precio','cuanto cuesta','cuanto vale','tarifa','cambiar de pack','dias a la semana','descuento','trimestr'],a:p=>`Packs al mes: <b>Inicio</b> 40 € (1 día), <b>Progreso</b> 70 € (2 días), <b>Completo</b> 95 € (técnica + preparación física) y <b>Porteros</b> 70 €. Pagando el trimestre se ahorra un <b>10 %</b>. ${nom(p)} tiene el pack <b>${p.pack}</b>. Si lo cambias, el nuevo empieza el día 1 del mes siguiente.`,b:()=>[['Cambiar de pack','go','pack']]},
  {r:'f',k:['progreso','evaluacion','puntos','como va','nivel','mejorando','punto fuerte','informe'],a:p=>`En <b>Progreso</b> ves la nota global de ${nom(p)} (ahora <b>${score(p)}</b>), cómo ha evolucionado cada mes, la nota por áreas, su plan por posición y las pruebas físicas. Cada mes puedes abrir su informe.`,b:p=>[['Ver progreso','go','progreso'],['Informe del mes','act','report']]},
  {r:'f',k:['tarea','deberes','en casa','para casa'],a:p=>{const n=p.tasks.filter(t=>!t.done).length;return `Las tareas para casa las pone el míster y están en <b>Inicio</b> y en <b>Tareas y vídeos</b>. Cuando ${nom(p)} haga una, márcala con ✓. ${n?`Ahora tiene <b>${n}</b> pendiente${n>1?'s':''}.`:'Ahora mismo lo tiene todo hecho. 👏'}`},b:()=>[['Ver tareas','go','tareas']]},
@@ -1436,17 +1443,24 @@ const FAQ=[
  {r:'m',k:['como llega','llega el aviso','whatsapp','enlace','app de familias','app familia'],a:()=>`Los avisos llegan a la app de cada familia y quedan en su botón <b>Avisos</b>. Para pasarles la app, abre el menú y entra en <b>App de jugadores, jugadoras y familias</b>: pon su móvil y pulsa <b>WhatsApp</b>. En <b>Enviar aviso</b> también puedes marcar <b>Enviar también por WhatsApp</b>.`},
  {r:'m',k:['rpe','carga','esfuerzo','fatiga'],a:()=>`En <b>Carga y RPE</b> (desde Sesiones o el menú) ves lo duro que ha sido cada entreno para cada jugador y jugadora, del 1 al 10, y quién falta por responder.`},
  {r:'f',k:['rpe','esfuerzo','duro'],a:()=>`Después de cada entreno, en <b>Inicio</b> aparece <b>¿Cómo de duro ha sido el entreno?</b>. Marca del 1 al 10 y pulsa <b>Enviar al míster</b>.`},
- {r:'m',k:['biblioteca','ejercicio','rondo','posesion','tarea de'],a:()=>`La <b>Biblioteca</b> (desde Sesiones) tiene más de 200 ejercicios con su ficha, filtros por edad y concepto, y el botón «Usar en una sesión».`,b:()=>[['Abrir biblioteca','go','biblioteca']]},
- {r:'m',k:['evaluar','evaluacion','puntuar','nota del','nota de'],a:()=>`Entra en <b>Jugadores</b>, abre la ficha y pulsa <b>Evaluar</b>: mueves cada área de 0 a 100 y la familia ve la evolución en su Progreso.`,b:()=>[['Ir a Jugadores','go','jugadores']]},
+ {r:'m',k:['biblioteca','ejercicio','rondo','posesion','tarea de'],a:()=>`La <b>Biblioteca</b> (desde Sesiones) tiene 1.092 ejercicios con su ficha, filtros por edad y concepto, y el botón «Usar en una sesión».`,b:()=>[['Abrir biblioteca','go','biblioteca']]},
+ {r:'m',k:['evaluar','evaluo','evalua','evaluacion','puntuar','nota del','nota de'],a:()=>`Entra en <b>Jugadores</b>, abre la ficha y pulsa <b>Evaluar</b>: mueves cada área de 0 a 100 y la familia ve la evolución en su Progreso.`,b:()=>[['Ir a Jugadores','go','jugadores']]},
  {r:'m',k:['tarea','deberes','para casa','nota para la familia','comentario'],a:()=>`En la ficha de cada jugador o jugadora tienes <b>Tareas para casa › Asignar</b> y <b>Notas del míster › Nota</b>. La familia las ve al momento en su app.`,b:()=>[['Ir a Jugadores','go','jugadores']]},
  {r:'m',k:['informe','report','resumen del mes'],a:()=>`En la ficha del jugador o jugadora pulsa <b>Informe para la familia</b>: se genera solo y lo puedes copiar o enviar por WhatsApp.`,b:()=>[['Ir a Jugadores','go','jugadores']]},
  {r:'m',k:['prueba','test','fisica','medir','marca'],a:()=>`En <b>Pruebas</b> registras velocidad, salto, agilidad y resistencia por grupos, con la referencia para cada edad.`,b:()=>[['Ir a Pruebas','go','pruebas']]},
- {r:'m',k:['pago','cobro','pendiente','recordar','pack','dinero'],a:()=>`En <b>Packs y pagos</b> ves lo cobrado y lo pendiente del mes. Con <b>Recordar</b> mandas un aviso de pago a esa familia.`,b:()=>[['Ir a Pagos','go','pagos']]},
+ {r:'m',k:['pago','cobro','pendiente','recordar','pack','dinero','debe'],a:()=>`En <b>Packs y pagos</b> ves lo cobrado y lo pendiente del mes. Con <b>Recordar</b> mandas un aviso de pago a esa familia.`,b:()=>[['Ir a Pagos','go','pagos']]},
  {r:'m',k:['cuadrante','turno','franja','horario','plazas'],a:()=>`El <b>Cuadrante</b> (desde Sesiones) organiza franjas, turnos y plazas, y muestra la ocupación que eligen las familias. Solo <b>Perotti y Miguel</b> pueden cambiarlo.`,b:()=>[['Abrir cuadrante','go','cuadrante']]},
  {r:'m',k:['nuevo jugador','nueva jugadora','alta','inscribir','anadir jugador','dar de alta'],a:()=>`En <b>Jugadores › Nuevo jugador/a</b> lo das de alta con su grupo; la familia recibe su acceso.`,b:()=>[['Ir a Jugadores','go','jugadores']]},
  {r:'m',k:['video','grabar','subir','camara'],a:()=>`En la ficha de cada jugador o jugadora puedes subir sus vídeos y comentar en el segundo exacto. El icono de la cámara indica si se le puede grabar según la autorización de la familia.`,b:()=>[['Ir a Jugadores','go','jugadores']]},
  {r:'m',k:['mensaje','chat','responder','familia escribe','contestar'],a:()=>`Los mensajes de las familias llegan a <b>Mensajes</b>, con un punto rojo si hay alguno sin leer. Puedes contestar con respuestas rápidas o escribiendo.`,b:()=>[['Ver mensajes','tab','chat']]},
- {r:'a',k:['hola','buenas','buenos dias','buenas tardes','buenas noches','gracias','vale'],a:()=>`¡A ti! 😊 Pregúntame lo que necesites o elige una de las preguntas de abajo.`}
+ {r:'a',k:['hola','buenas','buenos dias','buenas tardes','buenas noches','gracias','vale'],a:()=>`¡A ti! 😊 Pregúntame lo que necesites o elige una de las preguntas de abajo.`},
+ {r:'f',k:['escribo al mister','escribir al mister','hablar con el mister','mensaje al mister'],a:()=>`Abre el balón del asistente y entra en <b>Mensajes</b>: ahí hablas con el equipo técnico del grupo.`,b:()=>[['Escribir al míster','tab','chat']]},
+ {r:'f',k:['aviso de que no','no va','no viene'],a:()=>`En <b>Inicio</b>, en <b>¿Cómo llega hoy?</b>, elige que no va, pon el motivo y envía. El míster lo ve al pasar lista.`,b:()=>[['Ir a Inicio','go','inicio']]},
+ {r:'f',k:['notas','sus notas','informe del mes','descargo el informe'],a:p=>`En <b>Progreso</b> ves la nota de ${nom(p)} por áreas y mes a mes. Ahí mismo está el informe del mes, que puedes guardar en PDF.`,b:()=>[['Ver Progreso','go','progreso']]},
+ {r:'m',k:['hoja de sesion','pdf de la','sesion por whatsapp','mando la sesion'],a:()=>`Toca la sesión en <b>Sesiones</b> y pulsa <b>Hoja de sesión (PDF)</b>: arriba tienes Guardar PDF, WhatsApp e Imprimir.`,b:()=>[['Ir a Sesiones','go','sesiones']]},
+ {r:'m',k:['objetivos'],a:()=>`En <b>Planificar sesión</b> tienes tres casillas: objetivo general, técnico-táctico e individual. Si las dejas vacías, salen los del programa.`,b:()=>[['Ir a Sesiones','go','sesiones']]},
+ {r:'a',k:['metodo'],a:()=>`El <b>Método JP</b> tiene cuatro fases: <b>Percibir</b>, <b>Decidir</b>, <b>Ejecutar</b> y <b>Competir</b>. Une técnica, táctica, físico, mente y vídeo.`},
+ {r:'a',k:['sesion individual','sesiones individuales'],a:()=>`Hay <b>sesiones individuales</b>, 1 a 1 o en pareja con un míster. El precio se consulta con el club por WhatsApp.`,b:()=>[['WhatsApp del club','wa','Hola, quería preguntar por las sesiones individuales.']]},
 ];
 const HQF=['¿A qué hora entrena?','No puede venir hoy','¿Qué tiene que traer?','¿Cómo pago el pack?','¿Cómo va su progreso?','Instalar la app','Hablar con el club'];
 const HQM=['Pasar lista','Enviar un aviso','Planificar una sesión','Evaluar a un jugador','Pagos pendientes','Cuadrante y turnos','Mensajes de familias'];
@@ -1462,11 +1476,11 @@ function helpSheet(tab){if(tab)HT=tab;const k=S.role+'|'+S.kid+'|'+S.me;if(k!==H
   $('#help').onclick=helpClick;drawHelp();msgSync();}
 function drawHelp(auto){const fam=S.role==='familia',p=fam?P(S.kid):null,hb=$('#hbody');if(!hb)return;
   const hmi=$('#hmi'),keep=hmi?{v:hmi.value,f:document.activeElement===hmi}:null,hsel=$('#hnew'),kf=hsel&&document.activeElement===hsel;if(auto&&kf)return;
-  if(HT==='asis'){if(!HLOG)HLOG=[{html:fam?`Hola 👋 Soy el asistente de JP Fútbol. Resuelvo al momento las dudas más habituales sobre ${nom(p)}, la app y la academia. Elige una pregunta o escríbela.${tarde()?' Si necesitas al club, Perotti y Miguel te contestarán a primera hora.':''}`:`Hola, míster ${S.me} 👋 Te ayudo con la app: pasar lista, avisos, sesiones, evaluaciones, pagos… Elige una pregunta o escríbela.`}];
+  if(HT==='asis'){if(!HLOG)HLOG=[{html:fam?`Hola 👋 Soy el asistente de JP Fútbol. Resuelvo al momento tus dudas sobre la app y la academia. Elige una pregunta o escríbela con tus palabras.${tarde()?' Si necesitas al club, Perotti y Miguel te contestarán a primera hora.':''}`:`Hola, míster ${S.me} 👋 Te ayudo con la app: pasar lista, avisos, sesiones, evaluaciones, pagos… Elige una pregunta o escríbela con tus palabras.`}];
     hb.innerHTML=`<div class="hlog" id="hlog" aria-live="polite">${HLOG.map(m=>`<div class="bub ${m.me?'me':''}">${m.html}${hActs(m.acts)}</div>`).join('')}</div>
     <div class="hops">${(fam?HQF:HQM).map(q=>`<button type="button" class="chip" data-hq="${q}">${q}</button>`).join('')}</div>
     <form class="hform" id="hf"><input id="hq" placeholder="Escribe tu duda" autocomplete="off" aria-label="Escribe tu duda" maxlength="200"><button class="btn oro" aria-label="Enviar">${I('send',18)}</button></form>
-    <p class="hnote">Asistente automático y gratuito de JP Fútbol. Si no sabe la respuesta, te pasa con el míster o con el club.</p>`;
+    <p class="hnote">Asistente con inteligencia artificial de JP Fútbol. No escribas nombres ni datos de salud. Si no sabe la respuesta, te pasa con el míster o con el club.</p>`;
     $('#hf').onsubmit=e=>{e.preventDefault();const v=$('#hq').value.trim();if(v)hAsk(v,true);};const l=$('#hlog');l.scrollTop=l.scrollHeight;return;}
   if(HT==='contacto'){const mi=p?GROUPS[p.group].mister:'';
     hb.innerHTML=`<div class="ccl"><a class="cct wa" href="${waL(fam?`Hola JP Fútbol 👋 Soy de la familia de ${p.name}. `:'Hola 👋 ')}" target="_blank" rel="noopener"><span>${I('chat',22)}</span><div><b>WhatsApp del club</b><small>${CLUB.telTxt} · os contestan lo antes posible</small></div></a>
@@ -1491,7 +1505,19 @@ function drawHelp(auto){const fam=S.role==='familia',p=fam?P(S.kid):null,hb=$('#
   <p class="hnote">${fam?`Los místers suelen contestar por la tarde. Si es urgente, llama al ${CLUB.telTxt}.`:'La familia recibe tu respuesta al momento en su app.'}${fam&&!MSG_API?' En la demo, entra como míster para ver y contestar este mensaje.':''}</p>`;
   $('#hm').onsubmit=e=>{e.preventDefault();hSend($('#hmi').value);};const l=$('#hlog');l.scrollTop=l.scrollHeight;
   if(keep){$('#hmi').value=keep.v;if(keep.f)$('#hmi').focus();}}
-function hAsk(q,typed){HLOG.push({me:true,html:esc(q)});const r=hAnswer(q);HLOG.push(r);drawHelp();if(typed)$('#hq').focus();}
+/* Asistente con IA: lo escrito se responde con la IA y, si no hay conexión, con las respuestas de la app.
+   Solo se envían la pregunta y los datos del grupo, nunca el nombre ni datos de salud del jugador o jugadora. */
+const AI_API='https://jpfutbolweb.kreadigitalstudio.es/asistente.php';
+const AI_GO={hoy:'Ir a Hoy',sesiones:'Ir a Sesiones',jugadores:'Ir a Jugadores',pruebas:'Ir a Pruebas',pagos:'Ir a Pagos',biblioteca:'Abrir biblioteca',videoteca:'Ver los vídeos',cuadrante:'Abrir cuadrante',carga:'Ver Carga y RPE',inicio:'Ir a Inicio',progreso:'Ver Progreso',pack:'Ver Mi pack',tareas:'Tareas y vídeos'};
+function aiCtx(){if(S.role!=='familia')return '';const p=P(S.kid),g=GROUPS[p.group],L=packSessions(p);return `Grupo ${g.name}. Pack ${p.pack}. Míster ${g.mister}. Entrena: ${L.map(x=>{const m=metaFor(x.k,x.dn);return `${x.dn} de ${m.s} a ${m.e}`;}).join(', ')}.`;}
+const aiTxt=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent.trim();};
+async function aiAsk(){const fam=S.role==='familia',messages=HLOG.filter(m=>!m.wait).slice(-8).map(m=>({role:m.me?'user':'assistant',content:aiTxt(m.html)})),c=new AbortController(),to=setTimeout(()=>c.abort(),15000);
+  try{const r=await fetch(AI_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages,perfil:fam?'familia':'mister',ctx:aiCtx()}),signal:c.signal}),j=await r.json();if(!j||!j.ok||!j.reply)throw 0;
+    let t=j.reply,acts=[];const go=t.match(/(?:^|\n)\s*IR:\s*([a-z]+)\s*$/i);if(go){t=t.slice(0,go.index);const k=go[1].toLowerCase();if(k==='mensajes')acts=[[fam?'Escribir al míster':'Abrir mensajes','tab','chat']];else if(AI_GO[k])acts=[[AI_GO[k],'go',k]];}
+    return {html:esc(t.trim()).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n+/g,'<br>'),acts};}finally{clearTimeout(to);}}
+function hAsk(q,typed){HLOG.push({me:true,html:esc(q)});if(!typed){HLOG.push(hAnswer(q));drawHelp();return;}
+  const r={html:'<span class="hdots" role="status" aria-label="Escribiendo"><i></i><i></i><i></i></span>',wait:true};HLOG.push(r);drawHelp();$('#hq').focus();
+  aiAsk().then(x=>Object.assign(r,x)).catch(()=>Object.assign(r,hAnswer(q))).finally(()=>{delete r.wait;const i=$('#hq'),k=i?{v:i.value,f:document.activeElement===i}:null;drawHelp();const n=$('#hq');if(n&&k){n.value=k.v;if(k.f)n.focus();}});}
 function hSend(t){t=String(t||'').trim();if(!t)return;const fam=S.role==='familia',id=fam?S.kid:HCV;if(!id)return;const m={f:fam?'fam':'mis',by:fam?'':S.me,t,at:new Date().toISOString(),r:false},ok=fam?'Mensaje enviado al míster':'Respuesta enviada a la familia';
   if(MSG_API){const i=$('#hmi');if(i)i.value='';msgPost({pid:id,...m}).then(()=>{drawHelp();toast(ok);}).catch(()=>{if(i&&!i.value)i.value=t;toast('No se ha podido enviar. Revisa la conexión e inténtalo de nuevo.');});return;}
   (msgs()[id]=msgs()[id]||[]).push(m);save();drawHelp();$('#hmi').focus();toast(ok);}
@@ -1844,7 +1870,7 @@ document.addEventListener('click',e=>{
     load();
     $('#sf').onsubmit=ev=>{ev.preventDefault();const extra=$('#se').value.split('\n').map(x=>x.trim()).filter(Boolean);const all=[...sel,...extra];if(!all.length){toast('Añade al menos un ejercicio');return;}if(!ms.length){$('#sme').textContent='Elige al menos un míster.';$('#smp').scrollIntoView({block:'center',behavior:'smooth'});return;}if(tmin($('#sh2').value)<=tmin($('#sh1').value)){toast('La hora de fin debe ser posterior a la de inicio');return;}S.plans=S.plans||{};S.plans[$('#sg').value+'|'+$('#sd').value]=all;S.meta=S.meta||{};const gk=$('#sg').value,gd=$('#sd').value;S.meta[gk+'|'+gd]={ms,s:$('#sh1').value,e:$('#sh2').value,ob:{g:$('#so1').value.trim(),t:$('#so2').value.trim(),i:$('#so3').value.trim()}};save();closeSheet();render();toast('Sesión guardada');sesSheet(gk,gd);};}
   if(a==='newPlayer'){newPlayerSheet();}
-  if(a==='pay'){payFlow(P(S.kid));}
+  if(a==='pay'){payFlow(P(S.kid));}if(a==='payNext'){payFlow(P(S.kid),true);}
   if(a==='theme'){e.preventDefault();toggleTheme();return;}
   if(a==='menu'){$('.side').classList.add('open');$('.mbk').classList.add('open');return;}
   if(a==='menuX'){menuX();return;}

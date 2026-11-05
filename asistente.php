@@ -106,7 +106,7 @@ Biblioteca (desde Sesiones): 1.092 ejercicios con filtros por edad y concepto y 
 Cuadrante (desde Sesiones): franjas, turnos y ocupación. Solo Perotti y Miguel pueden cambiarlo.
 Carga y RPE (menú de tres rayas o Sesiones): lo duro que ha sido cada entreno para cada jugador o jugadora, del 1 al 10, y quién falta por responder.
 Pruebas: batería de 7 pruebas; pulsa Medir en el jugador o jugadora y guarda los resultados. La familia ve la evolución en Progreso.
-Pagos: cajas de cobrado, pendiente y packs, que se pueden tocar. Tocando un jugador o jugadora se abre su ficha de pago, con Recordar a la familia y Marcar como pagado. Los precios son de ejemplo.
+Pagos: cajas de cobrado, pendiente y packs, que se pueden tocar. Tocando un jugador o jugadora se abre su ficha de pago, con Recordar a la familia, Marcar como pagado y Cobrar con tarjeta o móvil. Las familias pagan desde su app con tarjeta, Google Pay, Apple Pay o Bizum. En esta versión el cobro es una demostración y los precios son de ejemplo.
 Mensajes: balón del asistente › Mensajes; también puedes elegir una familia para escribirle.
 Familias: en el menú de tres rayas puedes abrir la vista de jugadores, jugadoras y familias, y el apartado de la app de familias para pasarles el enlace.
 Ajustes (barra de abajo): perfil, contraseña, notificaciones, recordatorio para pasar lista a las 20:00, modo de color y cerrar sesión.
@@ -121,7 +121,7 @@ Inicio: portada con la próxima sesión, notificaciones y «¿Cómo llega hoy?»
 Esfuerzo del entreno (RPE): después de cada entreno aparece en Inicio «¿Cómo de duro ha sido el entreno?»; marca del 1 al 10 y pulsa Enviar al míster.
 Progreso: nota global mes a mes, notas por áreas, plan por posición y pruebas físicas con el antes y el después. Ahí está el informe del mes, que se puede guardar en PDF.
 Tareas y vídeos: tareas para casa (se marcan con ✓) y vídeos con los comentarios del míster en el segundo exacto.
-Mi pack: pack, estado del pago, pago con tarjeta o Bizum, recibos, Cambiar de pack (empieza el día 1 del mes siguiente) y Mi horario, donde se elige el turno de cada día si hay varios.
+Mi pack: pack, estado del pago, pago con tarjeta, Google Pay, Apple Pay o Bizum (en esta versión es una demostración y no se cobra nada), adelantar el mes siguiente, recibos, Cambiar de pack (empieza el día 1 del mes siguiente) y Mi horario, donde se elige el turno de cada día si hay varios.
 Mensajes: balón del asistente › Mensajes, para hablar con el equipo técnico del grupo sin dar el teléfono personal. Si llegáis tarde, escribe ahí.
 Avisos: la campana lleva a las notificaciones y a Avisos. Para recibirlos en el móvil, activa Recibir notificaciones en Ajustes y permite el aviso del móvil.
 Autorizaciones de imagen: en Inicio o en Ajustes; se cambian cuando se quiera.
