@@ -1111,6 +1111,8 @@ function openPos(k,ir){const d=POS[k];if(!d)return;const box=$('#posDet'),li=a=>
   box.innerHTML=`<div class="posd-h"><img src="assets/img/${d.img}.webp" alt="${d.tag}"><div><small>${d.tag}</small><h3 class="disp">${k}</h3><p>${d.intro}</p><div class="pm-how">${d.how.map(h=>`<span>${h}</span>`).join('')}</div><button class="btn btn-oro" data-book="${d.book}">Reservar plaza</button></div></div><div class="posd-g"><div class="pm-blk"><h4>Técnica individual</h4><ul>${li(d.tec)}</ul></div><div class="pm-blk"><h4>Táctica individual</h4><ul>${li(d.tac)}</ul></div></div>`;
   box.hidden=false;if(ir)box.scrollIntoView({behavior:'smooth',block:'start'});}
 $('#posCards').addEventListener('click',e=>{const c=e.target.closest('.posc');if(!c)return;if(c.getAttribute('aria-pressed')==='true'){c.setAttribute('aria-pressed','false');$('#posDet').hidden=true;return;}openPos(c.dataset.pos,true);});
+/* Foto de cada resultado del test, distinta de las de los puestos */
+const PACKFOTO={'Tecnificación 1 día':'tecnificacion-01','Tecnificación 2 días':'tecnificacion-03','Pack completo':'preparacion-03','Sesión de prueba':'preparacion-05','Porteros':'porteros-02-joven'};
 function recommend(){
   if(!ans.edad||!ans.pos||!ans.obj)return;
   let t,x,pack;
@@ -1121,7 +1123,7 @@ function recommend(){
   else if(ans.obj==='2'){t='Tecnificación · Progreso';x=`Dos días de tecnificación en grupo reducido, pensado para ${pu}.`;pack='Tecnificación 2 días';}
   else{t='Tecnificación · Inicio';x=`Un día de tecnificación a la semana en grupo reducido, pensado para ${pu}.`;pack='Tecnificación 1 día';}
   const pk0=pack==='Porteros'?'Portería':ans.pos,d=POS[pk0]||POS['Por definir'],pk=PACKS.find(p=>p.id===pack);
-  $('#rImg').src=`assets/img/${d.img}.webp`;$('#rImg').alt=d.tag;$('#rTitle').textContent=t;$('#rText').textContent=x;
+  $('#rImg').src=`assets/img/${PACKFOTO[pack]}.webp`;$('#rImg').alt=t;$('#rTitle').textContent=t;$('#rText').textContent=x;
   $('#rInfo').innerHTML=pk?`<span><b>${pk.m} €</b> al mes</span><span>${pk.feats[0]}</span><span>Lunes a jueves · 20:00 a 21:30</span>`:'<span><b>Sin compromiso</b></span><span>Lunes a jueves · 20:00 a 21:30</span>';
   $('#rHow').innerHTML=d.how.slice(0,3).map(h=>`<span>${h}</span>`).join('');
   $('#fPos').value=ans.pos;$('#fAge').placeholder=ans.edad;$('#rBook').dataset.book=pack;$('#rBook').textContent=pk?'Reservar plaza':'Pedir sesión de prueba';$('#rMore').onclick=()=>openPos(pk0,true);
