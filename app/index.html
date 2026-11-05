@@ -1644,8 +1644,8 @@ function reportText(p){const g=GROUPS[p.group],ar=Object.entries(p.areas).sort((
   '','¡Gracias por confiar en JP Fútbol!','Equipo técnico'].join('\n');}
 function reportSheet(p){const tx=reportText(p),fam=S.role!=='mister';
   sheet(`<h2 class="disp">Informe de ${nm(p)}</h2><p class="muted" style="margin-bottom:14px">${fam?'Resumen del equipo técnico':'Listo para mandar a la familia por WhatsApp'}</p><div class="rep">${esc(tx)}</div>
-  <div class="repb"><button class="btn" id="rpCp">Copiar</button>${fam?'':`<a class="btn oro" href="https://wa.me/?text=${encodeURIComponent(tx)}" target="_blank" rel="noopener">Enviar por WhatsApp</a>`}${navigator.share?'<button class="btn" id="rpSh">Compartir</button>':''}</div>`);
-  $('#rpCp').onclick=async()=>{try{await navigator.clipboard.writeText(tx);toast('Informe copiado');}catch(e){toast('Selecciona el texto y cópialo');}};
+  <div class="repb">${fam?`<button class="btn oro" id="rpPdf">${I('dl',16)}Guardar PDF</button>`:`<button class="btn" id="rpCp">Copiar</button><a class="btn oro" href="https://wa.me/?text=${encodeURIComponent(tx)}" target="_blank" rel="noopener">Enviar por WhatsApp</a>`}${navigator.share?'<button class="btn" id="rpSh">Compartir</button>':''}</div>`);
+  const cp=$('#rpCp');if(cp)cp.onclick=async()=>{try{await navigator.clipboard.writeText(tx);toast('Informe copiado');}catch(e){toast('Selecciona el texto y cópialo');}};const pf=$('#rpPdf');if(pf)pf.onclick=()=>repPdf(pf,p,tx);
   const sh=$('#rpSh');if(sh)sh.onclick=()=>navigator.share({title:'Informe de '+p.name,text:tx}).catch(()=>{});}
 
 /* ---------- Comentarios del míster en el segundo exacto del vídeo ---------- */
