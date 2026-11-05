@@ -88,6 +88,7 @@ input,select,textarea{font:inherit;color:var(--cal)}
 .side .who span{font-size:12.5px;color:var(--c3)}
 .side a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;text-decoration:none;color:var(--c2);font-weight:600}
 .side a.on{background:rgba(226,183,70,.12);color:var(--oro2)}
+.side{overflow-y:auto;scrollbar-width:thin}.side>*{flex:none}
 .side .end{margin-top:auto;display:grid;gap:6px}
 .main{min-width:0;padding:26px clamp(16px,3vw,40px) calc(110px + var(--sb))}
 .topbar{display:none}.mbk{display:none}
@@ -474,8 +475,8 @@ html[data-theme=light] .sc{box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 26px -18p
 .bub small{display:block;margin-top:4px;font-size:11px;opacity:.72}.bub b{font-weight:800}
 .hact{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .hact a,.hact button{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--oro);background:transparent;color:var(--oro2);font-weight:800;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;cursor:pointer}
-.hops{display:flex;gap:6px;overflow-x:auto;padding:6px 0 10px;scrollbar-width:none}.hops::-webkit-scrollbar{display:none}
-.hops .chip{flex:none;min-height:34px;font-size:12.5px;padding:0 12px}
+.hops{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0 10px}
+.hops .chip{flex:none;max-width:100%;min-height:34px;font-size:12.5px;padding:0 12px;white-space:normal}
 .hform{display:flex;gap:8px}
 .hform input{flex:1;min-width:0;height:48px;border-radius:12px;border:1px solid var(--linea);background:var(--noche);color:var(--cal);padding:0 14px;font-size:16px}
 .hform input:focus{outline:none;border-color:var(--oro)}.hform .btn{width:48px;padding:0;flex:none}
