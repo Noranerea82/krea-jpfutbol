@@ -1196,7 +1196,7 @@ function recommend(){
     fetch('asistente.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist}),signal:ctrl?ctrl.signal:undefined})
     .then(function(x){return x.json()})
     .then(function(j){clearTimeout(to);if(!j||!j.ok){if(j&&j.error==='sin_clave')ia=false;throw 0}
-      t.innerHTML=esc(j.reply);body.scrollTop=body.scrollHeight;hist.push({role:'assistant',content:j.reply});cierre(q)})
+      t.innerHTML=esc(j.reply).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');body.scrollTop=body.scrollHeight;hist.push({role:'assistant',content:j.reply});cierre(q)})
     .catch(function(){clearTimeout(to);var a=r||NOSE;t.innerHTML=a;hist.push({role:'assistant',content:a.replace(/<[^>]+>/g,'')});body.scrollTop=body.scrollHeight;cierre(q)});
   }
   function open(){win.hidden=false;btn.setAttribute('aria-expanded','true');btn.classList.add('on');tip.hidden=true;try{sessionStorage.setItem('jpb-tip','1')}catch(e){}
