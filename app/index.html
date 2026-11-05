@@ -525,6 +525,11 @@ html[data-theme=light] .sc{box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 26px -18p
 /* Pantallas anchas: cabecera rectangular a todo el ancho */
 @media (min-width:601px){.portada,.hd.phd{width:100%;min-height:0;max-height:520px;aspect-ratio:2/1;border-radius:22px}.hd.phd{padding:22px 24px;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:10px}.phd::before{left:0}.portada>img{left:0;width:100%;height:100%;object-position:72% 22%}.portada::before{background:linear-gradient(180deg,rgba(5,5,5,0) 55%,rgba(5,5,5,.26) 78%,rgba(5,5,5,.42) 100%)}.po-in{padding:22px 24px}.phd h1,.portada h1.disp{font-size:clamp(34px,4.4vw,48px)}.phd.ppr::before{background-size:cover;background-position:30% 24%}.phd.pses::before{background:url(assets/foto-sesiones-ancha.jpg) 50% 50%/cover no-repeat}}
 @media (hover:hover){.chip:not([aria-pressed=true]):hover{border-color:var(--oro);box-shadow:0 0 0 1px var(--oro)}.pgk:hover,.pgi:hover{border-color:var(--oro)}}
+.avwa{display:flex;align-items:flex-start;gap:10px;margin:0 0 14px;padding:12px;border:1px solid var(--linea);border-radius:14px;font-weight:700;font-size:14px}.avwa input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--oro);flex:none}.avwa small{display:block;margin-top:2px;font-weight:500;font-size:12.5px;color:var(--c3)}.pgi .lnk{display:block;padding:0;font-size:12.5px;color:var(--c3);text-decoration:underline}
+.peek{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px 12px;border-radius:14px;background:var(--oro);color:#130F05;font-size:13.5px}.peek span{flex:1;min-width:0}.peek .btn{flex:none;background:#130F05;color:#fff;border-color:#130F05}
+.rpenew{border:2px solid var(--oro)}.rpes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:12px}.rpes button{min-height:48px;border-radius:12px;border:2px solid var(--c);color:var(--cal);font-family:var(--fd);font-size:20px;background:transparent}.rpes button[aria-checked=true]{background:var(--c);color:#fff}@media(min-width:601px){.rpes{grid-template-columns:repeat(10,minmax(0,1fr))}}
+.rpel{margin:10px 0;text-align:center;color:var(--c2);font-size:14px}.rpev{display:flex;align-items:center;gap:12px;margin-top:8px;font-weight:700}.rpev b,.rpeb{flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;color:#fff;font-family:var(--fd);font-size:20px;font-weight:700}
+.rpeno{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:13px;color:var(--c3)}.rpeno .btn{flex:none}
 .pgk{display:block;width:100%;text-align:left;color:inherit;cursor:pointer}.pgk em{display:block;margin-top:8px;font-style:normal;font-size:12.5px;font-weight:700;color:var(--oro2)}
 .pgl{display:grid;gap:8px}.pgi{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:14px;border:1px solid var(--linea);background:var(--g2);text-align:left;color:var(--cal)}.pgi .grow{flex:1;min-width:0}.pgi b{display:block;font-size:14.5px}.pgi small{display:block;font-size:12.5px;color:var(--c3)}.pgi em{flex:none;font-style:normal;font-weight:800}
 .pgph{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:16px 0 8px;font-size:16px}.pgph small{display:block;font-size:12.5px;font-weight:500;color:var(--c3)}.pgph i{flex:none;min-width:28px;height:28px;display:grid;place-items:center;border-radius:99px;background:rgba(226,183,70,.16);color:var(--oro2);font-style:normal;font-size:13px;font-weight:800}
@@ -601,6 +606,7 @@ const I=(n,s=20)=>`<svg class="ico" style="width:${s}px;height:${s}px" viewBox="
  users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
  cal:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
  card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
+ eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
  chart:'<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
  menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
  bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
@@ -782,9 +788,9 @@ function shell(content,route){
   $('#root').innerHTML=`<div class="shell">
    <aside class="side"><div class="who"><img class="tlogo" src="assets/logo-round.webp" alt="JP Fútbol"><div>${who}</div></div><button class="bell side-bell ${bellN()?'on':''}" data-act="bell">${I('bell',18)}<span>Notificaciones</span>${bellN()?`<i>${bellN()}</i>`:''}</button>
     ${nav.map(([k,t,i])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i)}${t}</a>`).join('')}
-    <div class="end"><a href="#" data-act="help" data-tab="asis">${I('help')}Asistente y ayuda</a><a href="#" data-act="help" data-tab="chat">${I('chat')}Mensajes${msgBadge()?`<em>${msgBadge()}</em>`:''}</a><a href="#" data-act="help" data-tab="contacto">${I('phone')}Contacto del club</a><a href="#" data-act="theme" class="thm">${THM}<span>Modo claro / oscuro</span></a>${isStandalone()?'':`<a href="#" data-act="install">${I('dl')}Instalar la app</a>`}<a href="${WEB}">${I('globe')}Web de JP Fútbol</a><a href="#" data-act="ajustes">${I('cog')}Ajustes y notificaciones</a><a href="#" data-act="reset">${I('reset')}Reiniciar demo</a><a href="#" data-act="logout">${I('out')}Salir</a></div></aside>
+    <div class="end">${S.role==='mister'?`<a href="#/carga">${I('chart')}Carga y RPE</a><a href="#" data-act="famView">${I('eye')}Vista jugador y familias</a><a href="#" data-act="famApp">${I('users')}App de familias</a>`:''}<a href="#" data-act="help" data-tab="asis">${I('help')}Asistente y ayuda</a><a href="#" data-act="help" data-tab="chat">${I('chat')}Mensajes${msgBadge()?`<em>${msgBadge()}</em>`:''}</a><a href="#" data-act="help" data-tab="contacto">${I('phone')}Contacto del club</a><a href="#" data-act="theme" class="thm">${THM}<span>Modo claro / oscuro</span></a>${isStandalone()?'':`<a href="#" data-act="install">${I('dl')}Instalar la app</a>`}<a href="${WEB}">${I('globe')}Web de JP Fútbol</a><a href="#" data-act="ajustes">${I('cog')}Ajustes y notificaciones</a><a href="#" data-act="reset">${I('reset')}Reiniciar demo</a><a href="#" data-act="logout">${I('out')}Salir</a></div></aside>
    <button class="mbk" data-act="menuX" aria-label="Cerrar el menú"></button><div><header class="topbar"><div style="display:flex;gap:10px;align-items:center"><button class="btn sm mnub" data-act="menu" aria-label="Abrir el menú">${I('menu',20)}</button><img class="tlogo" src="assets/logo-round.webp" alt="JP Fútbol"><div class="tbt"><span class="t">${S.role==='mister'?'Míster '+S.me:P(S.kid).name.split(' ')[0]}</span><small>${S.role==='mister'?'Equipo técnico':'Área familias'}</small></div></div><div style="display:flex;gap:8px"><button class="btn sm thm" data-act="theme" aria-label="Modo claro u oscuro">${THM}</button>${isStandalone()?'':`<button class="btn sm" data-act="install" aria-label="Instalar la app">${I('dl',18)}</button>`}<button class="btn sm bell ${bellN()?'on':''}" data-act="bell" aria-label="Notificaciones">${I('bell',18)}${bellN()?`<i>${bellN()}</i>`:''}</button><button class="btn sm salir" data-act="logout" aria-label="Salir de la app" title="Salir">${I('out',18)}</button></div></header>
-   <main class="main pf pf-${(location.hash.replace('#/','').split('/')[0])||route}">${content}<p class="krea-sig">© 2026 <b>KREA Digital Studio</b><span class="ks2"><i> · </i>Diseño y desarrollo</span></p></main></div></div>
+   <main class="main pf pf-${(location.hash.replace('#/','').split('/')[0])||route}">${S.peek&&S.role==='familia'?`<div class="peek">${I('eye',18)}<span>Estás viendo la app de la familia de <b>${nm(P(S.kid))}</b></span><button class="btn sm" data-act="famBack">Volver a míster</button></div>`:''}${content}<p class="krea-sig">© 2026 <b>KREA Digital Studio</b><span class="ks2"><i> · </i>Diseño y desarrollo</span></p></main></div></div>
    <nav class="tabbar" aria-label="Secciones">${nav.map(([k,t,i,sh])=>`<a href="#/${k}" class="${route===k?'on':''}">${I(i,22)}${sh}</a>`).join('')}<a href="#" data-act="ajustes" aria-label="Ajustes">${I('cog',22)}Ajustes</a></nav>
    <button class="fab" data-act="help" aria-label="Ayuda, mensajes y contacto" title="Ayuda, mensajes y contacto">${I('help',26)}${msgBadge()?`<i>${msgBadge()}</i>`:''}</button>`;
 }
@@ -865,7 +871,7 @@ function posPlanHTML(p){const L=POSPLAN[p.pos]||POSPLAN['Por definir'];const bas
  return `<section class="card posplan"><h3>Plan por posición · ${p.pos}</h3><div class="phases">${['Percibir','Decidir','Ejecutar','Competir'].map((t,i)=>`<span class="${i<=ph?'on':''}">${t}</span>`).join('')}</div>${L.map(([t,d],i)=>{const v=Math.max(30,Math.min(96,base-8+((i*13+p.age*3)%22)));return `<div class="obj"><b>${t}</b><em>${v}</em><small>${d}</small><span class="bar"><i style="width:${v}%"></i></span></div>`}).join('')}</section>`;}
 /* ---------- Míster: Sesiones ---------- */
 function vSesiones(){
-  return `<div class="hd phd pses" style="--ph:url(assets/foto-sesiones.jpg?v=4);--pp:50% 0"><div><img class="hlogo" src="assets/logo-round.webp" alt="JP F&uacute;tbol"><h1 class="disp">Sesiones de la semana</h1><p>Lunes a jueves · Toca una sesión para ver el plan o un hueco para planificar</p></div></div><div class="hdb"><a class="btn" href="#/biblioteca">${I('libro')}Biblioteca</a><a class="btn" href="#/videoteca">${I('play')}Videoteca</a><a class="btn" href="#/cuadrante">${I('cal')}Cuadrante y turnos</a><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
+  return `<div class="hd phd pses" style="--ph:url(assets/foto-sesiones.jpg?v=4);--pp:50% 0"><div><img class="hlogo" src="assets/logo-round.webp" alt="JP F&uacute;tbol"><h1 class="disp">Sesiones de la semana</h1><p>Lunes a jueves · Toca una sesión para ver el plan o un hueco para planificar</p></div></div><div class="hdb"><a class="btn" href="#/biblioteca">${I('libro')}Biblioteca</a><a class="btn" href="#/videoteca">${I('play')}Videoteca</a><a class="btn" href="#/cuadrante">${I('cal')}Cuadrante y turnos</a><a class="btn" href="#/carga">${I('chart')}Carga y RPE</a><button class="btn oro" data-act="newSession">${I('plus')}Planificar sesión</button></div>
   ${sesCal()}`;
 }
 /* ---------- Míster: Pagos ---------- */
@@ -885,6 +891,39 @@ function fillGo(b,kind,txt,fn,ms){if(b.classList.contains('filled'))return;
   if(b.dataset.fill){clearTimeout(+b.dataset.fill);delete b.dataset.fill;b.classList.remove('filling','fok','fdel');b.innerHTML=b.dataset.orig;toast('Cancelado');return;}
   b.dataset.orig=b.innerHTML;b.style.setProperty('--fd',(ms||1200)+'ms');b.classList.add('filling',kind==='del'?'fdel':'fok');b.innerHTML=`${I(kind==='del'?'x':'check',16)}<span>${txt}</span>`;toast('Toca otra vez para cancelar');
   b.dataset.fill=setTimeout(()=>{delete b.dataset.fill;b.classList.add('filled');fn(b);},ms||1200);}
+/* Vista jugador y familias: el míster ve la app como la familia y vuelve con un botón */
+function famSheet(){sheet(`<h2 class="disp">Vista jugador y familias</h2><p class="muted" style="margin-bottom:12px">Elige un jugador o jugadora para ver la app como la ve su familia.</p><div class="pgl">${S.players.map(p=>`<button type="button" class="pgi" data-fv="${p.id}">${picOf(p)?`<span class="pini pph" aria-hidden="true"><img src="${picOf(p)}" alt="" loading="lazy"><i>${initials(p.name)}</i></span>`:`<span class="pini" aria-hidden="true">${initials(p.name)}</span>`}<span class="grow"><b>${p.name}</b><small>${GROUPS[p.group].name}</small></span></button>`).join('')}</div>`);}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-fv]');if(!b)return;S.peek={me:S.me};S.role='familia';S.kid=b.dataset.fv;save();closeSheet();location.hash='#/inicio';render();scrollTo(0,0);});
+/* App de familias: el enlace y los avisos salen por WhatsApp al móvil de cada familia */
+let waAv=null;
+const waNum=v=>{let d=String(v||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===9)d='34'+d;return d;};
+const waApp=p=>`Hola, familia de ${nm(p)}. Esta es la app de JP Fútbol: https://jpfutbolapp.kreadigitalstudio.es\n\nÁbrela con el código ${atob('SlAyMDI2')}, pulsa «Soy familia» y elige a ${nm(p)}. Instálala en el móvil y activa las notificaciones. Ahí veréis los entrenamientos, el progreso y los avisos del club, y después de cada entreno marcaréis el esfuerzo.\n\nJP Fútbol`;
+function waGo(p){window.open('https://wa.me/'+waNum(p.fam.tel)+'?text='+encodeURIComponent(waAv?'JP Fútbol: '+waAv.txt:waApp(p)),'_blank');}
+const waRows=L=>`<div class="pgl">${L.map(p=>`<div class="pgi">${picOf(p)?`<span class="pini pph" aria-hidden="true"><img src="${picOf(p)}" alt="" loading="lazy"><i>${initials(p.name)}</i></span>`:`<span class="pini" aria-hidden="true">${initials(p.name)}</span>`}<span class="grow"><b>${p.name}</b><button type="button" class="lnk" data-act="accTel" data-id="${p.id}">${(p.fam||{}).tel?esc(p.fam.tel):'Añadir móvil'}</button></span><button type="button" class="btn sm" data-act="accWa" data-id="${p.id}">WhatsApp</button></div>`).join('')}</div>`;
+function accSheet(){waAv=null;sheet(`<h2 class="disp">App de familias</h2><p class="muted" style="margin-bottom:12px">Pon el móvil de cada familia y pulsa WhatsApp: se abre con el enlace y el código ya escritos. La familia abre la app, la instala y entra en la zona de su hijo o hija.</p>${waRows(S.players)}`);}
+function avWaSheet(txt,to){waAv={txt,to};sheet(`<h2 class="disp">Enviar por WhatsApp</h2><p class="muted" style="margin-bottom:12px">El aviso ya está en la app. Pulsa WhatsApp en cada familia: se abre con el mensaje escrito y solo tienes que enviarlo.</p>${waRows(S.players.filter(p=>to==='all'||p.group===to))}`);}
+function waBack(){waAv?avWaSheet(waAv.txt,waAv.to):accSheet();}
+function telSheet(p){sheet(`<h2 class="disp">Móvil de la familia</h2><p class="muted" style="margin-bottom:12px">${p.name}. Pon el móvil del padre, la madre o el jugador o jugadora.</p><div class="f"><label for="actel">Móvil (WhatsApp)</label><input id="actel" type="tel" inputmode="tel" autocomplete="tel" placeholder="600 000 000" value="${esc((p.fam||{}).tel||'')}"></div>${'contacts' in navigator&&'select' in navigator.contacts?`<button type="button" class="btn full" data-act="accPick" style="margin-bottom:8px">${I('users',16)}Elegir de la agenda del móvil</button>`:''}<button type="button" class="btn oro full" data-act="accOk" data-id="${p.id}" style="margin-bottom:8px">Guardar y abrir WhatsApp</button><button type="button" class="btn full" data-act="accBack">Volver</button>`);}
+/* RPE: después de cada entreno, la familia marca lo duro que ha sido del 1 al 10 */
+const RPE_N=['','Muy suave','Suave','Moderado','Algo duro','Duro','Duro','Muy duro','Muy duro','Casi máximo','Máximo'];
+const RPE_C=['','#2E9D63','#47A562','#73AE57','#A3B54B','#C9B13E','#DE9A37','#E3803A','#DB6439','#C9493A','#A8322F'];
+let RPT=null;
+const rpeIso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+/* Últimos días de entrenamiento ya terminados, del más reciente al más antiguo */
+function rpeDates(n){const L=[],now=new Date();for(let i=0;i<21&&L.length<n;i++){const d=new Date(now);d.setDate(now.getDate()-i);const dn=DIAS[d.getDay()];if(!DAYS.includes(dn))continue;if(i===0&&now.getHours()*60+now.getMinutes()<21*60+30)continue;L.push({iso:rpeIso(d),dn,d});}return L;}
+const rpeOn=d=>S.players.filter(p=>packSessions(p).some(x=>x.dn===d.dn));
+function rpeAll(){if(!S.rpe){S.rpe={};rpeDates(6).forEach((d,i)=>{const o=S.rpe[d.iso]={};rpeOn(d).forEach(p=>{const h=hnum(p.id+d.iso);if(h%6===0||(i===0&&p.id==='j1'))return;o[p.id]=3+h%7;});});save();}return S.rpe;}
+function rpeLast(p){const L=rpeDates(3).find(d=>packSessions(p).some(x=>x.dn===d.dn));return L&&Date.now()-L.d<=4*864e5?L:null;}
+function rpeCard(p){const l=rpeLast(p);if(!l)return '';const v=(rpeAll()[l.iso]||{})[p.id],ed=RPT&&RPT.pid===p.id&&RPT.iso===l.iso,cu=`${l.dn.toLowerCase()} ${fmtLong(l.d)}`;
+  if(v&&!ed)return `<section class="card rpec" id="rpec" style="margin-bottom:14px"><h3><span>Esfuerzo del ${cu}<small class="h3sub">El míster ya lo tiene</small></span><button class="btn sm" data-act="rpeEdit">Cambiar</button></h3><div class="rpev"><b style="background:${RPE_C[v]}">${v}</b><span>${RPE_N[v]}</span></div></section>`;
+  const s=ed?RPT.v:0;return `<section class="card rpec rpenew" id="rpec" style="margin-bottom:14px"><h3><span>¿Cómo de duro ha sido el entreno?<small class="h3sub">Entreno del ${cu} · del 1 al 10</small></span></h3><div class="rpes" role="radiogroup" aria-label="Esfuerzo del 1 al 10">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button type="button" role="radio" aria-checked="${s===n}" data-act="rpePick" data-v="${n}" style="--c:${RPE_C[n]}">${n}</button>`).join('')}</div><p class="rpel">${s?`<b>${s}</b> · ${RPE_N[s]}`:'Toca un número'}</p><button class="btn oro full" data-act="rpeSend" ${s?'':'disabled'}>Enviar al míster</button></section>`;}
+/* Míster: esfuerzo de cada entreno y carga (RPE por minutos) */
+function vCarga(){const A=rpeAll(),D=rpeDates(6),MIN=90,fx=n=>n.toFixed(1).replace('.',','),W=D.filter(d=>Date.now()-d.d<7*864e5),vals=d=>Object.values(A[d.iso]||{}),avg=L=>L.length?L.reduce((a,b)=>a+b,0)/L.length:0;
+  const wv=W.flatMap(vals),exp=W.reduce((a,d)=>a+rpeOn(d).length,0);
+  return `<a href="#/sesiones" class="btn sm" style="margin-bottom:14px">${I('back',16)}Sesiones</a>
+  <div class="hd"><div><h1 class="disp">Carga y RPE</h1><p>Lo duro que ha sido cada entreno para cada jugador y jugadora, del 1 al 10</p></div></div>
+  <div class="grid g3" style="margin-bottom:14px"><div class="card kpi"><small>Esfuerzo medio</small><b>${wv.length?fx(avg(wv)):'–'}</b><span>Últimos 7 días</span></div><div class="card kpi"><small>Carga de la semana</small><b>${Math.round(W.reduce((a,d)=>a+avg(vals(d))*MIN,0))}</b><span>Esfuerzo medio × ${MIN} min de cada entreno</span></div><div class="card kpi"><small>Respuestas</small><b>${wv.length}/${exp}</b><span>Últimos 7 días</span></div></div>
+  <div class="grid">${D.map((d,i)=>{const on=rpeOn(d),L=vals(d),no=on.filter(p=>!(A[d.iso]||{})[p.id]),m=avg(L);return `<details class="card grp" ${i?'':'open'}><summary><span class="gi"><b>${d.dn} ${fmtLong(d.d)}</b><small>${L.length} de ${on.length} han respondido</small></span><span class="gn"><b>${L.length?fx(m):'–'}</b><small>media</small></span><span class="chev" aria-hidden="true">▾</span></summary><div class="pgl" style="margin-top:12px">${on.filter(p=>(A[d.iso]||{})[p.id]).sort((a,b)=>A[d.iso][b.id]-A[d.iso][a.id]).map(p=>{const v=A[d.iso][p.id];return `<button type="button" class="pgi" data-open="${p.id}"><span class="rpeb" style="background:${RPE_C[v]}">${v}</span><span class="grow"><b>${p.name}</b><small>${RPE_N[v]} · ${v*MIN} de carga</small></span></button>`;}).join('')}</div>${no.length?`<div class="rpeno"><span><b>Sin responder:</b> ${no.map(nm).join(', ')}</span><button class="btn sm" data-act="ciRemind" data-n="${no.length}">Recordar</button></div>`:''}</details>`;}).join('')}</div>`;}
 /* Regla de toda la app: guardar se llena de verde y borrar de rojo antes de confirmarse */
 function fillOff(b){if(!b.isConnected)return;b.classList.remove('filling','fok','fdel','filled');if(b.dataset.orig)b.innerHTML=b.dataset.orig;}
 const FILLF={pf:'Creando…',avf:'Enviando aviso…',pwf:'Guardando…',famf:'Guardando…',misf:'Guardando…',msf:'Guardando…',evf:'Guardando…',tf:'Guardando…',nf:'Guardando…',sf:'Guardando…'};
@@ -962,6 +1001,7 @@ function vInicio(){
   const pend=p.tasks.filter(t=>!t.done).length;
   return `${portada(`JP Fútbol · Familia de ${p.name.split(' ')[0]}`,'Entrena distinto.<br><span>Juega a otro nivel.</span>',`Próxima sesión: <b>${isTrainDay()&&next===todayName()?'hoy':next.toLowerCase()+' '+fmtLong(dateOf(next))}</b> · ${turnoLbl(nx.k,turnoOf(p,next,nx.k))}`)}
   ${ntCard()}
+  ${rpeCard(p)}
   ${ciCard(p)}
   <div class="hero-card" style="margin-bottom:14px"><div class="ring" style="--p:${score(p)}"><b>${score(p)}<small>GLOBAL</small></b></div>${av(p,"lg")}<div style="flex:1;min-width:160px"><b style="font-size:18px">${p.name}</b><p class="muted">${p.age} años · ${p.pos} · ${g.name}</p><p style="margin-top:6px;color:var(--oro2);font-weight:700">+${p.hist[5]-p.hist[0]} puntos desde mayo</p></div></div>
   <div class="grid g3" style="margin-bottom:14px">
@@ -1173,12 +1213,12 @@ const AVTPL={
  susp:[['Por lluvia','Hoy se suspende la sesión del {g} por la lluvia. Os avisaremos por aquí de la recuperación.'],['Campo no disponible','Hoy se suspende la sesión del {g} porque el campo no está disponible. Disculpad las molestias.'],['Alerta meteorológica','Hoy se suspende la sesión del {g} por alerta meteorológica. Lo primero es la seguridad de los chicos y chicas.'],['Se recupera','La sesión suspendida del {g} se recupera el '],['Otro motivo','Hoy se suspende la sesión del {g} por ']],
  pago:[['Vence el día 5','Recordad que el pago del pack de este mes vence el día 5. Podéis pagar desde la app con tarjeta o Bizum.'],['Pago pendiente','Hay packs pendientes de pago este mes. Podéis pagarlo en un momento desde «Mi pack».'],['Ahorra un 10 %','Recordad que pagando el trimestre completo ahorráis un 10 %. Lo podéis elegir en «Mi pack».']]};
 function newAviso(){let ty='info',tk=-1;
-  sheet(`<h2 class="disp">Enviar aviso</h2><p class="muted" style="margin-bottom:16px">Llega al momento a la app de las familias</p><form id="avf">
+  sheet(`<h2 class="disp">Enviar aviso</h2><p class="muted" style="margin-bottom:16px">Llega a la app de las familias y queda en su botón Avisos. Si tienen activadas las notificaciones, también les suena en el móvil.</p><form id="avf">
   <div class="f"><label>Tipo</label><div class="paybtns av4" role="group">${Object.entries(AVT).map(([k,[t,e]])=>`<button type="button" data-ty="${k}" aria-pressed="${k==='info'}">${e}<small>${t}</small></button>`).join('')}</div></div>
   <div class="f"><label for="avto">Para</label><select id="avto"><option value="all">Todas las familias (${S.players.length})</option>${Object.entries(GROUPS).map(([k,g])=>`<option value="${k}">${g.name} (${S.players.filter(p=>p.group===k).length})</option>`).join('')}</select></div>
   <div class="f"><label>Mensajes ya hechos <small class="muted" style="font-weight:600;text-transform:none;letter-spacing:0">· toca uno y envía</small></label><div class="avtpl" id="avtpl"></div></div>
   <div class="f"><label for="avtx">Mensaje</label><textarea id="avtx" rows="4" placeholder="Elige un mensaje ya hecho o escribe el aviso"></textarea></div><p id="ave" class="muted" style="color:var(--bad);min-height:18px;font-size:13px"></p>
-  <button class="btn oro full">Enviar aviso</button></form>`);
+  <label class="avwa"><input type="checkbox" id="avw"><span>Enviar también por WhatsApp<small>Al terminar podrás mandarlo familia por familia, con el móvil de cada una</small></span></label><button class="btn oro full">Enviar aviso</button></form>`);
   const gname=()=>{const g=$('#avto').value;return g==='all'?'grupo':(GROUPS[g].short||GROUPS[g].name);};
   const drawT=()=>{$('#avtpl').innerHTML=AVTPL[ty].map(([l],i)=>`<button type="button" class="chip" data-tk="${i}" aria-pressed="${i===tk}">${l}</button>`).join('');};
   const fill=()=>{if(tk<0)return;const t=AVTPL[ty][tk][1].replace('{g}',gname());$('#avtx').value=t;$('#avtx').dataset.auto='1';};
@@ -1186,7 +1226,7 @@ function newAviso(){let ty='info',tk=-1;
   $$('.av4 button').forEach(b=>b.onclick=()=>{ty=b.dataset.ty;tk=-1;$$('.av4 button').forEach(x=>x.setAttribute('aria-pressed',x===b));if($('#avtx').dataset.auto==='1'){$('#avtx').value='';$('#avtx').dataset.auto='0';}drawT();});
   drawT();
   $('#avto').onchange=()=>{if($('#avtx').dataset.auto==='1')fill();};$('#avtx').oninput=e=>e.target.dataset.auto='0';
-  $('#avf').onsubmit=ev=>{ev.preventDefault();const txt=$('#avtx').value.trim();if(!txt){$('#ave').textContent='Escribe el mensaje.';return;}const to=$('#avto').value;const done=()=>{closeSheet();render();const n=to==='all'?S.players.length:S.players.filter(p=>p.group===to).length;toast(`Aviso enviado a ${n} familias`);};
+  $('#avf').onsubmit=ev=>{ev.preventDefault();const txt=$('#avtx').value.trim();if(!txt){$('#ave').textContent='Escribe el mensaje.';return;}const to=$('#avto').value,wa=$('#avw').checked;const done=()=>{closeSheet();render();const n=to==='all'?S.players.length:S.players.filter(p=>p.group===to).length;toast(`Aviso enviado a ${n} familias`);if(wa)avWaSheet(txt,to);};
     if(MSG_API){$('#ave').textContent='';msgPost({aviso:{ty,to,by:S.me,txt}}).then(done).catch(()=>{$('#ave').textContent='No se ha podido enviar. Revisa la conexión e inténtalo de nuevo.';});return;}
     avisos().unshift({id:'a'+Date.now(),ty,to,by:S.me,d:new Date().toISOString(),txt});save();done();};}
 /* ---------- Ayuda: asistente gratuito, mensajes con los místers y contacto del club ---------- */
@@ -1315,7 +1355,7 @@ function ajClick(e){const c=S.cfg=S.cfg||{},s=e.target.closest('[data-sw]');
   if(a==='dl'){dlDatos(p);toast('Archivo descargado');}
   if(a==='demo'){fillGo(b,'del','Cargando datos de ejemplo…',()=>{const keep={auth:S.auth,prof:S.prof,cfg:S.cfg};localStorage.removeItem(KEY);load();Object.assign(S,keep,{role:null});save();closeSheet();location.hash='';render();toast('Datos de ejemplo cargados de nuevo');});}
   if(a==='wipe'){fillGo(b,'del','Borrando mensajes y avisos…',()=>msgPost({reset:true}).then(()=>toast('Mensajes y avisos de prueba borrados')).catch(()=>toast('No se han podido borrar. Revisa la conexión.')));}
-  if(a==='logout'){closeSheet();S.role=null;save();location.hash='';render();}}
+  if(a==='logout'){closeSheet();S.role=null;delete S.peek;save();location.hash='';render();}}
 /* Recordatorio para pasar lista: una vez, a las 20:00 de los días de entrenamiento */
 setInterval(()=>{if(S.role!=='mister'||!(S.cfg&&S.cfg.ntLista)||!isTrainDay())return;const n=new Date(),k=n.toDateString();if(n.getHours()!==20||n.getMinutes()>15||S.cfg.listaDia===k)return;S.cfg.listaDia=k;save();
   if(document.hidden&&'Notification' in window&&Notification.permission==='granted')ntPop('Hora de pasar lista',{body:'Marca en «Hoy» quién ha venido a la sesión.',tag:'lista'});else toast('Hora de pasar lista: márcalo en Hoy');},30000);
@@ -1389,6 +1429,9 @@ const FAQ=[
  {r:'m',k:['aviso','avisar','suspend','lluvia','comunicar','todas las familias','cambio de campo'],a:()=>`Pulsa <b>Enviar aviso</b> (en Hoy o en la campana): elige el tipo, el grupo y un <b>mensaje ya hecho</b> (lluvia, cambio de campo, retraso, festivo…) y envíalo. Llega al momento a la app de las familias.`,b:()=>[['Enviar un aviso','act','newAviso']]},
  {r:'m',k:['sesion','planificar','entrenamiento','plan de hoy','semana'],a:()=>`En <b>Sesiones</b> ves la semana por horas. Toca un hueco o pulsa <b>Planificar sesión</b>: elige grupo, día, místers y añade ejercicios de la biblioteca.`,b:()=>[['Ir a Sesiones','go','sesiones']]},
  {r:'m',k:['video','vídeo','animacion','animación','videoteca'],a:()=>`En <b>Biblioteca › Videoteca</b> tienes ${VT.length} tareas animadas por tipo (rondos, posesión, finalización…). Toca una para verla en grande y a la velocidad que quieras.`,b:()=>[['Ver vídeos','go','videoteca']]},
+ {r:'m',k:['como llega','llega el aviso','whatsapp','enlace','app de familias','app familia'],a:()=>`Los avisos llegan a la app de cada familia y quedan en su botón <b>Avisos</b>. Para pasarles la app, abre el menú y entra en <b>App de familias</b>: pon su móvil y pulsa <b>WhatsApp</b>. En <b>Enviar aviso</b> también puedes marcar <b>Enviar también por WhatsApp</b>.`},
+ {r:'m',k:['rpe','carga','esfuerzo','fatiga'],a:()=>`En <b>Carga y RPE</b> (desde Sesiones o el menú) ves lo duro que ha sido cada entreno para cada jugador y jugadora, del 1 al 10, y quién falta por responder.`},
+ {r:'f',k:['rpe','esfuerzo','duro'],a:()=>`Después de cada entreno, en <b>Inicio</b> aparece <b>¿Cómo de duro ha sido el entreno?</b>. Marca del 1 al 10 y pulsa <b>Enviar al míster</b>.`},
  {r:'m',k:['biblioteca','ejercicio','rondo','posesion','tarea de'],a:()=>`La <b>Biblioteca</b> (desde Sesiones) tiene más de 200 ejercicios con su ficha, filtros por edad y concepto, y el botón «Usar en una sesión».`,b:()=>[['Abrir biblioteca','go','biblioteca']]},
  {r:'m',k:['evaluar','evaluacion','puntuar','nota del','nota de'],a:()=>`Entra en <b>Jugadores</b>, abre la ficha y pulsa <b>Evaluar</b>: mueves cada área de 0 a 100 y la familia ve la evolución en su Progreso.`,b:()=>[['Ir a Jugadores','go','jugadores']]},
  {r:'m',k:['tarea','deberes','para casa','nota para la familia','comentario'],a:()=>`En la ficha de cada jugador o jugadora tienes <b>Tareas para casa › Asignar</b> y <b>Notas del míster › Nota</b>. La familia las ve al momento en su app.`,b:()=>[['Ir a Jugadores','go','jugadores']]},
@@ -1475,21 +1518,21 @@ const nm=p=>p.name.split(' ')[0];
 const nextSes=p=>{const PS=packSessions(p),td=todayName();return PS.find(x=>DAYS.indexOf(x.dn)>=DAYS.indexOf(td))||PS[0];};
 
 /* ---------- ¿Cómo llega? (la familia avisa antes de entrenar) ---------- */
-const CIQ=[['s','Ha dormido',['Mal','Regular','Bien']],['e','Energía',['Poca','Normal','Mucha']],['d','Molestias',['Le duele','Un poco','Nada']]];
-const CIE={s:['😴','😐','😀'],e:['🪫','😐','⚡'],d:['🤕','😐','👍']};
+const CIQ=[['s','Ha dormido',['Mal','Regular','Bien']],['e','Energía',['Poca','Normal','Mucha']],['d','Molestias',['Le duele','Un poco','Nada']],['t','Estrés',['Mucho','Algo','Nada']]];
+const CIE={s:['😴','😐','😀'],e:['🪫','😐','⚡'],d:['🤕','😐','👍'],t:['😣','😐','😌']};
 const CIWHY=['Está enfermo/a','Lesión','Exámenes','Viaje','Otro motivo'];
 function ciAll(){if(!S.ci){S.ci={};const D={j2:{s:3,e:3,d:3},j3:{s:3,e:2,d:1,nota:'Le molesta la rodilla izquierda desde el partido'},j4:{away:true,why:'Viaje',nota:'Excursión con el colegio'},j5:{away:true,why:'Está enfermo/a',nota:'Tiene fiebre'},j6:{s:2,e:1,d:3},j7:{s:3,e:3,d:2},j8:{s:1,e:2,d:3},j9:{s:3,e:3,d:3},j10:{s:3,e:3,d:1,nota:'Molestia en el isquio derecho'}};
   S.players.forEach(p=>{if(D[p.id])packSessions(p).forEach(s=>{(S.ci[s.dn]=S.ci[s.dn]||{})[p.id]={...D[p.id],at:new Date().toISOString()};});});}
   return S.ci;}
 const ciOf=(p,day)=>(ciAll()[day]||{})[p.id]||null;
-function ciLevel(c){if(!c)return 'none';if(c.away)return 'away';const v=[c.s,c.e,c.d];if(c.d===1||v.filter(x=>x===1).length>1)return 'bad';if(v.includes(1)||c.d===2||v.reduce((a,b)=>a+b,0)<8)return 'mid';return 'ok';}
-function ciTxt(c){const lv=ciLevel(c);if(lv==='none')return 'Sin respuesta de la familia';if(lv==='away')return 'No viene · '+c.why;const L=[];if(c.d===1)L.push('Le duele algo');else if(c.d===2)L.push('Alguna molestia');if(c.s===1)L.push('Ha dormido mal');else if(c.s===2&&lv!=='ok')L.push('Ha dormido regular');if(c.e===1)L.push('Poca energía');return L.length?L.join(' · '):'Llega bien';}
+function ciLevel(c){if(!c)return 'none';if(c.away)return 'away';const v=[c.s,c.e,c.d];if(c.d===1||v.filter(x=>x===1).length>1)return 'bad';if(v.includes(1)||c.d===2||c.t===1||v.reduce((a,b)=>a+b,0)<8)return 'mid';return 'ok';}
+function ciTxt(c){const lv=ciLevel(c);if(lv==='none')return 'Sin respuesta de la familia';if(lv==='away')return 'No viene · '+c.why;const L=[];if(c.d===1)L.push('Le duele algo');else if(c.d===2)L.push('Alguna molestia');if(c.t===1)L.push('Mucho estrés');if(c.s===1)L.push('Ha dormido mal');else if(c.s===2&&lv!=='ok')L.push('Ha dormido regular');if(c.e===1)L.push('Poca energía');return L.length?L.join(' · '):'Llega bien';}
 function ciTag(p,day){const c=ciOf(p,day),lv=ciLevel(c);return `<span class="cib ${lv}"${c&&c.nota?` title="${esc(c.nota)}"`:""}>${{ok:'😀',mid:'😐',bad:'🩹',away:'🚫',none:'⏳'}[lv]} ${ciTxt(c)}</span>`;}
 let CIT=null,CIED=false;
 function ciCard(p){const nx=nextSes(p),day=nx.dn,cu=isTrainDay()&&day===todayName()?'hoy':'el '+day.toLowerCase(),c=ciOf(p,day);
   const head=sub=>`<h3><span>¿Cómo llega ${nm(p)} ${cu}?<small class="h3sub">${sub}</small></span>${c&&!CIED?'<button class="btn sm" data-act="ciEdit">Cambiar</button>':''}</h3>`;
   if(c&&!CIED)return `<section class="card cicard" style="margin-bottom:14px">${head('Enviado al míster '+GROUPS[nx.k].mister)}${ciTag(p,day)}${c.nota?`<small class="muted" style="display:block;margin-top:6px">${esc(c.nota)}</small>`:''}</section>`;
-  if(!CIT||CIT.pid!==p.id||CIT.day!==day)CIT={pid:p.id,day,s:0,e:0,d:0,nota:''};
+  if(!CIT||CIT.pid!==p.id||CIT.day!==day)CIT={pid:p.id,day,s:0,e:0,d:0,t:0,nota:''};
   return `<section class="card cicard" style="margin-bottom:14px">${head('10 segundos · el míster lo ve antes de empezar')}
   <div class="ciq">${CIQ.map(([k,t,o])=>`<div class="row"><span>${t}</span><div class="opts">${o.map((x,i)=>`<button type="button" data-act="ciPick" data-k="${k}" data-v="${i+1}" aria-pressed="${CIT[k]===i+1}"><i>${CIE[k][i]}</i>${x}</button>`).join('')}</div></div>`).join('')}
   ${CIT.d&&CIT.d<3?`<input class="cinota" id="cinota" placeholder="¿Dónde le molesta? (opcional)" value="${esc(CIT.nota)}">`:''}</div>
@@ -1564,18 +1607,20 @@ function sugItems(day){const off=(S.sugOff&&S.sugOff[day])||[],L=[],seen=new Set
   pl.forEach(p=>{const c=ciOf(p,day),lv=ciLevel(c);
     if(lv==='bad')L.push({k:'b'+p.id,ty:'bad',ic:'🩹',t:`${nm(p)} llega con molestias`,s:(c.nota?esc(c.nota):'Lo ha avisado su familia')+'. Valóralo antes de empezar.',b:`<button class="btn sm" data-open="${p.id}">Ficha</button>`});
     else if(lv==='away')L.push({k:'a'+p.id,ty:'warn',ic:'🚫',t:`${nm(p)} no viene hoy`,s:c.why+(c.nota?' · '+esc(c.nota):''),b:''});
-    else if(lv==='mid')L.push({k:'m'+p.id,ty:'warn',ic:c.d===2?'🩹':c.s===1?'😴':'🔋',t:`${nm(p)} ${c.d===2?'tiene alguna molestia':c.s===1?'ha dormido mal':'llega con poca energía'}`,s:(c.nota?esc(c.nota)+'. ':'')+'Mejor bajar un poco la intensidad.',b:''});});
+    else if(lv==='mid')L.push({k:'m'+p.id,ty:'warn',ic:c.d===2?'🩹':c.s===1?'😴':'🔋',t:`${nm(p)} ${c.d===2?'tiene alguna molestia':c.s===1?'ha dormido mal':c.t===1?'llega con mucho estrés':'llega con poca energía'}`,s:(c.nota?esc(c.nota)+'. ':'')+'Mejor bajar un poco la intensidad.',b:''});});
   const sin=pl.filter(p=>!ciOf(p,day));if(sin.length)L.push({k:'sin',ty:'',ic:'⏳',t:`${sin.length===1?'1 familia no ha dicho':sin.length+' familias no han dicho'} cómo llegan`,s:sin.map(nm).join(', '),b:`<button class="btn sm" data-act="ciRemind" data-n="${sin.length}">Recordar</button>`});
   S.players.filter(p=>{const h=sessionHistory(p,3).flatMap(w=>w.items).filter(x=>x.st!=='hoy');return h.length>1&&h[0].st==='no'&&h[1].st==='no';}).slice(0,2).forEach(p=>L.push({k:'f'+p.id,ty:'warn',ic:'📉',t:`${nm(p)} ha faltado a las 2 últimas sesiones`,s:'Escribe a su familia para saber si todo va bien.',b:`<button class="btn sm" data-act="note" data-id="${p.id}">Escribir</button>`}));
   const best=[...S.players].sort((a,b)=>(avgImp(b)||0)-(avgImp(a)||0))[0];if(best&&avgImp(best)>0)L.push({k:'best'+best.id,ty:'ok',ic:'⭐',t:`${nm(best)} es quien más ha mejorado`,s:`Sus pruebas físicas suben un ${fmtN(avgImp(best),1)} % de media. Cuéntaselo a su familia.`,b:`<button class="btn sm" data-act="note" data-id="${best.id}" data-pre="¡Enhorabuena! ${nm(best)} es quien más ha mejorado en las pruebas físicas este trimestre. Se nota el trabajo de cada sesión. ¡A seguir así!">Felicitar</button>`});
   const pend=S.players.filter(p=>!p.paid);if(pend.length)L.push({k:'pay',ty:'',ic:'💳',t:`${pend.length===1?'1 pago pendiente':pend.length+' pagos pendientes'}`,s:pend.map(nm).join(', '),b:'<button class="btn sm" data-act="go" data-to="pagos">Ver pagos</button>'});
   const noA=S.players.filter(p=>!au(p).ind);if(noA.length)L.push({k:'auth',ty:'',ic:'🎥',t:`Falta la autorización de vídeo de ${noA.length===1?nm(noA[0]):noA.length+' jugadores'}`,s:noA.length===1?'Sin ella no se le pueden grabar vídeos individuales.':noA.map(nm).join(', '),b:'<button class="btn sm" data-act="remind">Recordar</button>'});
   const old=S.players.filter(p=>!lastTest(p)||Date.now()-lastTest(p)>60*864e5);if(old.length)L.push({k:'tst',ty:'',ic:'⏱️',t:`Toca medir a ${old.length===1?nm(old[0]):old.length+' jugadores'}`,s:'Hace más de 2 meses de sus últimas pruebas físicas, o aún no las tiene.',b:'<button class="btn sm" data-act="go" data-to="pruebas">Pruebas</button>'});
+  const rd=rpeDates(1)[0],hi=rd?S.players.filter(p=>((rpeAll()[rd.iso]||{})[p.id]||0)>=8):[];if(hi.length)L.push({k:'rpe'+rd.iso,ty:'warn',ic:'🔥',t:`${hi.length===1?nm(hi[0])+' marcó':hi.length+' marcaron'} esfuerzo muy alto`,s:`${hi.length===1?'':hi.map(nm).join(', ')+' · '}Entreno del ${rd.dn.toLowerCase()}.`,b:'<button class="btn sm" data-act="go" data-to="carga">Ver</button>'});
   return L.filter(x=>!off.includes(x.k));}
 /* Lo pendiente de la familia, con el mismo formato */
 function famItems(p){const off=(S.sugOff&&S.sugOff[todayName()])||[],L=[],r=(S.readAv&&S.readAv[p.id])||[],mu=famUnread(p.id),pend=p.tasks.filter(x=>!x.done).length;
   avFor(p).filter(a=>!r.includes(a.id)).forEach(a=>{const [t,e]=AVT[a.ty]||AVT.info;L.push({k:'av'+a.id,fix:1,ty:a.ty==='susp'?'bad':a.ty==='hora'?'warn':'',ic:e,t,s:a.txt,b:'<button class="btn sm" data-act="avisos">Ver</button>'});});
   if(mu)L.push({k:'msg',fix:1,ty:'',ic:'💬',t:`${mu===1?'1 mensaje nuevo':mu+' mensajes nuevos'} del míster`,s:'Léelos y contesta desde Mensajes.',b:'<button class="btn sm" data-act="help" data-tab="chat">Abrir</button>'});
+  const rl=rpeLast(p);if(rl&&!(rpeAll()[rl.iso]||{})[p.id])L.push({k:'rpe'+rl.iso,fix:1,ty:'warn',ic:'💪',t:'Marca el esfuerzo del entreno',s:`Cuéntale al míster lo duro que fue el ${rl.dn.toLowerCase()}, del 1 al 10.`,b:'<button class="btn sm" data-act="rpeGo">Marcar</button>'});
   if(pend)L.push({k:'tk'+p.id+'-'+pend,ty:'',ic:'📝',t:`${pend===1?'1 tarea':pend+' tareas'} para casa sin hacer`,s:`Márcalas cuando ${nm(p)} las termine.`,b:'<button class="btn sm" data-act="go" data-to="tareas">Ver</button>'});
   if(!p.paid)L.push({k:'pay'+p.id,ty:'warn',ic:'💳',t:'Pago del mes pendiente',s:`Pack ${p.pack} · ${PACKS[p.pack]} € al mes.`,b:'<button class="btn sm" data-act="go" data-to="pack">Ver</button>'});
   if(!au(p).ind)L.push({k:'auth'+p.id,ty:'',ic:'🎥',t:'Falta la autorización de vídeo',s:`Sin ella no se pueden grabar vídeos individuales de ${nm(p)}.`,b:'<button class="btn sm" data-act="auth">Revisar</button>'});
@@ -1711,7 +1756,7 @@ function demoExtras(){if(XS===S)return;XS=S;let ch=false;
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
   if(a==='ciPick'){CIT[t.dataset.k]=+t.dataset.v;rerender();return;}
   if(a==='ciEdit'){CIED=true;CIT=null;rerender();return;}
-  if(a==='ciSend'){if(!CIT.s||!CIT.e||!CIT.d){toast('Marca las tres respuestas');return;}const p=P(S.kid);(ciAll()[CIT.day]=ciAll()[CIT.day]||{})[p.id]={s:CIT.s,e:CIT.e,d:CIT.d,nota:CIT.d<3?CIT.nota.trim():'',at:new Date().toISOString()};CIED=false;CIT=null;save();rerender();toast('Enviado al míster');return;}
+  if(a==='ciSend'){if(!CIT.s||!CIT.e||!CIT.d||!CIT.t){toast('Marca las cuatro respuestas');return;}const p=P(S.kid);(ciAll()[CIT.day]=ciAll()[CIT.day]||{})[p.id]={s:CIT.s,e:CIT.e,d:CIT.d,t:CIT.t,nota:CIT.d<3?CIT.nota.trim():'',at:new Date().toISOString()};CIED=false;CIT=null;save();rerender();toast('Enviado al míster');return;}
   if(a==='ciAway'){ciAwaySheet(P(S.kid));return;}
   if(a==='ciRemind'){toast(`Recordatorio enviado a ${t.dataset.n==='1'?'1 familia':t.dataset.n+' familias'}`);return;}
   if(a==='sugX'){const d=todayName();S.sugOff=S.sugOff||{};(S.sugOff[d]=S.sugOff[d]||[]).push(t.dataset.k);save();rerender();return;}
@@ -1732,9 +1777,9 @@ function render(){
   if(!S.role){loginView();return;}demoExtras();
   const [r,id]=(location.hash.replace('#/','')||'').split('/');
   const def=S.role==='mister'?'hoy':'inicio';
-  const route=NAV[S.role].some(n=>n[0]===r)||r==='jugador'||((r==='cuadrante'||r==='biblioteca'||r==='videoteca')&&S.role==='mister')?r:def;
-  const V={hoy:vHoy,pruebas:vPruebas,biblioteca:vBiblio,videoteca:vVideoteca,jugadores:vJugadores,jugador:()=>vFicha(id),sesiones:vSesiones,pagos:vPagos,inicio:vInicio,progreso:vProgreso,tareas:vTareas,pack:vPack,cuadrante:vCuadrante};
-  shell(V[route](),route==='jugador'?'jugadores':(route==='cuadrante'||route==='biblioteca'||route==='videoteca')?'sesiones':route);
+  const route=NAV[S.role].some(n=>n[0]===r)||r==='jugador'||((r==='cuadrante'||r==='biblioteca'||r==='videoteca'||r==='carga')&&S.role==='mister')?r:def;
+  const V={hoy:vHoy,pruebas:vPruebas,biblioteca:vBiblio,videoteca:vVideoteca,carga:vCarga,jugadores:vJugadores,jugador:()=>vFicha(id),sesiones:vSesiones,pagos:vPagos,inicio:vInicio,progreso:vProgreso,tareas:vTareas,pack:vPack,cuadrante:vCuadrante};
+  shell(V[route](),route==='jugador'?'jugadores':(route==='cuadrante'||route==='biblioteca'||route==='videoteca'||route==='carga')?'sesiones':route);
   window.scrollTo(0,0);hydratePV();
   const q=$('#q');if(q){q.oninput=()=>{fText=q.value;const pos=q.selectionStart;render();const n=$('#q');n.focus();n.setSelectionRange(pos,pos);};}
 }
@@ -1752,7 +1797,7 @@ document.addEventListener('click',e=>{
   if(t.dataset.group){sesSheet(t.dataset.group,t.dataset.day);return;}
   e.preventDefault();
   const a=t.dataset.act, id=t.dataset.id;
-  if(a==='logout'){S.role=null;save();location.hash='';render();}
+  if(a==='logout'){S.role=null;delete S.peek;save();location.hash='';render();}
   if(a==='reset'){if(true){localStorage.removeItem(KEY);load();location.hash='';render();toast('Demo reiniciada');}}
   if(a==='remind'){toast('Recordatorio enviado a la familia');}
   if(a==='eval'){const p=P(id);sheet(`<h2 class="disp">Evaluar a ${p.name.split(' ')[0]}</h2><p class="muted" style="margin-bottom:16px">Mueve cada barra de 0 a 100.</p><form id="evf">${Object.entries(p.areas).map(([k,v])=>`<div class="f"><label for="ev-${k}">${k}: <output id="o-${k}">${v}</output></label><input type="range" min="0" max="100" value="${v}" id="ev-${k}" data-k="${k}" style="accent-color:#E2B746;min-height:30px"></div>`).join('')}<button class="btn oro full">Guardar evaluación</button></form>`);
@@ -1799,6 +1844,18 @@ document.addEventListener('click',e=>{
   if(a==='menu'){$('.side').classList.add('open');$('.mbk').classList.add('open');return;}
   if(a==='menuX'){menuX();return;}
   if(a==='pgK'){pgKSheet(t.dataset.k);return;}
+  if(a==='famApp'){accSheet();return;}
+  if(a==='accTel'){telSheet(P(t.dataset.id));return;}
+  if(a==='accWa'){const p=P(t.dataset.id);if((p.fam||{}).tel)waGo(p);else telSheet(p);return;}
+  if(a==='accBack'){waBack();return;}
+  if(a==='accPick'){navigator.contacts.select(['tel','name'],{multiple:false}).then(r=>{const n=r&&r[0]&&r[0].tel&&r[0].tel[0];if(n)$('#actel').value=n;else toast('Ese contacto no tiene móvil');}).catch(()=>{});return;}
+  if(a==='accOk'){const p=P(t.dataset.id),v=$('#actel').value.trim();if(waNum(v).length<9){toast('Revisa el móvil: faltan números');return;}p.fam=p.fam||{};p.fam.tel=v;save();waGo(p);waBack();return;}
+  if(a==='famView'){famSheet();return;}
+  if(a==='famBack'){S.role='mister';S.me=S.peek.me;delete S.peek;save();location.hash='#/hoy';render();return;}
+  if(a==='rpeGo'){const c=$('#rpec');if(c)c.scrollIntoView({behavior:'smooth',block:'center'});return;}
+  if(a==='rpePick'){const p=P(S.kid),l=rpeLast(p);RPT={pid:p.id,iso:l.iso,v:+t.dataset.v};rerender();return;}
+  if(a==='rpeEdit'){const p=P(S.kid),l=rpeLast(p);RPT={pid:p.id,iso:l.iso,v:(rpeAll()[l.iso]||{})[p.id]};rerender();return;}
+  if(a==='rpeSend'){if(!RPT)return;fillGo(t,'ok','Enviando…',()=>{const A=rpeAll();(A[RPT.iso]=A[RPT.iso]||{})[RPT.pid]=RPT.v;RPT=null;save();rerender();toast('Esfuerzo enviado al míster');});return;}
   if(a==='avisos'){avSheet();return;}
   if(a==='ntMore'){SUGO=!SUGO;rerender();return;}
   if(a==='bell'){closeSheet();const h='#/'+(S.role==='familia'?'inicio':'hoy'),go=()=>{const w=$('#ntw');if(!w)return;w.scrollIntoView({behavior:'smooth',block:'center'});w.classList.remove('ntflash');void w.offsetWidth;w.classList.add('ntflash');};if(location.hash===h)go();else{location.hash=h;setTimeout(go,300);}return;}
