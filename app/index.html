@@ -475,7 +475,7 @@ html[data-theme=light] .sc{box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 26px -18p
 .bub{max-width:88%;padding:10px 13px;border-radius:16px 16px 16px 6px;font-size:14.5px;line-height:1.45;background:var(--g2);border:1px solid var(--linea);align-self:flex-start;overflow-wrap:anywhere}
 .bub.me{align-self:flex-end;background:var(--oro);border-color:var(--oro);color:#130F05;border-radius:16px 16px 6px 16px}
 .bub small{display:block;margin-top:4px;font-size:11px;opacity:.72}.bub b{font-weight:800}
-.hact{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.hdots{display:inline-flex;gap:4px;padding:4px 2px}.hdots i{width:7px;height:7px;border-radius:50%;background:var(--oro2);animation:hdot 1s infinite}.hdots i:nth-child(2){animation-delay:.15s}.hdots i:nth-child(3){animation-delay:.3s}@keyframes hdot{0%,60%,100%{opacity:.3}30%{opacity:1}}
+.qrs{display:grid;grid-template-columns:repeat(2,minmax(0,150px));justify-content:center;gap:14px;margin:0 0 14px}.qrs a{display:block;color:inherit;text-decoration:none;text-align:center;font-size:13px}.qrs img{display:block;width:100%;height:auto;margin-bottom:6px;border-radius:12px;background:#fff}.hact{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.hdots{display:inline-flex;gap:4px;padding:4px 2px}.hdots i{width:7px;height:7px;border-radius:50%;background:var(--oro2);animation:hdot 1s infinite}.hdots i:nth-child(2){animation-delay:.15s}.hdots i:nth-child(3){animation-delay:.3s}@keyframes hdot{0%,60%,100%{opacity:.3}30%{opacity:1}}
 .hact a,.hact button{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--oro);background:transparent;color:var(--oro2);font-weight:800;font-size:12.5px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;cursor:pointer}
 .hops{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0 10px}
 .hops .chip{flex:none;max-width:100%;min-height:34px;font-size:12.5px;padding:0 12px;white-space:normal}
@@ -904,7 +904,10 @@ const waNum=v=>{let d=String(v||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.
 const waApp=p=>`Hola, ${nm(p)} y familia. Esta es la app de JP Fútbol: https://jpfutbolapp.kreadigitalstudio.es\n\nÁbrela con el código ${atob('SlAyMDI2')}, pulsa «Jugador/a o familia» y elige a ${nm(p)}. Instálala en el móvil y activa las notificaciones. Ahí veréis los entrenamientos, el progreso y los avisos del club, y después de cada entreno marcaréis el esfuerzo.\n\nJP Fútbol`;
 function waGo(p){window.open('https://wa.me/'+waNum(p.fam.tel)+'?text='+encodeURIComponent(waAv?'JP Fútbol: '+waAv.txt:waApp(p)),'_blank');}
 const waRows=L=>`<div class="pgl">${L.map(p=>`<div class="pgi">${picOf(p)?`<span class="pini pph" aria-hidden="true"><img src="${picOf(p)}" alt="" loading="lazy"><i>${initials(p.name)}</i></span>`:`<span class="pini" aria-hidden="true">${initials(p.name)}</span>`}<span class="grow"><b>${p.name}</b><button type="button" class="lnk" data-act="accTel" data-id="${p.id}">${(p.fam||{}).tel?esc(p.fam.tel):'Añadir móvil'}</button></span><button type="button" class="btn sm" data-act="accWa" data-id="${p.id}">WhatsApp</button></div>`).join('')}</div>`;
-function accSheet(){waAv=null;sheet(`<h2 class="disp">App de jugadores, jugadoras y familias</h2><p class="muted" style="margin-bottom:12px">Pon el móvil de cada familia y pulsa WhatsApp: se abre con el enlace y el código ya escritos. La familia abre la app, la instala y entra en la zona de su hijo o hija.</p>${waRows(S.players)}`);}
+/* Códigos QR de JP Fútbol para abrir la app y la web */
+const QRS=`<div class="qrs">${[['app','App JP Fútbol','jpfutbolapp.kreadigitalstudio.es'],['web','Web JP Fútbol','jpfutbolweb.kreadigitalstudio.es']].map(([k,t,u])=>`<a href="https://${u}" target="_blank" rel="noopener"><img src="assets/qr-${k}.png" alt="Código QR: ${t}" width="150" height="150"><b>${t}</b></a>`).join('')}</div>`;
+function qrSheet(){sheet(`<h2 class="disp">Códigos QR</h2><p class="muted" style="margin-bottom:14px">Escanéalos con la cámara de otro móvil para abrir la app o la web de JP Fútbol.</p>${QRS}`);}
+function accSheet(){waAv=null;sheet(`<h2 class="disp">App de jugadores, jugadoras y familias</h2><p class="muted" style="margin-bottom:12px">Pon el móvil de cada familia y pulsa WhatsApp: se abre con el enlace y el código ya escritos. La familia abre la app, la instala y entra en la zona de su hijo o hija. Si la tienes delante, puede escanear el código QR.</p>${QRS}${waRows(S.players)}`);}
 function avWaSheet(txt,to){waAv={txt,to};sheet(`<h2 class="disp">Enviar por WhatsApp</h2><p class="muted" style="margin-bottom:12px">El aviso ya está en la app. Pulsa WhatsApp en cada familia: se abre con el mensaje escrito y solo tienes que enviarlo.</p>${waRows(S.players.filter(p=>to==='all'||p.group===to))}`);}
 function waBack(){waAv?avWaSheet(waAv.txt,waAv.to):accSheet();}
 function telSheet(p){sheet(`<h2 class="disp">Móvil de la familia</h2><p class="muted" style="margin-bottom:12px">${p.name}. Pon el móvil del padre, la madre o el jugador o jugadora.</p><div class="f"><label for="actel">Móvil (WhatsApp)</label><input id="actel" type="tel" inputmode="tel" autocomplete="tel" placeholder="600 000 000" value="${esc((p.fam||{}).tel||'')}"></div>${'contacts' in navigator&&'select' in navigator.contacts?`<button type="button" class="btn full" data-act="accPick" style="margin-bottom:8px">${I('users',16)}Elegir de la agenda del móvil</button>`:''}<button type="button" class="btn oro full" data-act="accOk" data-id="${p.id}" style="margin-bottom:8px">Guardar y abrir WhatsApp</button><button type="button" class="btn full" data-act="accBack">Volver</button>`);}
@@ -1335,6 +1338,7 @@ function ajustesSheet(){const c=S.cfg=S.cfg||{},fam=S.role==='familia',p=fam?P(S
   <h3 class="seth">${I('cog',16)}Apariencia y app</h3>
   <div class="setc"><div class="setr"><div><b>Modo de color</b><small>Oscuro, claro o el mismo que el móvil</small></div></div>
    <div class="seg3" role="group" aria-label="Modo de color">${[['dark','Oscuro'],['light','Claro'],['auto','Según el móvil']].map(([k,l])=>`<button type="button" data-tm="${k}" aria-pressed="${tm===k}">${l}</button>`).join('')}</div>
+   <button type="button" class="setr setb" data-aj="qr"><div><b>Códigos QR</b><small>Abrir la app o la web con la cámara</small></div>${I('globe',18)}</button>
    ${isStandalone()?'':`<button type="button" class="setr setb" data-aj="install"><div><b>Instalar la app</b><small>Tenerla como una app más en el móvil</small></div>${I('dl',18)}</button>`}
    <button type="button" class="setr setb" data-aj="help"><div><b>Ayuda y contacto</b><small>Asistente, mensajes y contacto del club</small></div>${I('help',18)}</button></div>
   ${fam?`<h3 class="seth">${I('lock',16)}Privacidad</h3>
@@ -1360,7 +1364,7 @@ function ajClick(e){const c=S.cfg=S.cfg||{},s=e.target.closest('[data-sw]');
   if(e.target.closest('[data-ntest]')){ntTest();toast('Notificación de prueba enviada');return;}
   const b=e.target.closest('[data-aj]');if(!b)return;const a=b.dataset.aj,p=S.role==='familia'?P(S.kid):null;
   if(a==='pw'){pwSheet();return;}
-  if(a==='install'){closeSheet();installApp();}if(a==='help')helpSheet('asis');
+  if(a==='qr'){qrSheet();return;}if(a==='install'){closeSheet();installApp();}if(a==='help')helpSheet('asis');
   if(a==='pack'||a==='horario'){closeSheet();location.hash='#/pack';}
   if(a==='auth')authSheet(p);
   if(a==='dl'){dlDatos(p);toast('Archivo descargado');}

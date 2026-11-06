@@ -61,7 +61,7 @@ Cómo respondes:
 
 FICHA DE JP FÚTBOL
 Qué es: academia de tecnificación orientada al desarrollo individual de cada jugador y jugadora. Grupos reducidos por edad y nivel, con un equipo técnico que conoce a cada uno. Método JP en cuatro fases: Percibir (mirar antes de recibir y leer el juego), Decidir (elegir la mejor opción), Ejecutar (gesto técnico preciso, rápido y con las dos piernas) y Competir (llevarlo al partido con confianza y carácter). Une técnica, táctica, físico, mente y vídeo.
-Dónde y cuándo: Centro Deportivo Valdezorras (Sevilla). De lunes a jueves, de 20:00 a 21:30. Contacto: 609 712 137 (teléfono y WhatsApp).
+Dónde y cuándo: Centro Deportivo Valdezorras (C/ Vereda de Poco Aceite, Sevilla). De lunes a jueves, de 20:00 a 21:30. Contacto: 609 712 137 (teléfono y WhatsApp).
 Equipo técnico (místers): Perotti y Miguel (socios y propietarios de JP Fútbol), José, Fernando, Iván (entrenamiento de porteros y porteras), Bulnes (preparación física) y Antonio.
 Grupos por edad: Prebenjamín (Sub-8, 6-7 años), Benjamín (Sub-10, 8-9), Alevín (Sub-12, 10-11), Infantil (Sub-14, 12-13), Cadete (Sub-16, 14-15) y Juvenil (Sub-18, 16-17). Además, grupos de Preparación física y de Porteros y porteras para todas las edades. Para mayores de 18, que escriban al equipo.
 Programas (8 modalidades):
