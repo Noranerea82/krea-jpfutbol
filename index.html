@@ -475,6 +475,9 @@ footer .krea b{color:var(--oro);font-weight:700}
 .days{display:flex;gap:8px;flex-wrap:wrap}
 .err{color:#FF8A7A;font-size:14px;min-height:20px;margin-bottom:8px}
 .sheet .btn{width:100%}
+.payrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}.payrow small{margin-right:4px;color:var(--cal-3);font-size:13px;font-weight:700}.payrow span{display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border:1px solid var(--linea);border-radius:999px;font-size:13px;font-weight:700}
+.sheet .bkpay{width:100%;margin-top:10px}.sheet .bkpay[hidden]{display:none}.paysum{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0;padding:14px;border:1px solid var(--linea);border-radius:14px}.paysum small{display:block;color:var(--cal-3);font-size:12px}.paysum .amt{flex:none;font-family:var(--f-disp);font-size:30px;color:var(--oro)}
+#pay{z-index:82}.paym{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.paym button{min-height:64px;padding:8px;border:1px solid var(--linea);border-radius:14px;background:transparent;color:inherit;font:inherit;font-weight:800;cursor:pointer}.paym button[aria-pressed=true]{border-color:var(--oro);background:rgba(226,183,70,.12)}.paym small{display:block;color:var(--cal-3);font-size:12px;font-weight:600}#pay .btn{width:100%}
 .sheet .fine{font-size:13px;color:var(--cal-3);margin-top:12px;text-align:center}
 
 .rv{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
@@ -770,7 +773,8 @@ html.locked #gate{display:flex}
       </div>
     </div>
     <div class="packs" id="packList"></div>
-    <p class="note"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>Precios de ejemplo pendientes de confirmar por JP Fútbol. Muy pronto podrás pagar tu pack online desde el área de familias.</p>
+    <p class="note"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>Precios de ejemplo pendientes de confirmar por JP Fútbol. El pago online está en demostración: todavía no se cobra nada.</p>
+    <div class="payrow"><small>Formas de pago</small><span>Tarjeta</span><span>Google Pay</span><span>Apple Pay</span><span>Bizum</span></div>
   </div>
 </section>
 
@@ -929,6 +933,25 @@ html.locked #gate{display:flex}
   </div>
 </div>
 
+<div class="modal" id="pay" role="dialog" aria-modal="true" aria-labelledby="payT">
+  <div class="sheet">
+    <button type="button" class="x" data-close aria-label="Cerrar"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div id="payA">
+      <h3 id="payT">Pagar pack</h3>
+      <div class="paysum"><div><small>Concepto</small><b id="payC"></b></div><b class="amt" id="payP"></b></div>
+      <div class="paym" role="group" aria-label="Forma de pago"><button type="button" data-pm="Tarjeta" aria-pressed="true">Tarjeta<small>Visa · Mastercard</small></button><button type="button" data-pm="Bizum" aria-pressed="false">Bizum<small>Desde tu móvil</small></button><button type="button" data-pm="Google Pay" aria-pressed="false">Google Pay<small>Android</small></button><button type="button" data-pm="Apple Pay" aria-pressed="false">Apple Pay<small>iPhone</small></button></div>
+      <button class="btn btn-oro" type="button" id="payGo">Pagar</button>
+      <p class="fine"><b>Demostración:</b> no se cobra nada ni se guarda ningún dato.</p>
+    </div>
+    <div id="payB" hidden>
+      <h3>Pago completado</h3>
+      <p>Esto es una demostración: no se ha cobrado nada. Envía ahora tu reserva y el equipo te confirma grupo y horario.</p>
+      <div class="paysum"><div><small>Forma de pago</small><b id="payM"></b></div><b class="amt" id="payP2"></b></div>
+      <button class="btn btn-oro" type="button" id="paySend">Enviar reserva por WhatsApp</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="bk" role="dialog" aria-modal="true" aria-labelledby="bkT">
   <form class="sheet" id="bkForm" novalidate>
     <button type="button" class="x" data-close aria-label="Cerrar"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -951,6 +974,7 @@ html.locked #gate{display:flex}
     </div>
     <p class="err" id="bkErr" role="alert"></p>
     <button class="btn btn-oro" type="submit"><svg class="ico" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg>Enviar reserva por WhatsApp</button>
+    <button class="btn btn-linea bkpay" type="button" id="bkPay">Pagar online</button>
     <p class="fine">Se abrirá WhatsApp con tu reserva escrita, lista para enviar. Al enviarla aceptas la <a href="#" data-legal="privacidad">política de privacidad</a>.</p>
   </form>
 </div>
@@ -1070,20 +1094,33 @@ fPack.innerHTML=[...PACKS.map(p=>p.id),'Sesión de prueba'].map(x=>`<option>${x}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-book]');if(!b)return;fPack.value=b.dataset.book;$('#bkErr').textContent='';openM('#bk');});
 $$('#fDays .opt').forEach(b=>b.onclick=()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true'));
 /* Enviar se llena de verde antes de abrir WhatsApp. Tocar otra vez lo cancela */
-let bkT=0;const bkB=$('#bkForm button[type=submit]'),bkOff=()=>{bkT=0;bkB.classList.remove('filling','fok');bkB.innerHTML=bkB.dataset.orig;};
+let bkT=0,bkPm='';const bkB=$('#bkForm button[type=submit]'),bkOff=()=>{bkT=0;bkB.classList.remove('filling','fok');bkB.innerHTML=bkB.dataset.orig;};
+const bkOk=()=>{const name=$('#fName').value.trim(),age=$('#fAge').value.trim();
+  if(!name){$('#bkErr').textContent='Escribe el nombre del jugador o jugadora.';$('#fName').focus();return false;}
+  if(!/^\d{1,2}$/.test(age)){$('#bkErr').textContent='Escribe la edad en números, por ejemplo 11.';$('#fAge').focus();return false;}
+  if(!$$('#fDays .opt[aria-pressed="true"]').length){$('#bkErr').textContent='Elige al menos un día que te venga bien.';return false;}
+  return true;};
 $('#bkForm').onsubmit=e=>{
   e.preventDefault();
   if(bkT){clearTimeout(bkT);bkOff();return;}
+  if(!bkOk())return;
   const name=$('#fName').value.trim(), age=$('#fAge').value.trim(), tutor=$('#fTutor').value.trim();
-  const days=$$('#fDays .opt[aria-pressed="true"]').map(b=>b.dataset.v);
-  if(!name){$('#bkErr').textContent='Escribe el nombre del jugador o jugadora.';$('#fName').focus();return;}
-  if(!/^\d{1,2}$/.test(age)){$('#bkErr').textContent='Escribe la edad en números, por ejemplo 11.';$('#fAge').focus();return;}
-  if(!days.length){$('#bkErr').textContent='Elige al menos un día que te venga bien.';return;}
-  const per=PACKS.find(p=>p.id===fPack.value)?` (pago ${period==='m'?'mensual':'trimestral'})`:'';
-  const msg=`Hola JP Fútbol, quiero reservar plaza.\n\nPack: ${fPack.value}${per}\nJugador/a: ${name}, ${age} años\nPosición: ${$('#fPos').value}\nPierna hábil: ${$('#fPie').value}${$('#fClub').value.trim()?`\nClub: ${$('#fClub').value.trim()}`:''}\nDías preferidos: ${days.join(', ')}${tutor?`\nContacto: ${tutor}`:''}`;
+  const days=$$('#fDays .opt[aria-pressed="true"]').map(b=>b.dataset.v);  const per=PACKS.find(p=>p.id===fPack.value)?` (pago ${period==='m'?'mensual':'trimestral'})`:'';
+  const msg=`Hola JP Fútbol, quiero reservar plaza.\n\nPack: ${fPack.value}${per}\nJugador/a: ${name}, ${age} años\nPosición: ${$('#fPos').value}\nPierna hábil: ${$('#fPie').value}${$('#fClub').value.trim()?`\nClub: ${$('#fClub').value.trim()}`:''}\nDías preferidos: ${days.join(', ')}${tutor?`\nContacto: ${tutor}`:''}${bkPm?`\nForma de pago elegida: ${bkPm}`:''}`;
   const url=`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;$('#bkErr').textContent='';bkB.dataset.orig=bkB.innerHTML;bkB.classList.add('filling','fok');bkB.textContent='Preparando tu reserva…';
   bkT=setTimeout(()=>{bkOff();const w=window.open(url,'_blank');if(w)w.opener=null;else location.href=url;},1200);
 };
+
+/* Pago en demostración: no cobra nada */
+const paySync=()=>{$('#bkPay').hidden=!PACKS.some(p=>p.id===fPack.value);};fPack.addEventListener('change',paySync);
+document.addEventListener('click',e=>{if(e.target.closest('[data-book]'))paySync();});paySync();
+let payM='Tarjeta',payT=0;
+$$('.paym button').forEach(b=>b.onclick=()=>{payM=b.dataset.pm;$$('.paym button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
+$('#bkPay').onclick=()=>{$('#bkErr').textContent='';if(!bkOk())return;const p=PACKS.find(x=>x.id===fPack.value),tri=period==='t',pr=tri?Math.round(p.m*3*.9):p.m;
+  $('#payC').textContent=`Pack ${p.name} · ${tri?'trimestre':'mes'}`;$('#payP').textContent=$('#payP2').textContent=pr+' €';$('#payGo').textContent=`Pagar ${pr} €`;$('#payA').hidden=false;$('#payB').hidden=true;openM('#pay');};
+$('#payGo').onclick=()=>{const b=$('#payGo');if(payT){clearTimeout(payT);payT=0;b.classList.remove('filling','fok');b.textContent=b.dataset.o;return;}b.dataset.o=b.textContent;b.classList.add('filling','fok');b.textContent='Confirmando el pago…';
+  payT=setTimeout(()=>{payT=0;b.classList.remove('filling','fok');b.textContent=b.dataset.o;$('#payM').textContent=payM;$('#payA').hidden=true;$('#payB').hidden=false;},1600);};
+$('#paySend').onclick=()=>{bkPm=payM;closeM($('#pay'));document.body.style.overflow='hidden';$('#bkForm').requestSubmit();bkPm='';};
 
 /* Orientador */
 const ans={};
